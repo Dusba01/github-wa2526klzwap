@@ -1,0 +1,72 @@
+WEB APP PROJECT:
+
+
+## Requisiti
+
+- Java JDK 11 (o superiore)
+- Apache Tomcat 9 (o superiore)
+- Maven 3.x
+- MySQL (per la parte database futura)
+
+
+## struttura base del progetto
+
+lecture-notes-app/
+│
+├── src/main/java/
+│   ├── controller/       ← Servlet Web 1.0
+│   ├── api/              ← REST API Web 2.0
+│   ├── dao/              ← Database logic
+│   ├── model/            ← Classi (User, Note...)
+│   └── utils/            ← Utility (DB connection)
+│
+├── src/main/webapp/
+│   ├── jsp/
+│   │   ├── login.jsp
+│   │   └── register.jsp
+│   │
+│   ├── css/
+│   ├── js/
+│   │   └── main.js       ← AJAX
+│   │
+│   ├── uploads/          ← PDF (importantissimo)
+│   │
+│   └── WEB-INF/
+│       └── web.xml
+│
+└── pom.xml (se usi Maven)
+
+
+## Come aprire la pagina di login
+
+1. **Importare il progetto** in IntelliJ IDEA (o Eclipse) come **Maven Project**.
+
+2. **Verificare il file `pom.xml`**
+   - Assicurarsi che il packaging sia `war`
+   - Tutte le dipendenze siano scaricate (Servlet API, JSP, MySQL driver, JSON)
+
+3. **Configurare Apache Tomcat**
+   - Scaricare Apache Tomcat 9/10
+   - Configurare Tomcat in IntelliJ (Run → Edit Configurations → Tomcat Server → Local)
+   - Aggiungere come deployment il progetto `war exploded`
+
+4. **Avviare Tomcat**
+   - Cliccare su **Run**
+   - Attendere il messaggio `Tomcat started on port 8080`
+
+5. **Aprire il browser**
+   - Andare su: `http://localhost:8080/lecture-notes-app/`
+   - Si aprirà la **pagina di login** (`login.jsp`)
+
+
+## Note
+
+- Al momento il login non è ancora collegato al database.
+
+
+## Prossimi passi
+
+- Creare il database MySQL e le tabelle (`users`, `notes`, `ratings`)
+- Implementare `DBConnection.java`
+- Implementare DAO e Servlet per registrazione/login
+- Implementare REST API per ricerca e rating
