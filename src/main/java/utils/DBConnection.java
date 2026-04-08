@@ -8,7 +8,7 @@ public class DBConnection {
 
     //  to connect with database
     private static final String URL = "jdbc:postgresql://localhost:5432/lecture_notes";
-    private static final String USER = "postgres";
+    private static final String USER = "dusi";
     private static final String PASSWORD = "password";
 
     // to obtain the connection

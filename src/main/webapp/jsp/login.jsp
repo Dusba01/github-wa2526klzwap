@@ -10,7 +10,7 @@
     <body>
         <h2>Login</h2>
 
-        <form action="login" method="post">   <%-- servlet --%>
+        <form action="${pageContext.request.contextPath}/login" method="post">
             Email: <input type="email" name="email"><br>     <%-- nel backend: request.getParameter("email");  --%>
             Password: <input type="password" name="password"><br>       <%-- nel backend: request.getParameter("password");  --%>
             <button type="submit">Login</button>

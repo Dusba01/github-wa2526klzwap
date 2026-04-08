@@ -34,7 +34,7 @@ lecture-notes-app/
 │   └── WEB-INF/
 │       └── web.xml
 │
-└── pom.xml (se usi Maven)
+└── pom.xml
 
 
 ## APRIRE PAGINA LOGIN
