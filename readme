@@ -1,7 +1,7 @@
 WEB APP PROJECT:
 
 
-## Requisiti
+## REQUISITI
 
 - Java JDK 11 (o superiore)
 - Apache Tomcat 9 (o superiore)
@@ -9,7 +9,7 @@ WEB APP PROJECT:
 - MySQL (per la parte database futura)
 
 
-## struttura base del progetto
+## STRUTTURA DEL PROGETTO
 
 lecture-notes-app/
 │
@@ -37,7 +37,7 @@ lecture-notes-app/
 └── pom.xml (se usi Maven)
 
 
-## Come aprire la pagina di login
+## APRIRE PAGINA LOGIN
 
 1. **Importare il progetto** in IntelliJ IDEA (o Eclipse) come **Maven Project**.
 
@@ -59,14 +59,6 @@ lecture-notes-app/
    - Si aprirà la **pagina di login** (`login.jsp`)
 
 
-## Note
-
-- Al momento il login non è ancora collegato al database.
-
-
-## Prossimi passi
-
-- Creare il database MySQL e le tabelle (`users`, `notes`, `ratings`)
-- Implementare `DBConnection.java`
-- Implementare DAO e Servlet per registrazione/login
-- Implementare REST API per ricerca e rating
+## AGGIUNGERE
+- LogContext [src -> main -> java -> it -> unipd -> dei -> webapp]
+- log4j2.xml [src -> main -> resources]

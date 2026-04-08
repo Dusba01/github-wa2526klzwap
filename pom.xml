@@ -9,7 +9,6 @@
     <artifactId>lecture-notes-app</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <!-- IMPORTANTISSIMO -->
     <packaging>war</packaging>
 
     <name>Lecture Notes App</name>
@@ -21,7 +20,6 @@
 
     <dependencies>
 
-        <!-- Servlet API (NON viene inclusa nel WAR) -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -29,7 +27,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- JSP API -->
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
             <artifactId>javax.servlet.jsp-api</artifactId>
@@ -37,14 +34,12 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- MySQL Driver -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-j</artifactId>
-            <version>8.3.0</version>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.3</version>
         </dependency>
 
-        <!-- JSON (per REST API) -->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
@@ -55,6 +50,14 @@
 
     <build>
         <finalName>lecture-notes-app</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
