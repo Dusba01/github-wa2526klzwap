@@ -11,19 +11,30 @@ import java.sql.SQLException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
+        // 🔍 stampa per verificare che il form arrivi alla servlet
+        System.out.println("Tentativo di login con email: " + email);
+
         try {
+            // 🔍 stampa per vedere se la connessione e la query funzionano
             User user = UserDAO.checkLogin(email, password);
+            System.out.println("Risultato checkLogin: " + user);
+
             if (user != null) {
                 req.getSession().setAttribute("user", user);
+                System.out.println("✅ Login riuscito, redirect verso home.jsp");
                 resp.sendRedirect("jsp/home.jsp"); // nuova JSP
             } else {
+                System.out.println("❌ Credenziali non valide, redirect verso login.jsp?error=1");
                 resp.sendRedirect("jsp/login.jsp?error=1");
             }
         } catch (SQLException e) {
+            System.out.println("💥 Errore SQL durante il login:");
             e.printStackTrace();
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
