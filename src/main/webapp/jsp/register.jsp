@@ -16,6 +16,7 @@
         Password: <input type="password" name="password"><br>
         <button type="submit">Registrati</button>
     </form>
+    <a href="${pageContext.request.contextPath}/jsp/login.jsp">Already have an account?</a>
 
     </body>
 </html>
