@@ -14,15 +14,15 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String email = req.getParameter("email");
+        String credential = req.getParameter("credential");
         String password = req.getParameter("password");
 
         // 🔍 stampa per verificare che il form arrivi alla servlet
-        System.out.println("Tentativo di login con email: " + email);
+        System.out.println("Tentativo di login con username/email: " + credential);
 
         try {
             // 🔍 stampa per vedere se la connessione e la query funzionano
-            User user = UserDAO.checkLogin(email, password);
+            User user = UserDAO.checkLogin(credential, password);
             System.out.println("Risultato checkLogin: " + user);
 
             if (user != null) {

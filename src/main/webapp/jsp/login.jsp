@@ -11,7 +11,7 @@
         <h2>Login</h2>
 
         <form action="${pageContext.request.contextPath}/login" method="post">
-            Email: <input type="email" name="email"><br>     <%-- nel backend: request.getParameter("email");  --%>
+            Username or Email: <input type="text" name="credential"><br>
             Password: <input type="password" name="password"><br>       <%-- nel backend: request.getParameter("password");  --%>
             <button type="submit">Login</button>
         </form>
@@ -20,4 +20,3 @@
 
     </body>
 </html>
-

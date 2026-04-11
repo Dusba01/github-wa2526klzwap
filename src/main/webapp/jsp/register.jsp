@@ -12,6 +12,7 @@
 
     <form action="register" method="post">      <%-- servlet --%>
         Nome: <input type="text" name="name"><br>       <%-- nel backend: request.getParameter("name");  --%>
+        Nome: <input type="text" name="username"><br>
         Email: <input type="email" name="email"><br>
         Password: <input type="password" name="password"><br>
         <button type="submit">Registrati</button>

@@ -12,11 +12,12 @@ import java.sql.SQLException;
 public class RegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String name = req.getParameter("name");
+        String username = req.getParameter("username");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
         try {
-            User user = new User(name, email, password);
+            User user = new User(name, username, email, password);
             UserDAO.insertUser(user);
             resp.sendRedirect("jsp/login.jsp");
         } catch (SQLException e) {
