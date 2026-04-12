@@ -1,4 +1,5 @@
 package controller;
+import jakarta.servlet.ServletException;
 import model.User;
 import dao.UserDAO;
 import jakarta.servlet.annotation.WebServlet;
@@ -24,5 +25,12 @@ public class RegisterServlet extends HttpServlet {
             e.printStackTrace();
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore registrazione");
         }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
+        req.getRequestDispatcher("/jsp/register.jsp").forward(req, resp);
     }
 }
