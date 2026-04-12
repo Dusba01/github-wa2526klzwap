@@ -15,7 +15,7 @@ import java.util.List;
 public class RatingDAO {
 
     public static Rating saveRating(Rating rating) throws SQLException {
-        String sql = "INSERT INTO ratings (user_id, note_id, value) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO rating (user_id, note_id, value) VALUES (?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -35,7 +35,7 @@ public class RatingDAO {
     }
 
     public static List<Rating> getRatingsByUserId(int userId) throws SQLException {
-        String sql = "SELECT id, user_id, note_id, value, created_at FROM ratings WHERE user_id = ? ORDER BY created_at DESC";
+        String sql = "SELECT id, user_id, note_id, value, created_at FROM rating WHERE user_id = ? ORDER BY created_at DESC";
         List<Rating> ratings = new ArrayList<>();
 
         try (Connection conn = DBConnection.getConnection();
@@ -53,7 +53,7 @@ public class RatingDAO {
     }
 
     public static List<Rating> getRatingsByNoteId(int noteId) throws SQLException {
-        String sql = "SELECT id, user_id, note_id, value, created_at FROM ratings WHERE note_id = ? ORDER BY created_at DESC";
+        String sql = "SELECT id, user_id, note_id, value, created_at FROM rating WHERE note_id = ? ORDER BY created_at DESC";
         List<Rating> ratings = new ArrayList<>();
 
         try (Connection conn = DBConnection.getConnection();
