@@ -67,6 +67,8 @@
             background: #ffffff;
             box-shadow: 2px 0 10px rgba(0,0,0,0.1);
             padding: 20px;
+            display: flex;
+            flex-direction: column;
             transition: left 0.3s ease;
             z-index: 1000;
         }
@@ -92,6 +94,32 @@
 
         .sidebar ul li:hover {
             color: #4f46e5;
+        }
+
+        .logout-form {
+            margin-top: auto;
+            margin-bottom: 28px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .logout-btn {
+            width: 70%;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #4f46e5, #4338ca);
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 6px 14px rgba(79,70,229,0.25);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 18px rgba(79,70,229,0.3);
         }
 
         /* Toggle button */
@@ -145,6 +173,9 @@
         <li>📤 Carica appunti</li>
         <li>⚙️ Impostazioni</li>
     </ul>
+    <form action="${pageContext.request.contextPath}/logout" method="post" class="logout-form">
+        <button type="submit" class="logout-btn">🚪 Logout</button>
+    </form>
 </div>
 
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>

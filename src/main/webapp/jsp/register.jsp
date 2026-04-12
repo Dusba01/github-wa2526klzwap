@@ -98,7 +98,7 @@
 
     <div class="link">
         Hai un account?
-        <a href="login.jsp">Accedi</a>
+        <a href="${pageContext.request.contextPath}/login">Accedi</a>
     </div>
 
 </div>
