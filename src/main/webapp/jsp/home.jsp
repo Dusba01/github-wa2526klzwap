@@ -158,6 +158,21 @@
             display: block;
         }
 
+        #results {
+            margin-top: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: white;
+        }
+
     </style>
 </head>
 <body>
@@ -183,10 +198,12 @@
 <div class="container">
     <h1>Cerca Appunti</h1>
 
-    <form action="search.jsp" method="get" class="search-box">
-        <input type="text" name="query" placeholder="Cerca corsi, appunti, università..." required>
-        <button type="submit">🔍</button>
-    </form>
+    <div class="search-box">
+        <input type="text" id="query" placeholder="Cerca per autore, corso o contenuto..." required>
+        <button type="button" onclick="searchNotes()">🔍</button>
+    </div>
+
+    <div id="results"></div>
 </div>
 
 <script>
@@ -196,6 +213,11 @@
         document.getElementById("menuBtn").classList.toggle("active");
     }
 </script>
+
+<script>
+    const BASE_URL = "${pageContext.request.contextPath}";
+</script>
+<script src="${pageContext.request.contextPath}/js/main.js"></script>
 
 </body>
 </html>
