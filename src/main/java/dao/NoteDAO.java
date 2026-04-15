@@ -104,6 +104,39 @@ public class NoteDAO {
         return notes;
     }
 
+    public static List<Note> searchNotes(String query) throws SQLException {
+        String sql =
+                "SELECT n.id, n.title, n.description, n.upload_date, n.file_path, " +
+                        "       n.course_id, n.author_id, " +
+                        "       c.name AS course_name, u.username AS author_username " +
+                        "FROM note n " +
+                        "JOIN course c ON n.course_id = c.id " +
+                        "JOIN users u ON n.author_id = u.id " +
+                        "WHERE LOWER(n.title) LIKE ? OR LOWER(n.description) LIKE ? " +
+                        "OR LOWER(c.name) LIKE ? OR LOWER(u.username) LIKE ? " +
+                        "ORDER BY n.upload_date DESC";
+        List<Note> notes = new ArrayList<>();
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            String likeQuery = "%" + query.toLowerCase() + "%";
+
+            ps.setString(1, likeQuery);
+            ps.setString(2, likeQuery);
+            ps.setString(3, likeQuery);
+            ps.setString(4, likeQuery);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    notes.add(mapNoteWithDetails(rs));
+                }
+            }
+        }
+
+        return notes;
+    }
+
     private static Note mapNote(ResultSet rs) throws SQLException {
         Note note = new Note();
         note.setId(rs.getInt("id"));
@@ -117,6 +150,18 @@ public class NoteDAO {
         if (uploadDate != null) {
             note.setUploadDate(uploadDate.toLocalDateTime());
         }
+
+        return note;
+    }
+
+    private static Note mapNoteWithDetails(ResultSet rs) throws SQLException {
+
+        // riuso del mapping base
+        Note note = mapNote(rs);
+
+        // aggiungo SOLO i campi extra della JOIN
+        note.setCourseName(rs.getString("course_name"));
+        note.setAuthorUsername(rs.getString("author_username"));
 
         return note;
     }

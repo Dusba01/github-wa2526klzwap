@@ -6,14 +6,13 @@ public class Note {
 
     private int id;
     private int authorId;
+    private String authorUsername;
     private int courseId;
+    private String courseName;
     private String title;
     private String description;
     private LocalDateTime uploadDate;
     private String filePath;
-
-    //nice to have
-    // private int downloadCount;
 
     public Note() {}
 
@@ -54,6 +53,10 @@ public class Note {
         this.authorId = authorId;
     }
 
+    public String getAuthorUsername() { return authorUsername; }
+
+    public void setAuthorUsername(String authorUsername) {this.authorUsername = authorUsername;}
+
     public int getCourseId() {
         return courseId;
     }
@@ -61,6 +64,10 @@ public class Note {
     public void setCourseId(int courseId) {
         this.courseId = courseId;
     }
+
+    public String getCourseName() { return courseName; }
+
+    public void setCourseName(String courseName) { this.courseName = courseName; }
 
     public String getTitle() {
         return title;
