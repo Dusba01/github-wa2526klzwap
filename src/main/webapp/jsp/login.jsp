@@ -74,11 +74,17 @@
 <body>
 
 <div class="login-container">
+
     <h2>Login</h2>
+
     <form action="${pageContext.request.contextPath}/login" method="post">
+
         <input type="text" name="credential" placeholder="Email o username" required>
+
         <input type="password" name="password" placeholder="Password" required>
+
         <button type="submit">Accedi</button>
+
     </form>
 
     <a href="${pageContext.request.contextPath}/register">Registrati</a>

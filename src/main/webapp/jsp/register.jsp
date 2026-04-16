@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html lang="it">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Register</title>
 
     <style>
@@ -15,18 +14,17 @@
             align-items: center;
         }
 
-        .card {
+        .register-container {
             background: white;
             padding: 30px;
             border-radius: 12px;
-            width: 320px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            width: 300px;
+            text-align: center;
         }
 
         h2 {
-            text-align: center;
             margin-bottom: 20px;
-            color: #333;
         }
 
         input {
@@ -61,18 +59,14 @@
             background: #574bdb;
         }
 
-        .link {
-            text-align: center;
-            margin-top: 12px;
-            font-size: 13px;
-        }
-
-        .link a {
-            color: #6c63ff;
+        a {
+            display: block;
+            margin-top: 15px;
             text-decoration: none;
+            color: #4facfe;
         }
 
-        .link a:hover {
+        a:hover {
             text-decoration: underline;
         }
     </style>
@@ -80,13 +74,14 @@
 
 <body>
 
-<div class="card">
-
+<div class="register-container">
     <h2>Registrazione</h2>
 
-    <form action="register" method="post">
+    <form action="${pageContext.request.contextPath}/register" method="post">
 
         <input type="text" name="name" placeholder="Nome" required>
+
+        <input type="text" name="username" placeholder="Username" required>
 
         <input type="email" name="email" placeholder="Email" required>
 
@@ -96,11 +91,7 @@
 
     </form>
 
-    <div class="link">
-        Hai un account?
-        <a href="${pageContext.request.contextPath}/login">Accedi</a>
-    </div>
-
+    <a href="${pageContext.request.contextPath}/login">Hai un account, accedi <qui></qui></a>
 </div>
 
 </body>

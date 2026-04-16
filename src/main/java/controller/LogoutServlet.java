@@ -16,9 +16,9 @@ public class LogoutServlet extends HttpServlet {
 
         if (req.getSession(false) != null) {
             req.getSession(false).invalidate();
-            System.out.println("✅ Logout successful, session closed");
+            System.out.println("Logout successful, session closed");
         } else {
-            System.out.println("⚠️ No active session to invalidate");
+            System.out.println("No active session to invalidate");
         }
 
         System.out.println("Redirecting to login.jsp");
