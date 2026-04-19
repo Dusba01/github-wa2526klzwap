@@ -88,12 +88,18 @@
 
         .sidebar ul li {
             margin: 15px 0;
-            cursor: pointer;
             color: #333;
         }
 
         .sidebar ul li:hover {
             color: #4f46e5;
+        }
+
+        .sidebar ul li a {
+            color: inherit;
+            text-decoration: none;
+            display: block;
+            cursor: pointer;
         }
 
         .logout-form {
@@ -166,11 +172,56 @@
         }
 
         .card {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 10px;
-            background: white;
+            border: 1px solid rgba(99, 102, 241, 0.12);
+            border-radius: 18px;
+            padding: 18px;
+            margin-bottom: 14px;
+            background: rgba(255, 255, 255, 0.94);
+            box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
+            backdrop-filter: blur(8px);
+        }
+
+        .card h3 {
+            margin: 0 0 10px;
+            color: #1f2937;
+        }
+
+        .card p {
+            margin: 0 0 14px;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+            color: #475569;
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 16px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #0f766e, #14b8a6);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 12px 24px rgba(20, 184, 166, 0.24);
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 16px 30px rgba(20, 184, 166, 0.3);
         }
 
     </style>
@@ -182,11 +233,11 @@
 <div class="sidebar" id="sidebar">
     <h2>Menu</h2>
     <ul>
-        <li>👤 Profilo</li>
-        <li>🔎 Ricerche recenti</li>
-        <li>⭐ Preferiti</li>
-        <li>📤 Carica appunti</li>
-        <li>⚙️ Impostazioni</li>
+        <li><a href="${pageContext.request.contextPath}/#">👤 Profilo</a></li>
+        <li><a href="${pageContext.request.contextPath}/#">🔎 Ricerche recenti</a></li>
+        <li><a href="${pageContext.request.contextPath}/#">⭐ Preferiti</a></li>
+        <li><a href="${pageContext.request.contextPath}/upload-note">📤 Carica appunti</a></li>
+        <li><a href="${pageContext.request.contextPath}/#">⚙️ Impostazioni</a></li>
     </ul>
     <form action="${pageContext.request.contextPath}/logout" method="post" class="logout-form">
         <button type="submit" class="logout-btn">🚪 Logout</button>

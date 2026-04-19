@@ -13,17 +13,18 @@ function searchNotes() {
             data.forEach(note => {
 
                 const card = document.createElement("div");
-                card.style.border = "1px solid #ccc";
-                card.style.margin = "10px";
-                card.style.padding = "10px";
-                card.style.borderRadius = "10px";
+                card.className = "card";
 
                 card.innerHTML = `
                     <h3>${note.title}</h3>
-                    <p>${note.description}</p>
-
-                    <small>📚 Corso: ${note.courseName}</small><br>
-                    <small>👤 Autore: ${note.authorUsername}</small>
+                    <p>${note.description || "No description available."}</p>
+                    <div class="card-meta">
+                        <small>📚 Corso: ${note.courseName}</small>
+                        <small>👤 Autore: ${note.authorUsername}</small>
+                    </div>
+                    <div class="card-actions">
+                        <a class="download-btn" href="${BASE_URL}/download-note?id=${note.id}">⬇ Download PDF</a>
+                    </div>
                 `;
 
                 container.appendChild(card);
