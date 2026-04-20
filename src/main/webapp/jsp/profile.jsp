@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" import="java.util.List,model.Note,model.User" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" import="java.util.List,model.Note,model.User,model.Course" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -149,6 +149,7 @@
             border-radius: 18px;
             padding: 18px;
             background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,250,252,0.92));
+            overflow: hidden;
         }
 
         .upload-card h3 {
@@ -184,6 +185,7 @@
         .download-btn {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             padding: 11px 16px;
             border-radius: 999px;
@@ -192,6 +194,26 @@
             text-decoration: none;
             font-weight: 600;
             box-shadow: 0 12px 24px rgba(20, 184, 166, 0.2);
+            min-height: 44px;
+            min-width: 168px;
+        }
+
+        .edit-btn {
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 11px 16px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #2563eb, #38bdf8);
+            color: #fff;
+            font: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 12px 24px rgba(37, 99, 235, 0.18);
+            min-height: 44px;
+            min-width: 124px;
         }
 
         .upload-actions {
@@ -218,6 +240,88 @@
             font-weight: 600;
             cursor: pointer;
             box-shadow: 0 12px 24px rgba(220, 38, 38, 0.18);
+            min-height: 44px;
+            min-width: 132px;
+        }
+
+        .edit-panel {
+            margin: 0;
+            padding: 0;
+            border: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .edit-panel summary {
+            list-style: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .edit-panel summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .edit-toggle {
+            user-select: none;
+        }
+
+        .edit-panel[open] .edit-toggle {
+            background: linear-gradient(135deg, #1d4ed8, #0ea5e9);
+        }
+
+        .edit-panel[open] {
+            display: block;
+            width: 100%;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(148, 163, 184, 0.18);
+        }
+
+        .edit-form {
+            display: grid;
+            gap: 14px;
+            margin-top: 14px;
+            padding: 18px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #eff6ff, #f8fafc 55%, #ecfeff);
+            border: 1px solid rgba(59, 130, 246, 0.12);
+        }
+
+        .edit-form label {
+            display: grid;
+            gap: 6px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .edit-form input,
+        .edit-form textarea,
+        .edit-form select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            font: inherit;
+            background: #fff;
+        }
+
+        .edit-form textarea {
+            min-height: 96px;
+            resize: vertical;
+        }
+
+        .edit-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .field-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 0.9fr;
+            gap: 12px;
         }
 
         .empty-state {
@@ -240,12 +344,36 @@
                 align-items: stretch;
             }
         }
+
+        @media (max-width: 680px) {
+            .field-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .upload-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .download-btn,
+            .edit-panel,
+            .edit-btn,
+            .delete-btn {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .edit-panel summary {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
 <%
     User userProfile = (User) request.getAttribute("userProfile");
     List<Note> uploadedNotes = (List<Note>) request.getAttribute("uploadedNotes");
+    List<Course> courses = (List<Course>) request.getAttribute("courses");
     String successMessage = request.getParameter("success");
     String errorMessage = request.getParameter("error");
     int uploadCount = uploadedNotes != null ? uploadedNotes.size() : 0;
@@ -327,6 +455,40 @@
                     </div>
                     <div class="upload-actions">
                         <a class="download-btn" href="${pageContext.request.contextPath}/download-note?id=<%= note.getId() %>">⬇ Download</a>
+                        <details class="edit-panel">
+                            <summary class="edit-btn edit-toggle">✏ Edit</summary>
+                            <form class="edit-form" action="${pageContext.request.contextPath}/update-note" method="post">
+                                <input type="hidden" name="noteId" value="<%= note.getId() %>">
+                                <div class="field-grid">
+                                    <label>
+                                        Title
+                                        <input type="text" name="title" value="<%= note.getTitle() %>" required>
+                                    </label>
+                                    <label>
+                                        Course
+                                        <select name="courseId" required>
+                                            <%
+                                                if (courses != null) {
+                                                    for (Course course : courses) {
+                                                        boolean selected = course.getId() == note.getCourseId();
+                                            %>
+                                            <option value="<%= course.getId() %>" <%= selected ? "selected" : "" %>><%= course.getName() %></option>
+                                            <%
+                                                    }
+                                                }
+                                            %>
+                                        </select>
+                                    </label>
+                                </div>
+                                <label>
+                                    Description
+                                    <textarea name="description"><%= note.getDescription() != null ? note.getDescription() : "" %></textarea>
+                                </label>
+                                <div class="edit-actions">
+                                    <button type="submit" class="edit-btn">Save changes</button>
+                                </div>
+                            </form>
+                        </details>
                         <form class="delete-form" action="${pageContext.request.contextPath}/delete-note" method="post"
                               onsubmit="return confirm('Delete this upload permanently?');">
                             <input type="hidden" name="noteId" value="<%= note.getId() %>">

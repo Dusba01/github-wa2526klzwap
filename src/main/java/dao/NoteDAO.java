@@ -97,6 +97,20 @@ public class NoteDAO {
         }
     }
 
+    public static boolean updateNoteByIdAndAuthorId(Note note) throws SQLException {
+        String sql = "UPDATE note SET course_id = ?, title = ?, description = ? WHERE id = ? AND author_id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, note.getCourseId());
+            ps.setString(2, note.getTitle());
+            ps.setString(3, note.getDescription());
+            ps.setInt(4, note.getId());
+            ps.setInt(5, note.getAuthorId());
+            return ps.executeUpdate() > 0;
+        }
+    }
+
     public static List<Note> getNotesByAuthorId(int authorId) throws SQLException {
         String sql =
                 "SELECT n.id, n.author_id, n.course_id, n.title, n.description, n.upload_date, n.file_path, " +

@@ -1,5 +1,6 @@
 package controller;
 
+import dao.CourseDAO;
 import dao.NoteDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -28,6 +29,7 @@ public class ProfileServlet extends HttpServlet {
 
         try {
             req.setAttribute("userProfile", user);
+            req.setAttribute("courses", CourseDAO.getAllCourses());
             req.setAttribute("uploadedNotes", NoteDAO.getNotesByAuthorId(user.getId()));
             req.getRequestDispatcher("/jsp/profile.jsp").forward(req, resp);
         } catch (SQLException e) {
