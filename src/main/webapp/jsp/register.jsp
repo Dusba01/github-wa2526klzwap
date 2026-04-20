@@ -27,6 +27,24 @@
             margin-bottom: 20px;
         }
 
+        .error-box {
+            margin-bottom: 14px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            background: #fee2e2;
+            color: #991b1b;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .helper-text {
+            margin: 4px 0 10px;
+            color: #64748b;
+            font-size: 12px;
+            text-align: left;
+            line-height: 1.45;
+        }
+
         input {
             width: 100%;
             padding: 10px;
@@ -77,15 +95,31 @@
 <div class="register-container">
     <h2>Registrazione</h2>
 
+    <%
+        String errorMessage = (String) request.getAttribute("error");
+        String nameValue = (String) request.getAttribute("nameValue");
+        String usernameValue = (String) request.getAttribute("usernameValue");
+        String emailValue = (String) request.getAttribute("emailValue");
+        if (errorMessage != null) {
+    %>
+    <div class="error-box"><%= errorMessage %></div>
+    <%
+        }
+    %>
+
     <form action="${pageContext.request.contextPath}/register" method="post">
 
-        <input type="text" name="name" placeholder="Nome" required>
+        <input type="text" name="name" placeholder="Nome" value="<%= nameValue != null ? nameValue : "" %>" required>
 
-        <input type="text" name="username" placeholder="Username" required>
+        <input type="text" name="username" placeholder="Username" value="<%= usernameValue != null ? usernameValue : "" %>" required>
 
-        <input type="email" name="email" placeholder="Email" required>
+        <input type="email" name="email" placeholder="Email" value="<%= emailValue != null ? emailValue : "" %>"
+               pattern="^[A-Za-z0-9._%+-]+@studenti\.unipd\.it$" required>
+        <div class="helper-text">Use your university email ending with `@studenti.unipd.it`.</div>
 
-        <input type="password" name="password" placeholder="Password" required>
+        <input type="password" name="password" placeholder="Password"
+               pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{7,15}$" minlength="7" maxlength="15" required>
+        <div class="helper-text">Password must be 7 to 15 characters long and include at least one uppercase letter, one lowercase letter, and one number.</div>
 
         <button type="submit">Registrati</button>
 

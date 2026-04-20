@@ -7,6 +7,28 @@ import java.sql.*;
 
 public class UserDAO {
 
+    public static boolean usernameExists(String username) throws SQLException {
+        String sql = "SELECT 1 FROM users WHERE LOWER(username) = LOWER(?)";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
+
+    public static boolean emailExists(String email) throws SQLException {
+        String sql = "SELECT 1 FROM users WHERE LOWER(email) = LOWER(?)";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, email);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
+
     public static void insertUser(User user) throws SQLException {
         String sql = "INSERT INTO users (name, username, email, password) VALUES (?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
