@@ -14,24 +14,95 @@ import java.util.List;
 
 public class RatingDAO {
 
-    public static Rating saveRating(Rating rating) throws SQLException {
-        String sql = "INSERT INTO rating (user_id, note_id, value) VALUES (?, ?, ?)";
+    //INSERT oppure UPDATE (se già esiste)
+    public static void saveRating(Rating rating) throws SQLException {
+        String sql =
+                "INSERT INTO rating (user_id, note_id, value) " +
+                        "VALUES (?, ?, ?) " +
+                        "ON CONFLICT (user_id, note_id) " +
+                        "DO UPDATE SET value = EXCLUDED.value";
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ps.setInt(1, rating.getUserId());
             ps.setInt(2, rating.getNoteId());
             ps.setInt(3, rating.getValue());
             ps.executeUpdate();
+        }
+    }
 
-            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    rating.setId(generatedKeys.getInt(1));
+    // elimina voto (click sulla stessa stella assegnata in precedenza)
+    public static void deleteRating(int userId, int noteId) throws SQLException {
+
+        String sql = "DELETE FROM rating WHERE user_id = ? AND note_id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+            ps.setInt(2, noteId);
+            ps.executeUpdate();
+        }
+    }
+
+    public static Rating getRatingByUserAndNote(int userId, int noteId) throws SQLException {
+
+        String sql = "SELECT id, user_id, note_id, value, created_at " +
+                "FROM rating WHERE user_id = ? AND note_id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+            ps.setInt(2, noteId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapRating(rs);
                 }
             }
-
-            return rating;
         }
+
+        return null;
+    }
+
+    public static double getAverageRatingByNoteId(int noteId) throws SQLException {
+
+        String sql = "SELECT AVG(value) AS avg_rating FROM rating WHERE note_id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, noteId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble("avg_rating"); // 0.0 se NULL
+                }
+            }
+        }
+
+        return 0.0;
+    }
+
+    public static int getRatingCountByNoteId(int noteId) throws SQLException {
+
+        String sql = "SELECT COUNT(*) AS count FROM rating WHERE note_id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, noteId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("count");
+                }
+            }
+        }
+
+        return 0;
     }
 
     public static List<Rating> getRatingsByUserId(int userId) throws SQLException {
