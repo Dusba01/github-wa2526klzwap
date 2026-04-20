@@ -6,6 +6,7 @@ public class User {
     private String email;
     private String password;
     private String username;
+    private String university;
 
     public User() {}
     // Costruttore senza id (per la registrazione)

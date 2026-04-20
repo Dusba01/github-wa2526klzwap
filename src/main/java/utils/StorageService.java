@@ -8,6 +8,7 @@ import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3Configuration;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
@@ -85,6 +86,17 @@ public class StorageService {
         }
 
         return new StoredFile(fileName, contentType, response.asByteArray());
+    }
+
+    public void delete(String filePath) {
+        String objectKey = normalizeObjectKey(filePath);
+
+        DeleteObjectRequest request = DeleteObjectRequest.builder()
+                .bucket(BUCKET)
+                .key(objectKey)
+                .build();
+
+        s3.deleteObject(request);
     }
 
     private String normalizeObjectKey(String filePath) {

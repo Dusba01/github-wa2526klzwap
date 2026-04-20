@@ -53,6 +53,24 @@ public class NoteDAO {
         return null;
     }
 
+    public static Note getNoteByIdAndAuthorId(int id, int authorId) throws SQLException {
+        String sql = "SELECT id, author_id, course_id, title, description, upload_date, file_path FROM note WHERE id = ? AND author_id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps.setInt(2, authorId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapNote(rs);
+                }
+            }
+        }
+
+        return null;
+    }
+
     public static List<Note> getAllNotes() throws SQLException {
         String sql = "SELECT id, author_id, course_id, title, description, upload_date, file_path FROM note ORDER BY upload_date DESC";
         List<Note> notes = new ArrayList<>();
@@ -68,8 +86,26 @@ public class NoteDAO {
         return notes;
     }
 
+    public static boolean deleteNoteByIdAndAuthorId(int id, int authorId) throws SQLException {
+        String sql = "DELETE FROM note WHERE id = ? AND author_id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps.setInt(2, authorId);
+            return ps.executeUpdate() > 0;
+        }
+    }
+
     public static List<Note> getNotesByAuthorId(int authorId) throws SQLException {
-        String sql = "SELECT id, author_id, course_id, title, description, upload_date, file_path FROM note WHERE author_id = ? ORDER BY upload_date DESC";
+        String sql =
+                "SELECT n.id, n.author_id, n.course_id, n.title, n.description, n.upload_date, n.file_path, " +
+                        "       c.name AS course_name, u.username AS author_username " +
+                        "FROM note n " +
+                        "JOIN course c ON n.course_id = c.id " +
+                        "JOIN users u ON n.author_id = u.id " +
+                        "WHERE n.author_id = ? " +
+                        "ORDER BY n.upload_date DESC";
         List<Note> notes = new ArrayList<>();
 
         try (Connection conn = DBConnection.getConnection();
@@ -78,7 +114,7 @@ public class NoteDAO {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    notes.add(mapNote(rs));
+                    notes.add(mapNoteWithDetails(rs));
                 }
             }
         }

@@ -46,6 +46,16 @@ public class RatingDAO {
         }
     }
 
+    public static void deleteRatingsByNoteId(int noteId) throws SQLException {
+        String sql = "DELETE FROM rating WHERE note_id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, noteId);
+            ps.executeUpdate();
+        }
+    }
+
     public static Rating getRatingByUserAndNote(int userId, int noteId) throws SQLException {
 
         String sql = "SELECT id, user_id, note_id, value, created_at " +

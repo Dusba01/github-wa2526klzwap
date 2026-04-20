@@ -233,7 +233,7 @@
 <div class="sidebar" id="sidebar">
     <h2>Menu</h2>
     <ul>
-        <li><a href="${pageContext.request.contextPath}/#">👤 Profilo</a></li>
+        <li><a href="${pageContext.request.contextPath}/profile">👤 Profilo/Uploads</a></li>
         <li><a href="${pageContext.request.contextPath}/#">🔎 Ricerche recenti</a></li>
         <li><a href="${pageContext.request.contextPath}/#">⭐ Preferiti</a></li>
         <li><a href="${pageContext.request.contextPath}/upload-note">📤 Carica appunti</a></li>
