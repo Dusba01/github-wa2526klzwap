@@ -13,6 +13,30 @@ import java.util.List;
 
 public class CourseDAO {
 
+    public static class CourseSummary {
+        private final int id;
+        private final String name;
+        private final int documentCount;
+
+        public CourseSummary(int id, String name, int documentCount) {
+            this.id = id;
+            this.name = name;
+            this.documentCount = documentCount;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getDocumentCount() {
+            return documentCount;
+        }
+    }
+
     public static Course saveCourse(Course course) throws SQLException {
         String sql = "INSERT INTO course (name) VALUES (?)";
 
@@ -44,6 +68,30 @@ public class CourseDAO {
         }
 
         return courses;
+    }
+
+    public static List<CourseSummary> getCourseSummaries() throws SQLException {
+        String sql =
+                "SELECT c.id, c.name, COUNT(n.id) AS document_count " +
+                        "FROM course c " +
+                        "LEFT JOIN note n ON n.course_id = c.id " +
+                        "GROUP BY c.id, c.name " +
+                        "ORDER BY document_count DESC, c.name ASC";
+        List<CourseSummary> summaries = new ArrayList<>();
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                summaries.add(new CourseSummary(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getInt("document_count")
+                ));
+            }
+        }
+
+        return summaries;
     }
 
     private static Course mapCourse(ResultSet rs) throws SQLException {
