@@ -1,7 +1,16 @@
 console.log("JS caricato");
+document.addEventListener("DOMContentLoaded", () => {
+    loadCourseSummaries();
+});
+
 function searchNotes() {
 
     const query = document.getElementById("query").value;
+    const courseStrip = document.getElementById("courseStrip");
+
+    if (courseStrip) {
+        courseStrip.style.display = "none";
+    }
 
     fetch(BASE_URL + "/rest/notes/search?query=" + encodeURIComponent(query))
         .then(res => res.json())
@@ -28,6 +37,16 @@ function searchNotes() {
                     </div>
 
                     <div class="card-actions">
+                        <div class="card-actions-left">
+                            <button
+                                type="button"
+                                class="favorite-btn ${note.isFavorite ? "active" : ""}"
+                                data-note-id="${note.id}"
+                                data-favorite="${note.isFavorite}"
+                                aria-label="${note.isFavorite ? "Remove from favorites" : "Add to favorites"}"
+                                title="${note.isFavorite ? "Remove from favorites" : "Add to favorites"}"
+                            >${note.isFavorite ? "♥" : "♡"}</button>
+                        </div>
                         <a class="download-btn" href="${BASE_URL}/download-note?id=${note.id}">⬇ Download PDF</a>
                     </div>
                 `;
@@ -35,10 +54,73 @@ function searchNotes() {
                 container.appendChild(card);
                 loadRating(note.id);
             });
+
+            bindFavoriteButtons();
         })
         .catch(err => {
             console.error("Errore:", err);
         });
+}
+
+function loadCourseSummaries() {
+    fetch(BASE_URL + "/rest/courses/summary")
+        .then(res => res.json())
+        .then(data => {
+            const container = document.getElementById("courseStrip");
+            if (!container) {
+                return;
+            }
+
+            container.innerHTML = "";
+
+            data.forEach(course => {
+                const box = document.createElement("button");
+                box.type = "button";
+                box.className = "course-box";
+                box.innerHTML = `
+                    <div class="course-box-title">${course.name}</div>
+                    <div class="course-box-count">${course.documentCount} document${course.documentCount === 1 ? "" : "s"}</div>
+                `;
+                box.addEventListener("click", () => {
+                    const queryInput = document.getElementById("query");
+                    queryInput.value = course.name;
+                    searchNotes();
+                });
+                container.appendChild(box);
+            });
+        })
+        .catch(err => {
+            console.error("Errore caricamento corsi:", err);
+        });
+}
+
+function bindFavoriteButtons() {
+    document.querySelectorAll(".favorite-btn").forEach(button => {
+        button.addEventListener("click", async () => {
+            const noteId = button.dataset.noteId;
+            const isFavorite = button.dataset.favorite === "true";
+            const method = isFavorite ? "DELETE" : "POST";
+
+            try {
+                const response = await fetch(`${BASE_URL}/rest/favorites/${noteId}`, {
+                    method
+                });
+
+                if (!response.ok) {
+                    throw new Error("Favorite toggle failed");
+                }
+
+                const nextFavorite = !isFavorite;
+                button.dataset.favorite = String(nextFavorite);
+                button.textContent = nextFavorite ? "♥" : "♡";
+                button.classList.toggle("active", nextFavorite);
+                button.setAttribute("aria-label", nextFavorite ? "Remove from favorites" : "Add to favorites");
+                button.setAttribute("title", nextFavorite ? "Remove from favorites" : "Add to favorites");
+            } catch (error) {
+                console.error("Errore preferiti:", error);
+            }
+        });
+    });
 }
 
 function loadRating(noteId) {

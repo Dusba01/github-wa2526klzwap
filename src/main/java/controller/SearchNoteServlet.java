@@ -1,11 +1,13 @@
 package controller;
 
+import dao.FavoriteDAO;
 import dao.NoteDAO;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Note;
+import model.User;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -34,6 +36,7 @@ public class SearchNoteServlet extends HttpServlet {
 
         try {
             List<Note> notes = NoteDAO.searchNotes(query);
+            User user = (User) req.getSession().getAttribute("user");
 
             res.setStatus(HttpServletResponse.SC_OK);
 
@@ -55,6 +58,8 @@ public class SearchNoteServlet extends HttpServlet {
                 // campi "extra"
                 jg.writeStringField("courseName", n.getCourseName());
                 jg.writeStringField("authorUsername", n.getAuthorUsername());
+                jg.writeBooleanField("isFavorite",
+                        user != null && FavoriteDAO.isFavorite(user.getId(), n.getId()));
 
                 jg.writeEndObject(); // }
             }

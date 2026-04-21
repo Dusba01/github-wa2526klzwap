@@ -187,6 +187,33 @@ public class NoteDAO {
         return notes;
     }
 
+    public static List<Note> getFavoriteNotesByUserId(int userId) throws SQLException {
+        String sql =
+                "SELECT n.id, n.title, n.description, n.upload_date, n.file_path, " +
+                        "       n.course_id, n.author_id, " +
+                        "       c.name AS course_name, u.username AS author_username " +
+                        "FROM favorite f " +
+                        "JOIN note n ON f.note_id = n.id " +
+                        "JOIN course c ON n.course_id = c.id " +
+                        "JOIN users u ON n.author_id = u.id " +
+                        "WHERE f.user_id = ? " +
+                        "ORDER BY f.created_at DESC";
+        List<Note> notes = new ArrayList<>();
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    notes.add(mapNoteWithDetails(rs));
+                }
+            }
+        }
+
+        return notes;
+    }
+
     private static Note mapNote(ResultSet rs) throws SQLException {
         Note note = new Note();
         note.setId(rs.getInt("id"));

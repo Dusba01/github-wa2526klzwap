@@ -15,12 +15,14 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            padding: 28px;
         }
 
         .container {
             text-align: center;
             width: 100%;
-            max-width: 600px;
+            max-width: 980px;
+            padding: 18px 22px 26px;
         }
 
         h1 {
@@ -34,6 +36,7 @@
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             background: white;
+            margin-bottom: 20px;
         }
 
         .search-box input {
@@ -55,6 +58,43 @@
 
         .search-box button:hover {
             background-color: #4338ca;
+        }
+
+        .course-strip {
+            margin: 0 auto 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 14px;
+        }
+
+        .course-box {
+            border: 1px solid rgba(255,255,255,0.28);
+            border-radius: 18px;
+            padding: 18px 16px;
+            background: rgba(255, 255, 255, 0.22);
+            backdrop-filter: blur(14px);
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.1);
+            color: #0f172a;
+            text-align: left;
+            cursor: pointer;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+        }
+
+        .course-box:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.34);
+            box-shadow: 0 18px 36px rgba(15, 23, 42, 0.14);
+        }
+
+        .course-box-title {
+            margin: 0 0 10px;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .course-box-count {
+            color: #475569;
+            font-size: 0.95rem;
         }
 
         /* Sidebar */
@@ -202,7 +242,16 @@
 
         .card-actions {
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .card-actions-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .download-btn {
@@ -224,6 +273,30 @@
             box-shadow: 0 16px 30px rgba(20, 184, 166, 0.3);
         }
 
+        .favorite-btn {
+            width: 48px;
+            height: 48px;
+            border: none;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #fff1f2, #ffe4e6);
+            color: #94a3b8;
+            font-size: 24px;
+            line-height: 1;
+            cursor: pointer;
+            box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+            transition: transform 0.18s ease, box-shadow 0.18s ease, color 0.18s ease, background 0.18s ease;
+        }
+
+        .favorite-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12);
+        }
+
+        .favorite-btn.active {
+            color: #e11d48;
+            background: linear-gradient(135deg, #ffe4e6, #fecdd3);
+        }
+
     </style>
 </head>
 <body>
@@ -235,7 +308,7 @@
     <ul>
         <li><a href="${pageContext.request.contextPath}/profile">👤 My uploads/Profile</a></li>
         <li><a href="${pageContext.request.contextPath}/#">🔎 Ricerche recenti</a></li>
-        <li><a href="${pageContext.request.contextPath}/#">⭐ Preferiti</a></li>
+        <li><a href="${pageContext.request.contextPath}/favorites">⭐ Preferiti</a></li>
         <li><a href="${pageContext.request.contextPath}/upload-note">📤 Carica appunti</a></li>
         <li><a href="${pageContext.request.contextPath}/#">⚙️ Impostazioni</a></li>
     </ul>
@@ -253,6 +326,8 @@
         <input type="text" id="query" placeholder="Cerca per autore, corso o contenuto..." required>
         <button type="button" onclick="searchNotes()">🔍</button>
     </div>
+
+    <div id="courseStrip" class="course-strip"></div>
 
     <div id="results"></div>
 </div>
