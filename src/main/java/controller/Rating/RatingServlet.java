@@ -1,4 +1,4 @@
-package controller;
+package controller.Rating;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import dao.RatingDAO;

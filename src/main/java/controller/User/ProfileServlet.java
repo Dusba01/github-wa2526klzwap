@@ -1,4 +1,4 @@
-package controller;
+package controller.User;
 
 import dao.CourseDAO;
 import dao.NoteDAO;
