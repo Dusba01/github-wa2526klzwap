@@ -1,4 +1,4 @@
-package controller;
+package controller.Favorite;
 
 import dao.FavoriteDAO;
 import jakarta.servlet.annotation.WebServlet;

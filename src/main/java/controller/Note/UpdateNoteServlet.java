@@ -1,4 +1,4 @@
-package controller;
+package controller.Note;
 
 import dao.NoteDAO;
 import jakarta.servlet.annotation.WebServlet;

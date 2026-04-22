@@ -1,4 +1,4 @@
-package controller;
+package controller.Course;
 
 import dao.CourseDAO;
 import jakarta.servlet.annotation.WebServlet;

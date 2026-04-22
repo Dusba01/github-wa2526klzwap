@@ -1,4 +1,4 @@
-package controller;
+package controller.Favorite;
 
 import dao.NoteDAO;
 import jakarta.servlet.ServletException;
