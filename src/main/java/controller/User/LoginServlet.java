@@ -25,23 +25,23 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         // stampa per verificare che il form arrivi alla servlet
-        System.out.println("Tentativo di login con username/email: " + credential);
+        System.out.println("Login attempt with username/email: " + credential);
 
         try {
             // stampa per vedere se la connessione e la query funzionano
             User user = UserDAO.checkLogin(credential, password);
-            System.out.println("Risultato checkLogin: " + user);
+            System.out.println("checkLogin result: " + user);
 
             if (user != null) {
                 req.getSession().setAttribute("user", user);
-                System.out.println("Login riuscito, redirect verso home.jsp");
+                System.out.println("Login successful, redirecting to home.jsp");
                 resp.sendRedirect("jsp/home.jsp"); // nuova JSP
             } else {
-                System.out.println("Credenziali non valide, redirect verso login.jsp?error=1");
+                System.out.println("Invalid credentials, redirecting to login.jsp?error=1");
                 resp.sendRedirect("jsp/login.jsp?error=1");
             }
         } catch (SQLException e) {
-            System.out.println("Errore SQL durante il login:");
+            System.out.println("SQL error during login:");
             e.printStackTrace();
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
