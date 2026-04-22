@@ -41,7 +41,7 @@ public class CourseSummaryServlet extends HttpServlet {
             jg.flush();
         } catch (SQLException e) {
             res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            res.getWriter().write("{\"error\":\"Errore database\"}");
+            res.getWriter().write("{\"error\":\"Database error\"}");
             e.printStackTrace();
         }
     }

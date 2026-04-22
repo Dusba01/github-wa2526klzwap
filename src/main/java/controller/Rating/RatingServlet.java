@@ -33,14 +33,14 @@ public class RatingServlet extends HttpServlet {
 
             if (user == null) {
                 res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                res.getWriter().write("{\"error\": \"Utente non autenticato\"}");
+                res.getWriter().write("{\"error\": \"User not authenticated\"}");
                 return;
             }
 
             String path = req.getPathInfo(); // /5
             if (path == null || path.equals("/")) {
                 res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                res.getWriter().write("{\"error\":\"noteId mancante\"}");
+                res.getWriter().write("{\"error\":\"Missing noteId\"}");
                 return;
             }
 
@@ -53,7 +53,7 @@ public class RatingServlet extends HttpServlet {
 
             if (value < 1 || value > 5) {
                 res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                res.getWriter().write("{\"error\": \"Valore non valido\"}");
+                res.getWriter().write("{\"error\": \"Invalid value\"}");
                 return;
             }
 
@@ -61,15 +61,15 @@ public class RatingServlet extends HttpServlet {
             RatingDAO.saveRating(rating);
 
             res.setStatus(HttpServletResponse.SC_OK);
-            res.getWriter().write("{\"message\": \"Rating salvato\"}");
+            res.getWriter().write("{\"message\": \"Rating saved\"}");
 
         } catch (NumberFormatException e) {
             res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            res.getWriter().write("{\"error\": \"Parametri non validi\"}");
+            res.getWriter().write("{\"error\": \"Invalid parameters\"}");
 
         } catch (SQLException e) {
             res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            res.getWriter().write("{\"error\": \"Errore database\"}");
+            res.getWriter().write("{\"error\": \"Database error\"}");
             e.printStackTrace();
         }
     }
@@ -86,14 +86,14 @@ public class RatingServlet extends HttpServlet {
 
             if (user == null) {
                 res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                res.getWriter().write("{\"error\": \"Utente non autenticato\"}");
+                res.getWriter().write("{\"error\": \"User not authenticated\"}");
                 return;
             }
 
             String path = req.getPathInfo(); // /5
             if (path == null || path.equals("/")) {
                 res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                res.getWriter().write("{\"error\":\"noteId mancante\"}");
+                res.getWriter().write("{\"error\":\"Missing noteId\"}");
                 return;
             }
 
@@ -103,15 +103,15 @@ public class RatingServlet extends HttpServlet {
             RatingDAO.deleteRating(userId, noteId);
 
             res.setStatus(HttpServletResponse.SC_OK);
-            res.getWriter().write("{\"message\": \"Rating rimosso\"}");
+            res.getWriter().write("{\"message\": \"Rating removed\"}");
 
         } catch (NumberFormatException e) {
             res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            res.getWriter().write("{\"error\": \"Parametri non validi\"}");
+            res.getWriter().write("{\"error\": \"Invalid parameters\"}");
 
         } catch (SQLException e) {
             res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            res.getWriter().write("{\"error\": \"Errore database\"}");
+            res.getWriter().write("{\"error\": \"Database error\"}");
             e.printStackTrace();
         }
     }
@@ -129,7 +129,7 @@ public class RatingServlet extends HttpServlet {
 
             if (path == null || path.equals("/")) {
                 res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                res.getWriter().write("{\"error\":\"noteId mancante nel path\"}");
+                res.getWriter().write("{\"error\":\"noteId missing in path\"}");
                 return;
             }
 
@@ -171,11 +171,11 @@ public class RatingServlet extends HttpServlet {
 
         } catch (NumberFormatException e) {
             res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            res.getWriter().write("{\"error\":\"noteId non valido\"}");
+            res.getWriter().write("{\"error\":\"Invalid noteId\"}");
 
         } catch (SQLException e) {
             res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            res.getWriter().write("{\"error\":\"Errore database\"}");
+            res.getWriter().write("{\"error\":\"Database error\"}");
             e.printStackTrace();
         }
     }

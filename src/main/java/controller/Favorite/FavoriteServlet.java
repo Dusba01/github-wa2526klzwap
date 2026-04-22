@@ -23,14 +23,14 @@ public class FavoriteServlet extends HttpServlet {
 
         if (user == null) {
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            res.getWriter().write("{\"error\":\"Utente non autenticato\"}");
+            res.getWriter().write("{\"error\":\"User not authenticated\"}");
             return;
         }
 
         Integer noteId = parseNoteId(req.getPathInfo());
         if (noteId == null) {
             res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            res.getWriter().write("{\"error\":\"noteId non valido\"}");
+            res.getWriter().write("{\"error\":\"Invalid noteId\"}");
             return;
         }
 
@@ -40,7 +40,7 @@ public class FavoriteServlet extends HttpServlet {
             res.getWriter().write("{\"favorite\":true}");
         } catch (SQLException e) {
             res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            res.getWriter().write("{\"error\":\"Errore database\"}");
+            res.getWriter().write("{\"error\":\"Database error\"}");
             e.printStackTrace();
         }
     }
@@ -54,14 +54,14 @@ public class FavoriteServlet extends HttpServlet {
 
         if (user == null) {
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            res.getWriter().write("{\"error\":\"Utente non autenticato\"}");
+            res.getWriter().write("{\"error\":\"User not authenticated\"}");
             return;
         }
 
         Integer noteId = parseNoteId(req.getPathInfo());
         if (noteId == null) {
             res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            res.getWriter().write("{\"error\":\"noteId non valido\"}");
+            res.getWriter().write("{\"error\":\"Invalid noteId\"}");
             return;
         }
 
@@ -71,7 +71,7 @@ public class FavoriteServlet extends HttpServlet {
             res.getWriter().write("{\"favorite\":false}");
         } catch (SQLException e) {
             res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            res.getWriter().write("{\"error\":\"Errore database\"}");
+            res.getWriter().write("{\"error\":\"Database error\"}");
             e.printStackTrace();
         }
     }
