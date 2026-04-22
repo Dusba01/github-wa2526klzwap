@@ -307,10 +307,10 @@
     <h2>Menu</h2>
     <ul>
         <li><a href="${pageContext.request.contextPath}/profile">👤 My uploads/Profile</a></li>
-        <li><a href="${pageContext.request.contextPath}/#">🔎 Ricerche recenti</a></li>
-        <li><a href="${pageContext.request.contextPath}/favorites">⭐ Preferiti</a></li>
-        <li><a href="${pageContext.request.contextPath}/upload-note">📤 Carica appunti</a></li>
-        <li><a href="${pageContext.request.contextPath}/#">⚙️ Impostazioni</a></li>
+        <li><a href="${pageContext.request.contextPath}/#">🔎 Recent searches</a></li>
+        <li><a href="${pageContext.request.contextPath}/favorites">⭐ Favorites</a></li>
+        <li><a href="${pageContext.request.contextPath}/upload-note">📤 Upload notes</a></li>
+        <li><a href="${pageContext.request.contextPath}/#">⚙️ Settings</a></li>
     </ul>
     <form action="${pageContext.request.contextPath}/logout" method="post" class="logout-form">
         <button type="submit" class="logout-btn">🚪 Logout</button>
@@ -320,10 +320,10 @@
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
 <div class="container">
-    <h1>Cerca Appunti</h1>
+    <h1>Search notes</h1>
 
     <div class="search-box">
-        <input type="text" id="query" placeholder="Cerca per autore, corso o contenuto..." required>
+        <input type="text" id="query" placeholder="Search by author, course or content..." required>
         <button type="button" onclick="searchNotes()">🔍</button>
     </div>
 

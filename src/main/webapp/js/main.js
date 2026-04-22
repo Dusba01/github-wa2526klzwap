@@ -1,4 +1,4 @@
-console.log("JS caricato");
+console.log("JS loaded");
 document.addEventListener("DOMContentLoaded", () => {
     loadCourseSummaries();
 });
@@ -28,8 +28,8 @@ function searchNotes() {
                     <h3>${note.title}</h3>
                     <p>${note.description || "No description available."}</p>
                     <div class="card-meta">
-                        <small>📚 Corso: ${note.courseName}</small>
-                        <small>👤 Autore: ${note.authorUsername}</small>
+                        <small>📚 Course: ${note.courseName}</small>
+                        <small>👤 Author: ${note.authorUsername}</small>
                     </div>
 
                     <div class="rating" id="rating-${note.id}">
@@ -58,7 +58,7 @@ function searchNotes() {
             bindFavoriteButtons();
         })
         .catch(err => {
-            console.error("Errore:", err);
+            console.error("Error:", err);
         });
 }
 
@@ -90,7 +90,7 @@ function loadCourseSummaries() {
             });
         })
         .catch(err => {
-            console.error("Errore caricamento corsi:", err);
+            console.error("Error loading courses:", err);
         });
 }
 
@@ -117,7 +117,7 @@ function bindFavoriteButtons() {
                 button.setAttribute("aria-label", nextFavorite ? "Remove from favorites" : "Add to favorites");
                 button.setAttribute("title", nextFavorite ? "Remove from favorites" : "Add to favorites");
             } catch (error) {
-                console.error("Errore preferiti:", error);
+                console.error("Favorites error::", error);
             }
         });
     });

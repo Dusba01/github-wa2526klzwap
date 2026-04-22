@@ -30,7 +30,7 @@ public class SearchNoteServlet extends HttpServlet {
 
         if (query == null || query.isBlank()) {
             res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            res.getWriter().write("{\"error\": \"Query mancante\"}");
+            res.getWriter().write("{\"error\": \"Missing query\"}");
             return;
         }
 
@@ -70,7 +70,7 @@ public class SearchNoteServlet extends HttpServlet {
 
         } catch (SQLException e) {
             res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            res.getWriter().write("{\"error\": \"Errore database\"}");
+            res.getWriter().write("{\"error\": \"Database error\"}");
             e.printStackTrace();
         }
     }

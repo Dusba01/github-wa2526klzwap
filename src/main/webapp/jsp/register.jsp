@@ -93,7 +93,7 @@
 <body>
 
 <div class="register-container">
-    <h2>Registrazione</h2>
+    <h2>Register</h2>
 
     <%
         String errorMessage = (String) request.getAttribute("error");
@@ -109,7 +109,7 @@
 
     <form action="${pageContext.request.contextPath}/register" method="post">
 
-        <input type="text" name="name" placeholder="Nome" value="<%= nameValue != null ? nameValue : "" %>" required>
+        <input type="text" name="name" placeholder="Name" value="<%= nameValue != null ? nameValue : "" %>" required>
 
         <input type="text" name="username" placeholder="Username" value="<%= usernameValue != null ? usernameValue : "" %>" required>
 
@@ -121,11 +121,11 @@
                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{7,15}$" minlength="7" maxlength="15" required>
         <div class="helper-text">Password must be 7 to 15 characters long and include at least one uppercase letter, one lowercase letter, and one number.</div>
 
-        <button type="submit">Registrati</button>
+        <button type="submit">Register</button>
 
     </form>
 
-    <a href="${pageContext.request.contextPath}/login">Hai un account, accedi <qui></qui></a>
+    <a href="${pageContext.request.contextPath}/login">Already have an account? Log in</a>
 </div>
 
 </body>
