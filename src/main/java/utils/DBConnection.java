@@ -10,9 +10,9 @@ public class DBConnection {
     static final Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
 
     //  to connect to the database
-    private static final String URL = dotenv.get("DB_URL");//, "jdbc:postgresql://ep-round-morning-alvsvcxk-pooler.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require");
-    private static final String USER = dotenv.get("DB_USER");//,"neondb_owner");
-    private static final String PASSWORD = dotenv.get("DB_PASSWORD");//, "npg_TvtePx7YL6Xn");
+    private static final String URL = dotenv.get("DB_URL");
+    private static final String USER = dotenv.get("DB_USER");
+    private static final String PASSWORD = dotenv.get("DB_PASSWORD");
 
     // to obtain the connection
     public static Connection getConnection() throws SQLException {
