@@ -1,0 +1,205 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+% -----------------------------------------------
+% TITLE PAGE
+% -----------------------------------------------
+\title{
+    \large Web Applications A.Y. 2025--2026 \\[0.5em]
+    \LARGE \textbf{Homework 1} \\[0.3em]
+    \large Server-side Design and Development \\[1em]
+    \normalsize
+    Master Degree in Computer Engineering \\
+    Master Degree in Cybersecurity \\
+    Master Degree in ICT for Internet and Multimedia
+}
+
+\author{
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{Last Name} & \textbf{First Name} & \textbf{Badge Number} \\
+        \midrule
+        Doe & Jane & 123456 \\
+        Doe & John & 123456 \\
+        % Add all group members in alphabetical order by surname
+        \bottomrule
+    \end{tabular}
+    \\[1em]
+    \small All the group members must be listed in alphabetical order by surname. \\
+    Members not listed here are considered withdrawn from the fast track.
+}
+
+\date{Deadline: 24 April, 2026}
+
+\begin{document}
+
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+% -----------------------------------------------
+% 1. OBJECTIVES
+% -----------------------------------------------
+\section{Objectives}
+
+% Describe the main objectives of the project.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+% -----------------------------------------------
+% 2. MAIN FUNCTIONALITIES
+% -----------------------------------------------
+\section{Main Functionalities}
+
+% Describe the main functionalities of the web application.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+% -----------------------------------------------
+% 3. DATA LOGIC LAYER
+% -----------------------------------------------
+\section{Data Logic Layer}
+
+\subsection{Entity-Relationship Schema}
+
+% Include the ER schema as a PDF figure.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{ERSchema.pdf}
+    \caption{Entity-Relationship Schema}
+    \label{fig:er-schema}
+\end{figure}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+\subsection{Other Information}
+
+% Describe any additional information about the data logic layer.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+% -----------------------------------------------
+% 4. PRESENTATION LOGIC LAYER
+% -----------------------------------------------
+\section{Presentation Logic Layer}
+
+% Include the mockup as a PDF figure.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{mockup.pdf}
+    \caption{Application Mockup}
+    \label{fig:mockup}
+\end{figure}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+\subsection{A Page}
+
+% Describe each page of the application here.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+% -----------------------------------------------
+% 5. BUSINESS LOGIC LAYER
+% -----------------------------------------------
+\section{Business Logic Layer}
+
+\subsection{Class Diagram}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{ClassDiagram.pdf}
+    \caption{Class Diagram}
+    \label{fig:class-diagram}
+\end{figure}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+\subsection{Sequence Diagram}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{sequenceDiagram.pdf}
+    \caption{Sequence Diagram}
+    \label{fig:sequence-diagram}
+\end{figure}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+\subsection{REST API Summary}
+
+\begin{table}[h!]
+    \centering
+    \caption{REST API Summary}
+    \begin{tabular}{llll}
+        \toprule
+        \textbf{URI} & \textbf{Method} & \textbf{Description} & \textbf{Filter} \\
+        \midrule
+        /api/resource & GET  & Describe the result & Yes/No \\
+        /api/resource & POST & Describe the result & Yes/No \\
+        % Add more rows as needed
+        \bottomrule
+    \end{tabular}
+    \label{tab:rest-api}
+\end{table}
+
+\subsection{REST Error Codes}
+
+\begin{table}[h!]
+    \centering
+    \caption{REST API Error Codes}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{Error Code} & \textbf{HTTP Status Code} & \textbf{Description} \\
+        \midrule
+        ERR-001 & 400 & Description of the error \\
+        ERR-002 & 404 & Description of the error \\
+        % Add more rows as needed
+        \bottomrule
+    \end{tabular}
+    \label{tab:error-codes}
+\end{table}
+
+\subsection{REST API Details}
+
+\subsubsection{A Resource}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+\begin{description}
+    \item[URL] \texttt{/api/resource}
+    \item[Method] \texttt{GET}
+    \item[URL Parameters] ---
+    \item[Data Parameters] ---
+    \item[Success Response] \texttt{200 OK} -- description
+    \item[Error Response] \texttt{404 Not Found} -- description
+\end{description}
+
+% -----------------------------------------------
+% 6. GROUP MEMBERS CONTRIBUTION
+% -----------------------------------------------
+\section{Group Members Contribution}
+
+\noindent\textbf{All the authors of this report sign this declaration and are responsible for it.
+Stated contributions must match the git commit history by each member.}
+
+\bigskip
+
+\noindent\textbf{Jane Doe} \\
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua.
+
+\bigskip
+
+\noindent\textbf{John Doe} \\
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua.
+
+% Repeat for each group member.
+
+\end{document}
