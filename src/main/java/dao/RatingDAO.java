@@ -14,7 +14,7 @@ import java.util.List;
 
 public class RatingDAO {
 
-    //INSERT oppure UPDATE (se già esiste)
+    //INSERT or UPDATE (if it already exists)
     public static void saveRating(Rating rating) throws SQLException {
         String sql =
                 "INSERT INTO rating (user_id, note_id, value) " +
@@ -32,7 +32,6 @@ public class RatingDAO {
         }
     }
 
-    // elimina voto (click sulla stessa stella assegnata in precedenza)
     public static void deleteRating(int userId, int noteId) throws SQLException {
 
         String sql = "DELETE FROM rating WHERE user_id = ? AND note_id = ?";
@@ -88,7 +87,7 @@ public class RatingDAO {
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getDouble("avg_rating"); // 0.0 se NULL
+                    return rs.getDouble("avg_rating");
                 }
             }
         }

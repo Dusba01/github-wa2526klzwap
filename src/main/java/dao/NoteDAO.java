@@ -233,10 +233,8 @@ public class NoteDAO {
 
     private static Note mapNoteWithDetails(ResultSet rs) throws SQLException {
 
-        // riuso del mapping base
         Note note = mapNote(rs);
 
-        // aggiungo SOLO i campi extra della JOIN
         note.setCourseName(rs.getString("course_name"));
         note.setAuthorUsername(rs.getString("author_username"));
 
