@@ -6,17 +6,16 @@ public class User {
     private String email;
     private String password;
     private String username;
-    private String university;
 
     public User() {}
-    // Costruttore senza id (per la registrazione)
+
     public User(String name,String username, String email, String password) {
         this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;
     }
-    // Costruttore con id (per oggetti letti dal DB)
+
     public User(int id, String name, String username, String email, String password) {
         this.id = id;
         this.name = name;

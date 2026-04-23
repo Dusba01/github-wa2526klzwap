@@ -34,7 +34,6 @@ public class Note {
         this.description = description;
         this.uploadDate = uploadDate;
         this.filePath = filePath;
-        //this.downloadCount = downloadCount;
     }
 
     public int getId() {
