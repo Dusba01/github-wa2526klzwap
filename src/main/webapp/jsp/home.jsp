@@ -307,10 +307,8 @@
     <h2>Menu</h2>
     <ul>
         <li><a href="${pageContext.request.contextPath}/profile">👤 My uploads/Profile</a></li>
-        <li><a href="${pageContext.request.contextPath}/#">🔎 Recent searches</a></li>
         <li><a href="${pageContext.request.contextPath}/favorites">⭐ Favorites</a></li>
         <li><a href="${pageContext.request.contextPath}/upload-note">📤 Upload notes</a></li>
-        <li><a href="${pageContext.request.contextPath}/#">⚙️ Settings</a></li>
     </ul>
     <form action="${pageContext.request.contextPath}/logout" method="post" class="logout-form">
         <button type="submit" class="logout-btn">🚪 Logout</button>
