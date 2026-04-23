@@ -40,3 +40,12 @@ Thumbs.db
 .env
 .env.local
 .env.production
+
+# Reports
+report.aux
+report.fdb_latexmk
+report.fls
+report.log
+report.out
+report.toc
+report.synctex.gz

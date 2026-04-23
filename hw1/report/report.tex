@@ -2,11 +2,11 @@
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage[english]{babel}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{hyperref}
 \usepackage{geometry}
+\usepackage{float}
 \geometry{margin=2.5cm}
 
 % -----------------------------------------------
@@ -27,9 +27,10 @@
         \toprule
         \textbf{Last Name} & \textbf{First Name} & \textbf{Badge Number} \\
         \midrule
-        Doe & Jane & 123456 \\
-        Doe & John & 123456 \\
-        % Add all group members in alphabetical order by surname
+        Dusi     & Luca    & 2200074 \\
+        Kosa     & Laszlo  & 2183964 \\
+        Trifunovic & Milos  & 2183388 \\
+        Zanella  & Edoardo & 2195316 \\
         \bottomrule
     \end{tabular}
     \\[1em]
@@ -51,16 +52,45 @@
 % -----------------------------------------------
 \section{Objectives}
 
-% Describe the main objectives of the project.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+The goal of this project is to design and develop a server-side Web application called
+\textbf{Lecture Notes App}, a platform that allows university students to upload, share,
+search, and download lecture notes in PDF format.
+Users can register and log in to the platform, organize notes by course, mark notes
+as favourites, and rate content shared by other students.
+The application is built using Java Servlets, JSP pages, and a PostgreSQL database,
+deployed on Apache Tomcat.
 
 % -----------------------------------------------
 % 2. MAIN FUNCTIONALITIES
 % -----------------------------------------------
 \section{Main Functionalities}
 
-% Describe the main functionalities of the web application.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+The application provides the following main functionalities:
+
+\begin{itemize}
+    \item \textbf{User registration and authentication:} users can create an account
+          (\texttt{RegisterServlet}), log in (\texttt{LoginServlet}),
+          log out (\texttt{LogoutServlet}), and view/edit their profile
+          (\texttt{ProfileServlet}).
+
+    \item \textbf{Note management:} authenticated users can upload PDF notes
+          associated with a course (\texttt{UploadNoteServlet}), update note metadata
+          (\texttt{UpdateNoteServlet}), delete their own notes
+          (\texttt{DeleteNoteServlet}), and download notes uploaded by others
+          (\texttt{DownloadNoteServlet}).
+
+    \item \textbf{Note search:} users can search notes by title, course, or author
+          (\texttt{SearchNoteServlet}).
+
+    \item \textbf{Favourites:} users can add notes to a personal favourites list
+          and view them on a dedicated page (\texttt{favorites.jsp}).
+
+    \item \textbf{Ratings:} users can rate notes uploaded by other students,
+          contributing to a quality score visible on the home page.
+
+    \item \textbf{Course overview:} a course summary view aggregates the notes
+          available for each course (\texttt{CourseSummaryServlet}).
+\end{itemize}
 
 % -----------------------------------------------
 % 3. DATA LOGIC LAYER
@@ -69,40 +99,64 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 \subsection{Entity-Relationship Schema}
 
-% Include the ER schema as a PDF figure.
-\begin{figure}[h!]
+The ER schema models the following main entities: \texttt{User}, \texttt{Note},
+\texttt{Course}, \texttt{Favorite}, and \texttt{Rating}.
+A \texttt{User} can upload many \texttt{Note}s; each \texttt{Note} belongs to
+exactly one \texttt{Course}; a \texttt{User} can mark many \texttt{Note}s as
+\texttt{Favorite}; a \texttt{User} can assign one \texttt{Rating} per \texttt{Note}.
+
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{ERSchema.pdf}
-    \caption{Entity-Relationship Schema}
+    \includegraphics[width=0.95\textwidth]{../../diagrams/ERdiagram.drawio.png}
+    \caption{Entity-Relationship Schema of the Lecture Notes App}
     \label{fig:er-schema}
 \end{figure}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
 \subsection{Other Information}
 
-% Describe any additional information about the data logic layer.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+The \texttt{Note} entity stores the following attributes: \texttt{id},
+\texttt{authorId}, \texttt{authorUsername}, \texttt{courseId}, \texttt{courseName},
+\texttt{title}, \texttt{description}, \texttt{uploadDate}, and \texttt{filePath}
+(path to the PDF stored on the server or on AWS S3, as indicated by the
+\texttt{software.amazon.awssdk:s3} dependency in the POM).
+
+The \texttt{User} entity stores login credentials and profile information.
+The \texttt{Rating} entity links a user to a note with a numeric score.
+The \texttt{Favorite} entity represents the many-to-many association between
+users and their favourite notes.
 
 % -----------------------------------------------
 % 4. PRESENTATION LOGIC LAYER
 % -----------------------------------------------
 \section{Presentation Logic Layer}
 
-% Include the mockup as a PDF figure.
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.9\textwidth]{mockup.pdf}
-    \caption{Application Mockup}
-    \label{fig:mockup}
-\end{figure}
+The presentation layer is implemented with JSP pages located in
+\texttt{src/main/webapp/jsp/}.
+The application entry point is \texttt{login.jsp}, as declared in \texttt{web.xml}
+as the welcome file.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+\subsection{Login Page -- \texttt{login.jsp}}
+Presents a form for user authentication (username and password).
+On success the user is redirected to the home page.
 
-\subsection{A Page}
+\subsection{Register Page -- \texttt{register.jsp}}
+Allows new users to create an account by providing username, email, and password.
 
-% Describe each page of the application here.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+\subsection{Home Page -- \texttt{home.jsp}}
+The main dashboard after login. Displays the list of available notes with
+search and filter controls. Users can browse by course, download notes,
+or add them to favourites directly from this page.
+
+\subsection{Upload Page -- \texttt{upload.jsp}}
+Form for uploading a new note: the user selects the course, inserts a title
+and description, and attaches a PDF file.
+
+\subsection{Profile Page -- \texttt{profile.jsp}}
+Shows the user's personal information and the notes they have uploaded.
+Allows updating profile data and deleting own notes.
+
+\subsection{Favourites Page -- \texttt{favorites.jsp}}
+Lists all notes that the logged-in user has marked as favourite.
 
 % -----------------------------------------------
 % 5. BUSINESS LOGIC LAYER
@@ -111,38 +165,62 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 \subsection{Class Diagram}
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.9\textwidth]{ClassDiagram.pdf}
-    \caption{Class Diagram}
-    \label{fig:class-diagram}
-\end{figure}
+The business logic is organized into three layers following the DAO pattern:
+\textbf{Controller} (Servlets), \textbf{Model} (Plain Java Objects), and
+\textbf{DAO} (data-access objects interfacing with PostgreSQL via JDBC).
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+% Uncomment and update the path once the diagram is available:
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.95\textwidth]{ClassDiagram.pdf}
+%     \caption{Class Diagram}
+%     \label{fig:class-diagram}
+% \end{figure}
+
+Model classes: \texttt{User}, \texttt{Note}, \texttt{Course},
+\texttt{Favorite}, \texttt{Rating}.\\
+Controller packages: \texttt{controller/User}, \texttt{controller/Note},
+\texttt{controller/Course}, \texttt{controller/Favorite},
+\texttt{controller/Rating}.\\
+Utility classes are placed in the \texttt{utils} package (DB connection pool).
 
 \subsection{Sequence Diagram}
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.9\textwidth]{sequenceDiagram.pdf}
-    \caption{Sequence Diagram}
-    \label{fig:sequence-diagram}
-\end{figure}
+% Uncomment and update the path once the diagram is available:
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.95\textwidth]{sequenceDiagram.pdf}
+%     \caption{Sequence Diagram -- Note Upload flow}
+%     \label{fig:sequence-diagram}
+% \end{figure}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+The typical interaction for note upload proceeds as follows:
+the browser sends a \texttt{POST multipart/form-data} request to
+\texttt{/upload}; \texttt{UploadNoteServlet} validates the session,
+extracts the file and metadata, invokes the DAO to persist the record,
+stores the file (locally or on AWS S3), and redirects to the home page.
 
 \subsection{REST API Summary}
 
-\begin{table}[h!]
+\begin{table}[H]
     \centering
-    \caption{REST API Summary}
-    \begin{tabular}{llll}
+    \caption{REST API -- Servlet Endpoints Summary}
+    \begin{tabular}{p{5.5cm}lp{5cm}l}
         \toprule
         \textbf{URI} & \textbf{Method} & \textbf{Description} & \textbf{Filter} \\
         \midrule
-        /api/resource & GET  & Describe the result & Yes/No \\
-        /api/resource & POST & Describe the result & Yes/No \\
-        % Add more rows as needed
+        \texttt{/login}           & POST & Authenticate user                  & No  \\
+        \texttt{/register}        & POST & Register new user                  & No  \\
+        \texttt{/logout}          & GET  & Invalidate session                 & Yes \\
+        \texttt{/profile}         & GET/POST & View/update profile            & Yes \\
+        \texttt{/upload}          & POST & Upload a new note (PDF)            & Yes \\
+        \texttt{/note/search}     & GET  & Search notes by keyword/course     & Yes \\
+        \texttt{/note/download}   & GET  & Download a note PDF                & Yes \\
+        \texttt{/note/update}     & POST & Update note metadata               & Yes \\
+        \texttt{/note/delete}     & POST & Delete a note                      & Yes \\
+        \texttt{/favorite}        & POST & Add/remove note from favourites    & Yes \\
+        \texttt{/rating}          & POST & Submit a rating for a note         & Yes \\
+        \texttt{/course/summary}  & GET  & Get notes summary by course        & Yes \\
         \bottomrule
     \end{tabular}
     \label{tab:rest-api}
@@ -150,16 +228,19 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 \subsection{REST Error Codes}
 
-\begin{table}[h!]
+\begin{table}[H]
     \centering
     \caption{REST API Error Codes}
     \begin{tabular}{lll}
         \toprule
-        \textbf{Error Code} & \textbf{HTTP Status Code} & \textbf{Description} \\
+        \textbf{Error Code} & \textbf{HTTP Status} & \textbf{Description} \\
         \midrule
-        ERR-001 & 400 & Description of the error \\
-        ERR-002 & 404 & Description of the error \\
-        % Add more rows as needed
+        ERR-001 & 400 Bad Request      & Missing or invalid input parameters \\
+        ERR-002 & 401 Unauthorized     & User not authenticated (no valid session) \\
+        ERR-003 & 403 Forbidden        & User not authorized to perform the action \\
+        ERR-004 & 404 Not Found        & Requested note or resource does not exist \\
+        ERR-005 & 409 Conflict         & Username or email already registered \\
+        ERR-006 & 500 Internal Server  & Database or server-side error \\
         \bottomrule
     \end{tabular}
     \label{tab:error-codes}
@@ -167,17 +248,54 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 \subsection{REST API Details}
 
-\subsubsection{A Resource}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+\subsubsection{Upload Note -- \texttt{POST /upload}}
 
 \begin{description}
-    \item[URL] \texttt{/api/resource}
+    \item[URL] \texttt{/upload}
+    \item[Method] \texttt{POST} (\texttt{multipart/form-data})
+    \item[URL Parameters] None
+    \item[Data Parameters] \texttt{title} (string), \texttt{description} (string),
+          \texttt{courseId} (int), \texttt{file} (PDF, max 10\,MB)
+    \item[Success Response] \texttt{302 Found} -- redirect to \texttt{/home}
+    \item[Error Response] \texttt{400} if fields are missing;
+          \texttt{401} if session is invalid; \texttt{500} on DB/S3 error
+\end{description}
+
+\subsubsection{Search Notes -- \texttt{GET /note/search}}
+
+\begin{description}
+    \item[URL] \texttt{/note/search}
     \item[Method] \texttt{GET}
-    \item[URL Parameters] ---
-    \item[Data Parameters] ---
-    \item[Success Response] \texttt{200 OK} -- description
-    \item[Error Response] \texttt{404 Not Found} -- description
+    \item[URL Parameters] \texttt{keyword} (optional), \texttt{courseId} (optional)
+    \item[Data Parameters] None
+    \item[Success Response] \texttt{200 OK} -- forwards to \texttt{home.jsp} with
+          filtered note list
+    \item[Error Response] \texttt{401} if not authenticated; \texttt{500} on DB error
+\end{description}
+
+\subsubsection{Download Note -- \texttt{GET /note/download}}
+
+\begin{description}
+    \item[URL] \texttt{/note/download}
+    \item[Method] \texttt{GET}
+    \item[URL Parameters] \texttt{noteId} (int, required)
+    \item[Data Parameters] None
+    \item[Success Response] \texttt{200 OK} -- streams PDF with
+          \texttt{application/pdf} content type
+    \item[Error Response] \texttt{404} if note does not exist;
+          \texttt{401} if not authenticated
+\end{description}
+
+\subsubsection{Delete Note -- \texttt{POST /note/delete}}
+
+\begin{description}
+    \item[URL] \texttt{/note/delete}
+    \item[Method] \texttt{POST}
+    \item[URL Parameters] None
+    \item[Data Parameters] \texttt{noteId} (int)
+    \item[Success Response] \texttt{302 Found} -- redirect to \texttt{/profile}
+    \item[Error Response] \texttt{403} if the requesting user is not the author;
+          \texttt{404} if note does not exist
 \end{description}
 
 % -----------------------------------------------
@@ -185,21 +303,36 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 % -----------------------------------------------
 \section{Group Members Contribution}
 
-\noindent\textbf{All the authors of this report sign this declaration and are responsible for it.
-Stated contributions must match the git commit history by each member.}
+\noindent\textbf{All the authors of this report sign this declaration and are
+responsible for it. Stated contributions must match the git commit history
+by each member.}
 
 \bigskip
 
-\noindent\textbf{Jane Doe} \\
+\noindent\textbf{Dusi, Luca} \\
+% Describe Luca's contribution here.
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
 incididunt ut labore et dolore magna aliqua.
 
 \bigskip
 
-\noindent\textbf{John Doe} \\
+\noindent\textbf{Kosa, Laszlo} \\
+% Describe Laszlo's contribution here.
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
 incididunt ut labore et dolore magna aliqua.
 
-% Repeat for each group member.
+\bigskip
+
+\noindent\textbf{Trifunovic, Milos} \\
+% Describe Milos's contribution here.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua.
+
+\bigskip
+
+\noindent\textbf{Zanella, Edoardo} \\
+% Describe Edoardo's contribution here.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua.
 
 \end{document}
