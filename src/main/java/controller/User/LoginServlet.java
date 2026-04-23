@@ -24,11 +24,11 @@ public class LoginServlet extends HttpServlet {
         String credential = req.getParameter("credential");
         String password = req.getParameter("password");
 
-        // stampa per verificare che il form arrivi alla servlet
+        // print to verify that the form reaches the servlet
         System.out.println("Login attempt with username/email: " + credential);
 
         try {
-            // stampa per vedere se la connessione e la query funzionano
+            // print to check if the connection and query work correctly
             User user = UserDAO.checkLogin(credential, password);
             System.out.println("checkLogin result: " + user);
 
