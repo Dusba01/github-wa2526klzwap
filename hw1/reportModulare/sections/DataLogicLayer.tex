@@ -8,13 +8,6 @@ entities are described through an Entity-Relationship schema.
 
 \subsection{Entity-Relationship Schema}
 
-\begin{figure}[H]
-    \centering
-    \fbox{\includegraphics[width=0.95\textwidth]{diagrams/ERScheme}}
-    \caption{Entity-Relationship Schema of the Lecture Notes App}
-    \label{fig:er-schema}
-\end{figure}
-
 The database is designed to represent the core concepts of the application through a set of entities and relationships. The main entities are: \textit{User}, \textit{Note}, and \textit{Course}. The system also includes relationships between these entities, namely \textit{Uploads}, \textit{Favorite}, \textit{Rating}, and \textit{Belongs to}.
 In particular, \textit{Favorite} and \textit{Rating} are associative relationships that model many-to-many interactions between users and notes.
 The relationships between these elements can be summarized as follows:
@@ -24,6 +17,13 @@ The relationships between these elements can be summarized as follows:
     \item A User can assign at most one Rating to each Note, while being able to rate multiple Notes (M:N relationship with constraint of uniqueness)
     \item Each Note belongs to exactly one Course (N:1 relationship)
 \end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.95\textwidth]{diagrams/ERScheme}}
+    \caption{Entity-Relationship Schema of the Lecture Notes App}
+    \label{fig:er-schema}
+\end{figure}
 The ER diagram in Figure~\ref{fig:er-schema} provides a visual representation of the database structure and highlights these relationships.
 
 \subsection{Entity and Relationship Description}
