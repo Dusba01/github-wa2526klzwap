@@ -5,7 +5,14 @@
 \begin{longtable}{|p{.15\columnwidth}|p{.2\columnwidth} |p{.6\columnwidth}|} 
 \hline
 \textbf{Error Code} & \textbf{HTTP Status Code} & \textbf{Description} \\\hline
-Error Code Identifier & Corresponding HTTP Status Code &  Description of the error \\\hline
-\caption{Describe in this table your REST API}
-\label{tab:termGlossary}
+\texttt{DATABASE\_ERROR} & 500 Internal Server Error & Generic database failure returned when a DAO operation throws an \texttt{SQLException}. \\\hline
+\texttt{USER\_NOT\_AUTHENTICATED} & 401 Unauthorized & Returned when the client tries to create or delete favorites or ratings without an authenticated user session. \\\hline
+\texttt{MISSING\_QUERY} & 400 Bad Request & Returned by the note search endpoint when the \texttt{query} parameter is missing or blank. \\\hline
+\texttt{MISSING\_NOTE\_ID} & 400 Bad Request & Returned by rating creation or deletion when the note identifier is missing from the request path. \\\hline
+\texttt{NOTE\_ID\_MISSING\_IN\_PATH} & 400 Bad Request & Returned by rating retrieval when the note identifier is missing from the request path. \\\hline
+\texttt{INVALID\_NOTE\_ID} & 400 Bad Request & Returned when the provided note identifier is not valid, for example because it is non-numeric or not positive. \\\hline
+\texttt{INVALID\_PARAMETERS} & 400 Bad Request & Returned by rating creation or deletion when request parameters cannot be parsed correctly. \\\hline
+\texttt{INVALID\_VALUE} & 400 Bad Request & Returned when a rating value is outside the accepted range from 1 to 5. \\\hline
+\caption{REST API error codes}
+\label{tab:rest-api-error-codes}
 \end{longtable}
