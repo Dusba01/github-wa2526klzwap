@@ -9,17 +9,16 @@ entities are described through an Entity-Relationship schema.
 
 \subsection{Entity-Relationship Schema}
 
-The database is designed to represent the core concepts of the application
-through a set of interconnected entities. The main entities are:
-\texttt{User}, \texttt{Note}, \texttt{Course}, \texttt{Favorite}, and \texttt{Rating}.
+The database is designed to represent the core concepts of the application through a set of entities and relationships. The main entities are: \textit{User}, \textit{Note}, and \textit{Course}. The system also includes relationships between these entities, namely \textit{Uploads}, \textit{Favorite}, \textit{Rating}, and \textit{Belongs to}.
 
-The relationships between these entities can be summarized as follows:
+In particular, \textit{Favorite} and \textit{Rating} are associative relationships that model many-to-many interactions between users and notes.
+
+The relationships between these elements can be summarized as follows:
 \begin{itemize}
-    \item A \texttt{User} can upload multiple \texttt{Note}s
-    \item Each \texttt{Note} belongs to exactly one \texttt{Course}
-    \item A \texttt{User} can mark multiple \texttt{Note}s as \texttt{Favorite}
-    \item A \texttt{User} can assign a single \texttt{Rating} to a \texttt{Note}
-    \item The \texttt{pair} (userId, noteId) is unique in the Rating entity.
+    \item A User can upload multiple Notes (1:N relationship)
+    \item A User can mark multiple Notes as Favorite (M:N relationship)
+    \item A User can assign at most one Rating to each Note, while being able to rate multiple Notes (M:N relationship with constraint of uniqueness)
+    \item Each Note belongs to exactly one Course (N:1 relationship)
 \end{itemize}
 
 \begin{figure}[H]
@@ -29,37 +28,31 @@ The relationships between these entities can be summarized as follows:
     \label{fig:er-schema}
 \end{figure}
 
-The ER diagram in Figure~\ref{fig:er-schema} provides a visual representation
-of the database structure and highlights the relationships between entities.
+The ER diagram in Figure~\ref{fig:er-schema} provides a visual representation of the database structure and highlights these relationships.
 
-\subsection{Entity Description}
+\subsection{Entity and Relationship Description}
 
-Each entity in the system stores specific information required to support
-the application functionalities.
+This section describes both the entities and relationships of the system, along with their mapping to the relational database schema.
 
-\textbf{Note.}
-The \texttt{Note} entity contains the main information related to uploaded
-lecture notes, including:
-\texttt{id}, \texttt{authorId}, \texttt{authorUsername}, \texttt{courseId},
-\texttt{courseName}, \texttt{title}, \texttt{description}, \texttt{uploadDate},
-and \texttt{filePath}.
-The \texttt{filePath} attribute represents the location of the PDF file,
-which can be stored either on the server or on AWS S3 (as indicated by the
-\texttt{software.amazon.awssdk:s3} dependency in the project configuration).
+\paragraph{User}
+The \textit{User} entity stores authentication credentials and profile information, including: \texttt{id}, \texttt{username}, \texttt{email}, \texttt{password}, and \texttt{createdAt}.
 
-\textbf{User.}
-The \texttt{User} entity stores authentication credentials and profile
-information required for user identification and interaction with the system.
+\paragraph{Course}
+The \textit{Course} entity represents a subject or course and includes: \texttt{id} and \texttt{name}.
 
-\textbf{Rating.}
-The \texttt{Rating} entity represents the evaluation given by a user to a note.
-It links a \texttt{User} to a \texttt{Note} through a numeric score.
+\paragraph{Note}
+The \textit{Note} entity contains the main information related to uploaded lecture notes, including: \texttt{id}, \texttt{author\_id}, \texttt{course\_id}, \texttt{title}, \texttt{description}, \texttt{upload\_date}, and \texttt{file\_path}.
 
-\textbf{Favorite.}
-The \texttt{Favorite} entity models the many-to-many relationship between
-users and notes, allowing each user to maintain a personalized list of
-favourite content.
+From the relational perspective:
+\begin{itemize}
+    \item The \texttt{author\_id} attribute is a foreign key referencing \texttt{User(id)}, implementing the \textit{Uploads} relationship.
+    \item The \texttt{course\_id} attribute is a foreign key referencing \texttt{Course(id)}, implementing the \textit{Belongs to} relationship.
+\end{itemize}
 
-\textbf{Course.}
-The \texttt{Course} entity groups notes by subject, enabling better
-organization and easier navigation within the application.
+These relationships are therefore represented through foreign keys and do not require separate tables.
+
+\paragraph{Uploads (Relationship)}
+The \textit{Uploads} relationship models the association between a User and the Notes they upload. It is a one-to-many (1:N) relationship and is implemented in the relational schema through the foreign key \texttt{author\_id} in the \textit{Note} table. As a result, no separate table is required.
+
+\paragraph{Favorite (Relationship)}
+The \textit{Favorite} relationship models the association between users and their favorite notes.
