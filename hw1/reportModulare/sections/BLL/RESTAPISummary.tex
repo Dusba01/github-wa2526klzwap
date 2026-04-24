@@ -2,10 +2,31 @@
 
 %describe the REST API. If needed, add a few lines of text here, describing the content of the table.
 
-\begin{longtable}{|p{.375\columnwidth}|p{.1\columnwidth} |p{.35\columnwidth}|p{.1\columnwidth}|} 
+\begin{longtable}{|p{.375\columnwidth}|p{.1\columnwidth}|p{.35\columnwidth}|p{.1\columnwidth}|}
 \hline
 \textbf{URI} & \textbf{Method} & \textbf{Description} & \textbf{Filter} \\\hline
-What is the URI? & What HTTP method uses? &  Describe briefly the result of calling the URI & is it behind a filter?\\\hline
-\caption{Describe in this table your REST API}
-\label{tab:termGlossary}
+            \texttt{/register} & GET & Loads the registration page & No \\\hline
+            \texttt{/register} & POST & Register a new user after validation & No \\\hline
+            \texttt{/login} & GET & Loads the login page & No\\\hline
+            \texttt{/login} & POST & Authenticate user and create session & No \\\hline
+            \texttt{/logout} & POST & Invalidate session and redirect to login & Yes \\\hline
+            \texttt{/logout} & GET & Perform the same logout logic as POST & Yes \\\hline
+            \texttt{/profile} & GET & Load the logged-in user's profile page & Yes \\\hline
+            \texttt{/rest/favorites/\{noteId\}} & POST & Add a note to the logged-in user's favorites & Yes \\\hline
+            \texttt{/rest/favorites/\{noteId\}} & DELETE & Remove a note from the logged-in user's favorites & Yes \\\hline
+            \texttt{/favorites} & GET & Loads the favorites page with the user's favorite notes & Yes \\\hline
+            \texttt{/remove-favorite} & POST & Remove a favorite note and redirect to favorites page & Yes \\\hline
+            \texttt{/delete-note} & POST & Delete an uploaded note, related ratings, and file & Yes \\\hline
+            \texttt{/download-note} & GET & Download the file attached to a note & Yes \\\hline
+            \texttt{/rest/notes/search} & GET & Search notes by query and return matching notes as JSON & Yes \\\hline
+            \texttt{/update-note} & POST & Update a logged-in user's uploaded note & Yes \\\hline
+            \texttt{/upload-note} & GET & Loads the upload page & Yes \\\hline
+            \texttt{/upload-note} & POST & Upload a PDF note and save its metadata & Yes \\\hline
+            \texttt{/rest/ratings/\{noteId\}} & POST & Create or update the logged-in user's rating & Yes \\\hline
+            \texttt{/rest/ratings/\{noteId\}} & DELETE & Delete the logged-in user's rating & Yes \\\hline
+            \texttt{/rest/ratings/\{noteId\}} & GET & Return rating details for a note as JSON & Yes \\\hline
+            \texttt{/rest/courses/summary} & GET & Returns course summaries in JSON & Yes \\\hline
+
+\caption{REST API summary}
+\label{tab:rest-api-summary}
 \end{longtable}
