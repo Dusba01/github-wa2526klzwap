@@ -50,7 +50,7 @@ These relationships are therefore represented through foreign keys and do not re
 The \textit{Uploads} relationship models the association between a User and the Notes they upload. It is a one-to-many (1:N) relationship and is implemented in the relational schema through the foreign key \texttt{author\_id} in the \textit{Note} table. As a result, no separate table is required.
 
 \paragraph{Favorite (Relationship)}
-The \textit{Favorite} relationship models the association between users and their favorite notes. \textbf{Since it is a many-to-many relationship, it is mapped to a separate relational table including: \texttt{user\_id}, \texttt{note\_id} and \texttt{created\_at}.
+The \textit{Favorite} relationship models the association between users and their favorite notes. Since it is a many-to-many relationship, it is mapped to a separate relational table including: \texttt{user\_id}, \texttt{note\_id} and \texttt{created\_at}.
 
 \paragraph{Rating (Relationship)}
 The \textit{Rating} relationship represents the evaluation given by a user to a note. This many-to-many relationship is also mapped to a separate table including: \texttt{id}, \texttt{user\_id}, \texttt{note\_id}, \texttt{value}, and \texttt{created\_at}.
