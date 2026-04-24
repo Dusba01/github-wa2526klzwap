@@ -1,0 +1,60 @@
+\section{Main Functionalities}
+
+This chapter describes the main functionalities offered by the application.
+The system is designed to manage user accounts, handle lecture notes, and
+provide interaction mechanisms between users.
+
+\subsection{User Management}
+
+The application allows users to create and manage their personal accounts.
+In particular, users can register, log in, log out, and update their profile
+information. These features are implemented through the following components:
+
+\begin{itemize}
+    \item \texttt{RegisterServlet}
+    \item \texttt{LoginServlet}
+    \item \texttt{LogoutServlet}
+    \item \texttt{ProfileServlet}
+\end{itemize}
+
+\subsection{Note Management}
+
+Authenticated users can upload and manage lecture notes in PDF format.
+Each note is associated with a specific course and can be modified or removed
+by its owner. The system also allows users to download notes shared by others.
+
+\begin{itemize}
+    \item \texttt{UploadNoteServlet}
+    \item \texttt{UpdateNoteServlet}
+    \item \texttt{DeleteNoteServlet}
+    \item \texttt{DownloadNoteServlet}
+\end{itemize}
+
+\subsection{Search and Organization}
+
+To facilitate access to content, the application provides a search functionality
+that allows users to find notes based on different criteria such as title,
+course, or author.
+
+\begin{itemize}
+    \item \texttt{SearchNoteServlet}
+\end{itemize}
+
+Additionally, notes are organized by course, and a summary view is available
+to display all notes related to a specific course.
+
+\begin{itemize}
+    \item \texttt{CourseSummaryServlet}
+\end{itemize}
+
+\subsection{User Interaction Features}
+
+The platform includes features that enhance user interaction and content evaluation.
+
+\begin{itemize}
+    \item \textbf{Favourites:} users can save notes in a personal favourites list
+    and access them through a dedicated page (\texttt{favorites.jsp}).
+
+    \item \textbf{Ratings:} users can rate notes uploaded by other students,
+    contributing to an overall quality score.
+\end{itemize}

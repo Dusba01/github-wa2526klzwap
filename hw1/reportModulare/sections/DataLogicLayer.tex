@@ -1,0 +1,65 @@
+\section{Data Logic Layer}
+
+After presenting the main functionalities of the application, this chapter
+focuses on the data logic layer, which is responsible for modeling and
+managing the information handled by the system.
+
+In particular, the structure of the database and the relationships between
+entities are described through an Entity-Relationship schema.
+
+\subsection{Entity-Relationship Schema}
+
+The database is designed to represent the core concepts of the application
+through a set of interconnected entities. The main entities are:
+\texttt{User}, \texttt{Note}, \texttt{Course}, \texttt{Favorite}, and \texttt{Rating}.
+
+The relationships between these entities can be summarized as follows:
+\begin{itemize}
+    \item A \texttt{User} can upload multiple \texttt{Note}s
+    \item Each \texttt{Note} belongs to exactly one \texttt{Course}
+    \item A \texttt{User} can mark multiple \texttt{Note}s as \texttt{Favorite}
+    \item A \texttt{User} can assign a single \texttt{Rating} to a \texttt{Note}
+    \item The \texttt{pair} (userId, noteId) is unique in the Rating entity.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.95\textwidth]{../diagrams/ERscheme.jpeg}}
+    \caption{Entity-Relationship Schema of the Lecture Notes App}
+    \label{fig:er-schema}
+\end{figure}
+
+The ER diagram in Figure~\ref{fig:er-schema} provides a visual representation
+of the database structure and highlights the relationships between entities.
+
+\subsection{Entity Description}
+
+Each entity in the system stores specific information required to support
+the application functionalities.
+
+\textbf{Note.}
+The \texttt{Note} entity contains the main information related to uploaded
+lecture notes, including:
+\texttt{id}, \texttt{authorId}, \texttt{authorUsername}, \texttt{courseId},
+\texttt{courseName}, \texttt{title}, \texttt{description}, \texttt{uploadDate},
+and \texttt{filePath}.
+The \texttt{filePath} attribute represents the location of the PDF file,
+which can be stored either on the server or on AWS S3 (as indicated by the
+\texttt{software.amazon.awssdk:s3} dependency in the project configuration).
+
+\textbf{User.}
+The \texttt{User} entity stores authentication credentials and profile
+information required for user identification and interaction with the system.
+
+\textbf{Rating.}
+The \texttt{Rating} entity represents the evaluation given by a user to a note.
+It links a \texttt{User} to a \texttt{Note} through a numeric score.
+
+\textbf{Favorite.}
+The \texttt{Favorite} entity models the many-to-many relationship between
+users and notes, allowing each user to maintain a personalized list of
+favourite content.
+
+\textbf{Course.}
+The \texttt{Course} entity groups notes by subject, enabling better
+organization and easier navigation within the application.
