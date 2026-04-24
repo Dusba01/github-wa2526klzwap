@@ -52,7 +52,6 @@ Thumbs.db
 *.synctex.gz
 *.bbl
 *.blg
-out/
 
 ### OSX ###
 .DS_Store
