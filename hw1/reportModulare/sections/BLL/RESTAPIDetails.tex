@@ -1,21 +1,133 @@
 \subsection{REST API Details}
 
-%List here a few resources retrievable via REST API
-
-\subsubsection*{A resource}
-
-% the description of the resource
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
+\subsubsection*{User Registration}
 
 \begin{itemize}
-    \item URL: \texttt{the URL to retrieve it}
-    \item Method: \texttt{Method to retrieve it}
-    \item URL Parameters:
-    \item Data Parameters: 
-    \item Success Response:
-    \item Error Response:
-    
+    \item URL: \texttt{/register}
+    \item Method: \texttt{GET} / \texttt{POST}
+    \item URL Parameters: None
+    \item Data Parameters: \texttt{GET} -- none; \texttt{POST} -- \texttt{username} (string), \texttt{email} (string), \texttt{password} (string)
+    \item Success Response: \texttt{GET} -- \texttt{200 OK}, forwards to \texttt{register.jsp}; \texttt{POST} -- \texttt{302 Found}, redirects to login page
+    \item Error Response: \texttt{400 Bad Request} if required fields are missing or invalid; \texttt{409 Conflict} if username or email already exists; \texttt{500 Internal Server Error} on database failure
 \end{itemize}
 
+\subsubsection*{User Authentication}
+
+\begin{itemize}
+    \item URL: \texttt{/login}
+    \item Method: \texttt{GET} / \texttt{POST}
+    \item URL Parameters: None
+    \item Data Parameters: \texttt{GET} -- none; \texttt{POST} -- \texttt{username} (string), \texttt{password} (string)
+    \item Success Response: \texttt{GET} -- \texttt{200 OK}, forwards to \texttt{login.jsp}; \texttt{POST} -- \texttt{302 Found}, redirects to home page with session created
+    \item Error Response: \texttt{401 Unauthorized} if credentials are invalid; \texttt{500 Internal Server Error} on database failure
+\end{itemize}
+
+\subsubsection*{User Logout}
+
+\begin{itemize}
+    \item URL: \texttt{/logout}
+    \item Method: \texttt{GET} / \texttt{POST}
+    \item URL Parameters: None
+    \item Data Parameters: None
+    \item Success Response: \texttt{302 Found} -- session invalidated, redirects to login page
+    \item Error Response: \texttt{401 Unauthorized} if no active session exists
+\end{itemize}
+
+\subsubsection*{User Profile}
+
+\begin{itemize}
+    \item URL: \texttt{/profile}
+    \item Method: \texttt{GET}
+    \item URL Parameters: None
+    \item Data Parameters: None
+    \item Success Response: \texttt{200 OK} -- forwards to \texttt{profile.jsp} with the logged-in user's data and uploaded notes
+    \item Error Response: \texttt{401 Unauthorized} if the user is not authenticated; \texttt{500 Internal Server Error} on database failure
+\end{itemize}
+
+\subsubsection*{Note Upload}
+
+\begin{itemize}
+    \item URL: \texttt{/upload-note}
+    \item Method: \texttt{GET} / \texttt{POST}
+    \item URL Parameters: None
+    \item Data Parameters: \texttt{GET} -- none; \texttt{POST} -- \texttt{title} (string), \texttt{description} (string), \texttt{courseId} (int), \texttt{file} (PDF, multipart/form-data)
+    \item Success Response: \texttt{GET} -- \texttt{200 OK}, forwards to \texttt{upload.jsp}; \texttt{POST} -- \texttt{302 Found}, redirects to home page
+    \item Error Response: \texttt{400 Bad Request} if required fields are missing or the file is not a PDF; \texttt{401 Unauthorized} if the user is not authenticated; \texttt{500 Internal Server Error} on storage or database failure
+\end{itemize}
+
+\subsubsection*{Note Download}
+
+\begin{itemize}
+    \item URL: \texttt{/download-note}
+    \item Method: \texttt{GET}
+    \item URL Parameters: \texttt{noteId} (int, required)
+    \item Data Parameters: None
+    \item Success Response: \texttt{200 OK} -- streams the PDF file with \texttt{Content-Type: application/pdf}
+    \item Error Response: \texttt{400 Bad Request} if \texttt{noteId} is missing or invalid; \texttt{401 Unauthorized} if the user is not authenticated; \texttt{404 Not Found} if the note does not exist; \texttt{500 Internal Server Error} on storage failure
+\end{itemize}
+
+\subsubsection*{Note Update}
+
+\begin{itemize}
+    \item URL: \texttt{/update-note}
+    \item Method: \texttt{POST}
+    \item URL Parameters: None
+    \item Data Parameters: \texttt{noteId} (int), \texttt{title} (string), \texttt{description} (string), \texttt{courseId} (int)
+    \item Success Response: \texttt{302 Found} -- redirects to profile page
+    \item Error Response: \texttt{400 Bad Request} if required fields are missing; \texttt{401 Unauthorized} if the user is not authenticated; \texttt{403 Forbidden} if the requesting user is not the note author; \texttt{500 Internal Server Error} on database failure
+\end{itemize}
+
+\subsubsection*{Note Deletion}
+
+\begin{itemize}
+    \item URL: \texttt{/delete-note}
+    \item Method: \texttt{POST}
+    \item URL Parameters: None
+    \item Data Parameters: \texttt{noteId} (int)
+    \item Success Response: \texttt{302 Found} -- redirects to profile page
+    \item Error Response: \texttt{401 Unauthorized} if the user is not authenticated; \texttt{403 Forbidden} if the requesting user is not the note author; \texttt{500 Internal Server Error} on database or storage failure
+\end{itemize}
+
+\subsubsection*{Note Search}
+
+\begin{itemize}
+    \item URL: \texttt{/rest/notes/search}
+    \item Method: \texttt{GET}
+    \item URL Parameters: \texttt{query} (string, required)
+    \item Data Parameters: None
+    \item Success Response: \texttt{200 OK} -- returns a JSON array of matching notes
+    \item Error Response: \texttt{400 Bad Request} (\texttt{MISSING\_QUERY}) if the \texttt{query} parameter is absent or blank; \texttt{401 Unauthorized} if the user is not authenticated; \texttt{500 Internal Server Error} on database failure
+\end{itemize}
+
+\subsubsection*{Favorites}
+
+\begin{itemize}
+    \item URL: \texttt{/rest/favorites/\{noteId\}} / \texttt{/favorites} / \texttt{/remove-favorite}
+    \item Method: \texttt{POST} (add), \texttt{DELETE} (remove via REST), \texttt{GET} (page), \texttt{POST} (remove via form)
+    \item URL Parameters: \texttt{noteId} (int, required for REST endpoints)
+    \item Data Parameters: \texttt{/remove-favorite} -- \texttt{noteId} (int, form parameter)
+    \item Success Response: REST add/delete -- \texttt{200 OK} with JSON confirmation; \texttt{/favorites} -- \texttt{200 OK}, forwards to \texttt{favorites.jsp}; \texttt{/remove-favorite} -- \texttt{302 Found}, redirects to favorites page
+    \item Error Response: \texttt{401 Unauthorized} (\texttt{USER\_NOT\_AUTHENTICATED}) if the user is not authenticated; \texttt{500 Internal Server Error} (\texttt{DATABASE\_ERROR}) on database failure
+\end{itemize}
+
+\subsubsection*{Ratings}
+
+\begin{itemize}
+    \item URL: \texttt{/rest/ratings/\{noteId\}}
+    \item Method: \texttt{POST} (create or update), \texttt{DELETE} (remove), \texttt{GET} (retrieve)
+    \item URL Parameters: \texttt{noteId} (int, required)
+    \item Data Parameters: \texttt{POST} -- \texttt{value} (int, 1--5)
+    \item Success Response: \texttt{200 OK} -- returns a JSON object with rating details (note average, user rating, count)
+    \item Error Response: \texttt{400 Bad Request} (\texttt{MISSING\_NOTE\_ID}, \texttt{INVALID\_NOTE\_ID}, \texttt{INVALID\_VALUE}, \texttt{INVALID\_PARAMETERS}) for malformed input; \texttt{401 Unauthorized} (\texttt{USER\_NOT\_AUTHENTICATED}) if the user is not authenticated; \texttt{500 Internal Server Error} (\texttt{DATABASE\_ERROR}) on database failure
+\end{itemize}
+
+\subsubsection*{Course Summary}
+
+\begin{itemize}
+    \item URL: \texttt{/rest/courses/summary}
+    \item Method: \texttt{GET}
+    \item URL Parameters: None
+    \item Data Parameters: None
+    \item Success Response: \texttt{200 OK} -- returns a JSON array of course summaries, each containing course name and note count
+    \item Error Response: \texttt{401 Unauthorized} if the user is not authenticated; \texttt{500 Internal Server Error} on database failure
+\end{itemize}
