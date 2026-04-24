@@ -3,23 +3,10 @@
 After presenting the main functionalities of the application, this section
 focuses on the data logic layer, which is responsible for modeling and
 managing the information handled by the system.
-
 In particular, the structure of the database and the relationships between
 entities are described through an Entity-Relationship schema.
 
 \subsection{Entity-Relationship Schema}
-
-The database is designed to represent the core concepts of the application through a set of entities and relationships. The main entities are: \textit{User}, \textit{Note}, and \textit{Course}. The system also includes relationships between these entities, namely \textit{Uploads}, \textit{Favorite}, \textit{Rating}, and \textit{Belongs to}.
-
-In particular, \textit{Favorite} and \textit{Rating} are associative relationships that model many-to-many interactions between users and notes.
-
-The relationships between these elements can be summarized as follows:
-\begin{itemize}
-    \item A User can upload multiple Notes (1:N relationship)
-    \item A User can mark multiple Notes as Favorite (M:N relationship)
-    \item A User can assign at most one Rating to each Note, while being able to rate multiple Notes (M:N relationship with constraint of uniqueness)
-    \item Each Note belongs to exactly one Course (N:1 relationship)
-\end{itemize}
 
 \begin{figure}[H]
     \centering
@@ -28,6 +15,15 @@ The relationships between these elements can be summarized as follows:
     \label{fig:er-schema}
 \end{figure}
 
+The database is designed to represent the core concepts of the application through a set of entities and relationships. The main entities are: \textit{User}, \textit{Note}, and \textit{Course}. The system also includes relationships between these entities, namely \textit{Uploads}, \textit{Favorite}, \textit{Rating}, and \textit{Belongs to}.
+In particular, \textit{Favorite} and \textit{Rating} are associative relationships that model many-to-many interactions between users and notes.
+The relationships between these elements can be summarized as follows:
+\begin{itemize}
+    \item A User can upload multiple Notes (1:N relationship)
+    \item A User can mark multiple Notes as Favorite (M:N relationship)
+    \item A User can assign at most one Rating to each Note, while being able to rate multiple Notes (M:N relationship with constraint of uniqueness)
+    \item Each Note belongs to exactly one Course (N:1 relationship)
+\end{itemize}
 The ER diagram in Figure~\ref{fig:er-schema} provides a visual representation of the database structure and highlights these relationships.
 
 \subsection{Entity and Relationship Description}
@@ -42,7 +38,6 @@ The \textit{Course} entity represents a subject or course and includes: \texttt{
 
 \paragraph{Note}
 The \textit{Note} entity contains the main information related to uploaded lecture notes, including: \texttt{id}, \texttt{author\_id}, \texttt{course\_id}, \texttt{title}, \texttt{description}, \texttt{upload\_date}, and \texttt{file\_path}.
-
 From the relational perspective:
 \begin{itemize}
     \item The \texttt{author\_id} attribute is a foreign key referencing \texttt{User(id)}, implementing the \textit{Uploads} relationship.
@@ -55,4 +50,29 @@ These relationships are therefore represented through foreign keys and do not re
 The \textit{Uploads} relationship models the association between a User and the Notes they upload. It is a one-to-many (1:N) relationship and is implemented in the relational schema through the foreign key \texttt{author\_id} in the \textit{Note} table. As a result, no separate table is required.
 
 \paragraph{Favorite (Relationship)}
-The \textit{Favorite} relationship models the association between users and their favorite notes.
+The \textit{Favorite} relationship models the association between users and their favorite notes. Since a user can mark multiple notes as favorites and each note can be favorited by multiple users, this is a many-to-many (M:N) relationship.
+It is implemented through a dedicated relational table containing:
+\texttt{id}, \texttt{user\_id}, \texttt{note\_id}, and \texttt{created\_at}.
+
+In this table:
+\begin{itemize}
+    \item \texttt{user\_id} is a foreign key referencing \texttt{User(id)}.
+    \item \texttt{note\_id} is a foreign key referencing \texttt{Note(id)}.
+\end{itemize}
+A uniqueness constraint on the pair (\texttt{user\_id}, \texttt{note\_id}) ensures that a user cannot favorite the same note more than once.
+
+\paragraph{Rating (Relationship)}
+The \textit{Rating} relationship represents the evaluation given by a user to a note. It is a many-to-many relationship where users assign a numerical value to notes.
+It is implemented through a dedicated relational table including:
+\texttt{id}, \texttt{user\_id}, \texttt{note\_id}, \texttt{value}, and \texttt{created\_at}.
+
+In this table:
+\begin{itemize}
+    \item \texttt{user\_id} is a foreign key referencing \texttt{User(id)}.
+    \item \texttt{note\_id} is a foreign key referencing \texttt{Note(id)}.
+\end{itemize}
+A uniqueness constraint on (\texttt{user\_id}, \texttt{note\_id}) ensures that each user can assign only one rating per note.
+
+\paragraph{Belongs to (Relationship)}
+The \textit{Belongs to} relationship associates each \textit{Note} with a specific \textit{Course}. It is a many-to-one (N:1) relationship, where multiple notes can belong to the same course.
+This relationship is implemented through the foreign key \texttt{course\_id} in the \textit{Note} table and therefore does not require a separate table.
