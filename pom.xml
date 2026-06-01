@@ -13,6 +13,32 @@
 
     <name>Lecture Notes App</name>
 
+    <developers>
+        <developer>
+            <id>2195316</id>
+            <name>Edoardo Zanella</name>
+            <email>edoardo.zanella.2@studenti.unipd.it</email>
+        </developer>
+
+        <developer>
+            <id>2183964</id>
+            <name>Laszlo Kosa</name>
+            <email>laszlo.kosa@studenti.unipd.it</email>
+        </developer>
+
+        <developer>
+            <id>2200074</id>
+            <name>Luca Dusi</name>
+            <email>luca.dusi@studenti.unipd.it</email>
+        </developer>
+
+        <developer>
+            <id>2183388</id>
+            <name>Milos Trifunovic</name>
+            <email>milos.trifunovic@studenti.unipd.it</email>
+        </developer>
+    </developers>
+
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
