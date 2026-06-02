@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,27 +17,17 @@
 
     <h2>Login</h2>
 
-    <%
-        String error = request.getParameter("error");
-        if ("1".equals(error)) {
-    %>
-    <div class="error-box">
-        Invalid credentials. Check your username/email and password.
-    </div>
-    <%
-        }
-    %>
+    <c:if test="${param.error == '1'}">
+        <div class="error-box">
+            Invalid credentials. Check your username/email and password.
+        </div>
+    </c:if>
 
-    <%
-        String registered = request.getParameter("registered");
-        if ("1".equals(registered)) {
-    %>
-    <div class="success-box">
-        Registration completed successfully. Please, log in to access.
-    </div>
-    <%
-        }
-    %>
+    <c:if test="${param.registered == '1'}">
+        <div class="success-box">
+            Registration completed successfully. Please, log in to access.
+        </div>
+    </c:if>
 
     <form action="${pageContext.request.contextPath}/login" method="post">
 
