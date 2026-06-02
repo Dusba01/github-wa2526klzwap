@@ -37,7 +37,7 @@ public class DownloadNoteServlet extends HttpServlet {
                 return;
             }
 
-            StorageService.StoredFile storedFile = new StorageService().download(note.getFilePath());
+            StorageService.StoredFile storedFile = StorageService.getInstance().download(note.getFilePath());
 
             resp.setContentType(storedFile.getContentType());
             resp.setHeader("Content-Disposition", "attachment; filename=\"" + storedFile.getFileName() + "\"");

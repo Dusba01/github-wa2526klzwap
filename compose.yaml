@@ -1,0 +1,126 @@
+# Multi-container stack for the Lecture Notes App:
+#   tomcat -> Apache Tomcat 10.1 application server running the WAR (built from
+#             the Dockerfile in this directory)
+#   db     -> PostgreSQL, accessed through a Tomcat JDBC connection pool
+#   minio  -> S3-compatible object storage for uploaded PDF documents
+#
+# Every value has a safe default, so `docker compose up --build` works with no
+# secrets in the repository. Override any value by creating a local .env file
+# (see .env.example). The .env file is gitignored, so no keys are ever exposed.
+
+name: lecture-notes
+
+services:
+  # ---------------------------------------------------------------------------
+  # PostgreSQL database
+  # ---------------------------------------------------------------------------
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-lecturenotes}
+      POSTGRES_USER: ${POSTGRES_USER:-lecturenotes}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-lecturenotes}
+    ports:
+      # Published so local (non-Docker) runs / DB tools can reach the DB.
+      # Host port defaults to 5433 to avoid clashing with a local PostgreSQL
+      # that already uses 5432. The container still listens on 5432 internally.
+      - "${POSTGRES_PORT:-5433}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Schema + sample data are run once, in order, on first startup.
+      - ./src/main/database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./src/main/database/insert.sql:/docker-entrypoint-initdb.d/02-insert.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-lecturenotes} -d ${POSTGRES_DB:-lecturenotes}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - appnet
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # MinIO — local S3-compatible object storage
+  # ---------------------------------------------------------------------------
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+    ports:
+      - "${MINIO_API_PORT:-9000}:9000"      # S3 API
+      - "${MINIO_CONSOLE_PORT:-9001}:9001"  # Web console
+    volumes:
+      - miniodata:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - appnet
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # One-shot job: create the bucket the application uploads documents to.
+  # ---------------------------------------------------------------------------
+  minio-init:
+    image: minio/mc:latest
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set local http://minio:9000 '${MINIO_ROOT_USER:-minioadmin}' '${MINIO_ROOT_PASSWORD:-minioadmin}' &&
+      mc mb --ignore-existing local/${S3_BUCKET_NAME:-university-notes-app} &&
+      echo 'Bucket ready: ${S3_BUCKET_NAME:-university-notes-app}'
+      "
+    networks:
+      - appnet
+    restart: "no"
+
+  # ---------------------------------------------------------------------------
+  # Apache Tomcat application server.
+  # Built from the Dockerfile, which installs Tomcat 10.1 and deploys the WAR.
+  # This is the container that runs the application.
+  # ---------------------------------------------------------------------------
+  tomcat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lecture-notes-tomcat
+    depends_on:
+      db:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
+    environment:
+      # --- Database: injected as JVM system properties so Tomcat substitutes
+      #     them into META-INF/context.xml (${db.url}, ${db.user}, ${db.password}).
+      JAVA_OPTS: >-
+        -Ddb.url=jdbc:postgresql://db:5432/${POSTGRES_DB:-lecturenotes}
+        -Ddb.user=${POSTGRES_USER:-lecturenotes}
+        -Ddb.password=${POSTGRES_PASSWORD:-lecturenotes}
+      # --- Object storage: read directly via System.getenv in StorageService.
+      S3_ENDPOINT: http://minio:9000
+      S3_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
+      S3_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      S3_BUCKET_NAME: ${S3_BUCKET_NAME:-university-notes-app}
+      S3_REGION: ${S3_REGION:-us-east-1}
+      # Stop the AWS SDK from probing the EC2 instance-metadata service
+      # (169.254.169.254), which is unreachable off AWS and causes long hangs.
+      AWS_EC2_METADATA_DISABLED: "true"
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    networks:
+      - appnet
+    restart: unless-stopped
+
+networks:
+  appnet:
+    driver: bridge
+
+volumes:
+  pgdata:
+  miniodata:

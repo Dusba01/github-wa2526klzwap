@@ -8,7 +8,7 @@ public class TestConnection {
         try {
             Connection conn = DBConnection.getConnection();
             if (conn != null) {
-                System.out.println("Successfully connected to Neon!");
+                System.out.println("Successfully connected to PostgreSQL!");
                 conn.close();
             }
         } catch (Exception e) {

@@ -66,6 +66,15 @@
             <version>42.7.3</version>
         </dependency>
 
+        <!-- Tomcat JDBC connection pool. Provided by the Tomcat runtime,
+             so it is only needed at compile time for the JNDI DataSource. -->
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-jdbc</artifactId>
+            <version>10.1.34</version>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
@@ -88,6 +97,33 @@
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>s3</artifactId>
             <version>2.25.28</version>
+            <!-- We use the synchronous Apache HTTP client (added explicitly
+                 below). Exclude the default async Netty client so it is not
+                 bundled into WEB-INF/lib as dead weight / a second HTTP
+                 implementation on the classpath. -->
+            <exclusions>
+                <exclusion>
+                    <groupId>software.amazon.awssdk</groupId>
+                    <artifactId>netty-nio-client</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Explicit Apache HTTP client so we can disable Expect:100-continue
+             and set socket/connection timeouts for the MinIO uploads. -->
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>apache-client</artifactId>
+            <version>2.25.28</version>
+        </dependency>
+
+        <!-- SLF4J backend so the AWS SDK's log output is actually emitted
+             (otherwise SLF4J defaults to a no-op logger). Version matches the
+             slf4j-api 1.7.x that the AWS SDK 2.25.x pulls in. -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.36</version>
         </dependency>
 
     </dependencies>

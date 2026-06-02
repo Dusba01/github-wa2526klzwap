@@ -24,11 +24,14 @@ import java.util.UUID;
 
 @WebServlet("/upload-note")
 @MultipartConfig(
-        fileSizeThreshold = 1024 * 1024,
-        maxFileSize = 10 * 1024 * 1024,
-        maxRequestSize = 12 * 1024 * 1024
+        fileSizeThreshold = 2 * 1024 * 1024,   // buffer up to 2 MB in memory, then spill to disk
+        maxFileSize = 50L * 1024 * 1024,       // max size of a single uploaded file (50 MB)
+        maxRequestSize = 55L * 1024 * 1024     // max size of the whole multipart request (55 MB)
 )
 public class UploadNoteServlet extends HttpServlet {
+
+    /** Human-readable cap, kept in sync with maxFileSize above for error messages. */
+    private static final long MAX_FILE_SIZE_MB = 50L;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -53,10 +56,28 @@ public class UploadNoteServlet extends HttpServlet {
             return;
         }
 
-        String title = trim(req.getParameter("title"));
-        String courseIdValue = trim(req.getParameter("courseId"));
-        String description = trim(req.getParameter("description"));
-        Part pdfPart = req.getPart("pdfFile");
+        // Reading parameters/parts forces Tomcat to parse the multipart body.
+        // If the upload exceeds the configured limits, that parsing throws an
+        // (unchecked) IllegalStateException, so it must be guarded here -
+        // otherwise the exception escapes and the user gets a raw HTTP 500.
+        String title;
+        String courseIdValue;
+        String description;
+        Part pdfPart;
+        try {
+            title = trim(req.getParameter("title"));
+            courseIdValue = trim(req.getParameter("courseId"));
+            description = trim(req.getParameter("description"));
+            pdfPart = req.getPart("pdfFile");
+        } catch (IllegalStateException e) {
+            // Thrown when maxFileSize / maxRequestSize is exceeded.
+            e.printStackTrace();
+            resp.sendRedirect(req.getContextPath() + "/upload-note?error="
+                    + URLEncoder.encode("File is too large. Maximum allowed size is "
+                            + MAX_FILE_SIZE_MB + " MB.", StandardCharsets.UTF_8));
+            return;
+        }
+
         Integer courseId = parseCourseId(courseIdValue);
 
         if (title == null || courseId == null || pdfPart == null || pdfPart.getSize() == 0) {
@@ -93,6 +114,15 @@ public class UploadNoteServlet extends HttpServlet {
         } catch (IOException e) {
             e.printStackTrace();
             resp.sendRedirect(req.getContextPath() + "/upload-note?error=Unable to upload the PDF to cloud storage.");
+        } catch (RuntimeException e) {
+            // The AWS S3 SDK reports failures (bad bucket/credentials, endpoint
+            // unreachable, signature mismatch, etc.) as unchecked exceptions
+            // such as S3Exception / SdkClientException. Without this catch they
+            // escape as a bare HTTP 500. Surface the real cause instead.
+            e.printStackTrace();
+            String detail = e.getMessage() != null ? e.getMessage() : e.getClass().getSimpleName();
+            resp.sendRedirect(req.getContextPath() + "/upload-note?error="
+                    + URLEncoder.encode("Storage error: " + detail, StandardCharsets.UTF_8));
         }
     }
 
@@ -113,7 +143,7 @@ public class UploadNoteServlet extends HttpServlet {
         String storedFileName = UUID.randomUUID() + "-" + submittedFileName.replaceAll("\\s+", "_");
 
         try (InputStream inputStream = pdfPart.getInputStream()) {
-            return new StorageService().upload(inputStream, storedFileName, pdfPart.getSize());
+            return StorageService.getInstance().upload(inputStream, storedFileName, pdfPart.getSize());
         }
     }
 

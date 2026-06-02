@@ -1,0 +1,22 @@
+# Build output
+target/
+out/
+
+# VCS / IDE
+.git/
+.idea/
+*.iml
+
+# Secrets & local env (never bake into the image)
+.env
+.env.local
+.env.production
+src/main/resources/.env
+
+# Docs / reports
+hw1_report/
+*.pdf
+
+# OS
+.DS_Store
+Thumbs.db

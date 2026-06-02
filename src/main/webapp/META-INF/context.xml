@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Tomcat connection pool (JNDI DataSource) for PostgreSQL.
+
+    The url/username/password are NOT hard-coded: they are injected at runtime
+    as JVM system properties (-Ddb.url=... -Ddb.user=... -Ddb.password=...),
+    set via the JAVA_OPTS environment variable in compose.yaml. Tomcat performs
+    Ant-style ${...} substitution from system properties when reading this file,
+    so no secrets live in the repo.
+
+    When running outside the Docker stack (e.g. a local Tomcat), pass the same
+    -Ddb.url / -Ddb.user / -Ddb.password JVM options, or replace the ${...}
+    tokens below with literal values.
+-->
+<Context>
+    <Resource name="jdbc/lecturenotes"
+              auth="Container"
+              type="javax.sql.DataSource"
+              factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+              driverClassName="org.postgresql.Driver"
+              url="${db.url}"
+              username="${db.user}"
+              password="${db.password}"
+              testOnBorrow="true"
+              validationQuery="SELECT 1"
+              timeBetweenEvictionRunsMillis="30000"
+              maxActive="10"
+              minIdle="5"
+              maxWait="10000"
+              initialSize="2"
+              removeAbandonedTimeout="60"
+              removeAbandoned="true"
+              closeMethod="close"/>
+</Context>

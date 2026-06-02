@@ -45,7 +45,7 @@ public class DeleteNoteServlet extends HttpServlet {
             }
 
             if (note.getFilePath() != null && !note.getFilePath().isBlank()) {
-                new StorageService().delete(note.getFilePath());
+                StorageService.getInstance().delete(note.getFilePath());
             }
 
             RatingDAO.deleteRatingsByNoteId(noteId);
