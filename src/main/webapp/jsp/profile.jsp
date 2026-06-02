@@ -3,6 +3,7 @@
 <%@ page import="model.Note" %>
 <%@ page import="model.User" %>
 <%@ page import="model.Course" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

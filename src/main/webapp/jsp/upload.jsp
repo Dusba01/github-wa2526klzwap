@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="java.util.List" %>
-<%@ page import="model.Course" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,24 +16,12 @@
     <h1>Upload a PDF</h1>
     <p class="subtitle">Share class notes with other students by uploading a PDF and adding a few details.</p>
 
-    <%
-        String successMessage = request.getParameter("success");
-        String errorMessage = request.getParameter("error");
-        if (successMessage != null) {
-    %>
-    <div class="feedback success"><%= successMessage %></div>
-    <%
-        }
-        if (errorMessage != null) {
-    %>
-    <div class="feedback error"><%= errorMessage %></div>
-    <%
-        }
-    %>
-
-    <%
-        List<Course> courses = (List<Course>) request.getAttribute("courses");
-    %>
+    <c:if test="${not empty param.success}">
+        <div class="feedback success"><c:out value="${param.success}"/></div>
+    </c:if>
+    <c:if test="${not empty param.error}">
+        <div class="feedback error"><c:out value="${param.error}"/></div>
+    </c:if>
 
     <form action="${pageContext.request.contextPath}/upload-note" method="post" enctype="multipart/form-data">
         <div class="form-group">
@@ -45,15 +33,9 @@
             <label for="courseId">Course</label>
             <select id="courseId" name="courseId" required>
                 <option value="">Select a course</option>
-                <%
-                    if (courses != null) {
-                        for (Course course : courses) {
-                %>
-                <option value="<%= course.getId() %>"><%= course.getName() %></option>
-                <%
-                        }
-                    }
-                %>
+                <c:forEach var="course" items="${courses}">
+                    <option value="${course.id}"><c:out value="${course.name}"/></option>
+                </c:forEach>
             </select>
             <div class="helper-text">Choose one of the courses already stored in the database.</div>
         </div>

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="java.util.List" %>
-<%@ page import="model.Note" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,9 +12,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/components.css">
 </head>
 <body>
-<%
-    List<Note> favoriteNotes = (List<Note>) request.getAttribute("favoriteNotes");
-%>
+
 <div class="page">
     <div class="topbar">
         <div class="title-block">
@@ -25,37 +23,41 @@
     </div>
 
     <div class="grid-list" id="favoritesGrid">
-        <%
-            if (favoriteNotes != null && !favoriteNotes.isEmpty()) {
-                for (Note note : favoriteNotes) {
-        %>
-        <article class="card" id="favorite-card-<%= note.getId() %>">
-            <h3><%= note.getTitle() %></h3>
-            <p><%= note.getDescription() != null && !note.getDescription().isBlank() ? note.getDescription() : "No description available." %></p>
-            <div class="card-meta">
-                <span>📚 <%= note.getCourseName() %></span>
-                <span>👤 <%= note.getAuthorUsername() %></span>
-                <span>🕒 <%= note.getUploadDate() != null ? note.getUploadDate().toLocalDate() : "Unknown date" %></span>
-            </div>
-            <div class="card-actions">
-                <a class="download-btn" href="${pageContext.request.contextPath}/download-note?id=<%= note.getId() %>">⬇ Download</a>
-                <form action="${pageContext.request.contextPath}/remove-favorite" method="post" style="margin:0;">
-                    <input type="hidden" name="noteId" value="<%= note.getId() %>">
-                    <button type="submit" class="btn btn-remove">♥ Remove favorite</button>
-                </form>
-            </div>
-        </article>
-        <%
-                }
-            } else {
-        %>
-        <div class="empty-state" id="favoritesEmpty">
-            <h3>No favorites yet</h3>
-            <p>Save notes with the star button from the home page and they will appear here.</p>
-        </div>
-        <%
-            }
-        %>
+        <c:choose>
+            <c:when test="${not empty favoriteNotes}">
+                <c:forEach var="note" items="${favoriteNotes}">
+                    <article class="card" id="favorite-card-${note.id}">
+                        <h3><c:out value="${note.title}"/></h3>
+                        <p>
+                            <c:choose>
+                                <c:when test="${not empty note.description}">
+                                    <c:out value="${note.description}"/>
+                                </c:when>
+                                <c:otherwise>No description available.</c:otherwise>
+                            </c:choose>
+                        </p>
+                        <div class="card-meta">
+                            <span>📚 <c:out value="${note.courseName}"/></span>
+                            <span>👤 <c:out value="${note.authorUsername}"/></span>
+                            <span>🕒 <c:out value="${note.uploadDateFormatted}"/></span>
+                        </div>
+                        <div class="card-actions">
+                            <a class="download-btn" href="${pageContext.request.contextPath}/download-note?id=${note.id}">⬇ Download</a>
+                            <form action="${pageContext.request.contextPath}/remove-favorite" method="post" style="margin:0;">
+                                <input type="hidden" name="noteId" value="${note.id}">
+                                <button type="submit" class="btn btn-remove">♥ Remove favorite</button>
+                            </form>
+                        </div>
+                    </article>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <div class="empty-state" id="favoritesEmpty">
+                    <h3>No favorites yet</h3>
+                    <p>Save notes with the star button from the home page and they will appear here.</p>
+                </div>
+            </c:otherwise>
+        </c:choose>
     </div>
 </div>
 
