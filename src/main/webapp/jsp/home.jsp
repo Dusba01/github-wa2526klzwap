@@ -1,5 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
+<%@ page import="model.User" %>
+
+<%
+    User user = (User) session.getAttribute("user");
+
+    if (user == null) {
+        response.sendRedirect(request.getContextPath() + "/login");
+        return;
+    }
+
+    String welcomeName = user.getName();
+%>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -29,6 +41,8 @@
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
 <div class="container">
+    <h1>Welcome, <%= welcomeName %>!</h1>
+
     <h1>Search notes</h1>
 
     <div class="search-box">

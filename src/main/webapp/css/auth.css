@@ -13,6 +13,26 @@ body {
     align-items: center;
 }
 
+.error-box {
+    margin-bottom: 14px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background-color: #fee2e2;
+    color: #991b1b;
+    font-size: 14px;
+    text-align: center;
+}
+
+.success-box {
+    margin-bottom: 14px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background-color: #dcfce7;
+    color: #166534;
+    font-size: 14px;
+    text-align: center;
+}
+
 /* ---- Card contenitore ---- */
 .auth-card {
     background: white;

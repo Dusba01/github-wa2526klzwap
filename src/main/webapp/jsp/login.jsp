@@ -15,6 +15,28 @@
 
     <h2>Login</h2>
 
+    <%
+        String error = request.getParameter("error");
+        if ("1".equals(error)) {
+    %>
+    <div class="error-box">
+        Invalid credentials. Check your username/email and password.
+    </div>
+    <%
+        }
+    %>
+
+    <%
+        String registered = request.getParameter("registered");
+        if ("1".equals(registered)) {
+    %>
+    <div class="success-box">
+        Registration completed successfully. Please, log in to access.
+    </div>
+    <%
+        }
+    %>
+
     <form action="${pageContext.request.contextPath}/login" method="post">
 
         <input type="text" name="credential" placeholder="Email or username" required>
