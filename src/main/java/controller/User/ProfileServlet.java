@@ -25,6 +25,13 @@ public class ProfileServlet extends HttpServlet {
 
         try {
             req.setAttribute("userProfile", user);
+            String badgeLetter = "?";
+            if (user.getName() != null && !user.getName().isBlank()) {
+                badgeLetter = String.valueOf(user.getName().charAt(0)).toUpperCase();
+            } else if (user.getUsername() != null && !user.getUsername().isBlank()) {
+                badgeLetter = String.valueOf(user.getUsername().charAt(0)).toUpperCase();
+            }
+            req.setAttribute("badgeLetter", badgeLetter);
             req.setAttribute("courses", CourseDAO.getAllCourses());
             req.setAttribute("uploadedNotes", NoteDAO.getNotesByAuthorId(user.getId()));
             req.getRequestDispatcher("/jsp/profile.jsp").forward(req, resp);

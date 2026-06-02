@@ -88,6 +88,10 @@ public class Note {
         return uploadDate;
     }
 
+    public String getUploadDateFormatted() {
+        return uploadDate != null ? uploadDate.toLocalDate().toString() : "Unknown date";
+    }
+
     public void setUploadDate(LocalDateTime uploadDate) {
         this.uploadDate = uploadDate;
     }
