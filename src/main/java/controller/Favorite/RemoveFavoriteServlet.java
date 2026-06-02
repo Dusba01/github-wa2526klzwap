@@ -1,8 +1,8 @@
 package controller.Favorite;
 
-import dao.FavoriteDAO;
+import controller.AbstractDatabaseServlet;
+import dao.favorite.DeleteFavoriteDAO;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 
 @WebServlet("/remove-favorite")
-public class RemoveFavoriteServlet extends HttpServlet {
+public class RemoveFavoriteServlet extends AbstractDatabaseServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -30,7 +30,7 @@ public class RemoveFavoriteServlet extends HttpServlet {
         }
 
         try {
-            FavoriteDAO.deleteFavorite(user.getId(), noteId);
+            new DeleteFavoriteDAO(getConnection(), user.getId(), noteId).access();
             resp.sendRedirect(req.getContextPath() + "/favorites");
         } catch (SQLException e) {
             e.printStackTrace();

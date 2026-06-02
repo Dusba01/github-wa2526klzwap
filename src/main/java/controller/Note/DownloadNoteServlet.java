@@ -1,9 +1,9 @@
 package controller.Note;
 
-import dao.NoteDAO;
+import controller.AbstractDatabaseServlet;
+import dao.note.GetNoteByIdDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Note;
@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 
 @WebServlet("/download-note")
-public class DownloadNoteServlet extends HttpServlet {
+public class DownloadNoteServlet extends AbstractDatabaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -30,7 +30,7 @@ public class DownloadNoteServlet extends HttpServlet {
         }
 
         try {
-            Note note = NoteDAO.getNoteById(noteId);
+            Note note = new GetNoteByIdDAO(getConnection(), noteId).access().getOutputParam();
             if (note == null || note.getFilePath() == null || note.getFilePath().isBlank()) {
                 resp.sendRedirect(req.getContextPath() + "/jsp/home.jsp?error="
                         + URLEncoder.encode("File not found.", StandardCharsets.UTF_8));

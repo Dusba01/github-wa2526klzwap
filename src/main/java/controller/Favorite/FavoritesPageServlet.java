@@ -1,9 +1,9 @@
 package controller.Favorite;
 
-import dao.NoteDAO;
+import controller.AbstractDatabaseServlet;
+import dao.note.ListFavoriteNotesByUserIdDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet("/favorites")
-public class FavoritesPageServlet extends HttpServlet {
+public class FavoritesPageServlet extends AbstractDatabaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -23,7 +23,9 @@ public class FavoritesPageServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
 
         try {
-            req.setAttribute("favoriteNotes", NoteDAO.getFavoriteNotesByUserId(user.getId()));
+            req.setAttribute("favoriteNotes",
+                    new ListFavoriteNotesByUserIdDAO(getConnection(), user.getId())
+                            .access().getOutputListParam());
             req.getRequestDispatcher("/jsp/favorites.jsp").forward(req, resp);
         } catch (SQLException e) {
             e.printStackTrace();

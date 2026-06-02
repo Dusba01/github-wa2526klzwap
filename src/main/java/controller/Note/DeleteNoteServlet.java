@@ -1,9 +1,10 @@
 package controller.Note;
 
-import dao.NoteDAO;
-import dao.RatingDAO;
+import controller.AbstractDatabaseServlet;
+import dao.note.DeleteNoteByIdAndAuthorIdDAO;
+import dao.note.GetNoteByIdAndAuthorIdDAO;
+import dao.rating.DeleteRatingsByNoteIdDAO;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -17,7 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 
 @WebServlet("/delete-note")
-public class DeleteNoteServlet extends HttpServlet {
+public class DeleteNoteServlet extends AbstractDatabaseServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -33,7 +34,8 @@ public class DeleteNoteServlet extends HttpServlet {
         }
 
         try {
-            Note note = NoteDAO.getNoteByIdAndAuthorId(noteId, user.getId());
+            Note note = new GetNoteByIdAndAuthorIdDAO(getConnection(), noteId, user.getId())
+                    .access().getOutputParam();
             if (note == null) {
                 resp.sendRedirect(req.getContextPath() + "/profile?error="
                         + URLEncoder.encode("Upload not found.", StandardCharsets.UTF_8));
@@ -44,8 +46,8 @@ public class DeleteNoteServlet extends HttpServlet {
                 StorageService.getInstance().delete(note.getFilePath());
             }
 
-            RatingDAO.deleteRatingsByNoteId(noteId);
-            NoteDAO.deleteNoteByIdAndAuthorId(noteId, user.getId());
+            new DeleteRatingsByNoteIdDAO(getConnection(), noteId).access();
+            new DeleteNoteByIdAndAuthorIdDAO(getConnection(), noteId, user.getId()).access();
 
             resp.sendRedirect(req.getContextPath() + "/profile?success="
                     + URLEncoder.encode("Upload deleted successfully.", StandardCharsets.UTF_8));

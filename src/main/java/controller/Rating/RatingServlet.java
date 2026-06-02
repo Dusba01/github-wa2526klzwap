@@ -1,9 +1,13 @@
 package controller.Rating;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import dao.RatingDAO;
+import controller.AbstractDatabaseServlet;
+import dao.rating.DeleteRatingDAO;
+import dao.rating.GetAverageRatingByNoteIdDAO;
+import dao.rating.GetRatingByUserAndNoteDAO;
+import dao.rating.GetRatingCountByNoteIdDAO;
+import dao.rating.SaveRatingDAO;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -17,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 
 @WebServlet("/rest/ratings/*")
-public class RatingServlet extends HttpServlet {
+public class RatingServlet extends AbstractDatabaseServlet {
 
     private static final JsonFactory JSON_FACTORY = new JsonFactory();
 
@@ -56,7 +60,7 @@ public class RatingServlet extends HttpServlet {
             }
 
             Rating rating = new Rating(userId, noteId, value);
-            RatingDAO.saveRating(rating);
+            new SaveRatingDAO(getConnection(), rating).access();
 
             res.setStatus(HttpServletResponse.SC_OK);
             res.getWriter().write("{\"message\": \"Rating saved\"}");
@@ -95,7 +99,7 @@ public class RatingServlet extends HttpServlet {
             int userId = user.getId();
             int noteId = Integer.parseInt(path.substring(1));
 
-            RatingDAO.deleteRating(userId, noteId);
+            new DeleteRatingDAO(getConnection(), userId, noteId).access();
 
             res.setStatus(HttpServletResponse.SC_OK);
             res.getWriter().write("{\"message\": \"Rating removed\"}");
@@ -134,13 +138,16 @@ public class RatingServlet extends HttpServlet {
             User user = (User) session.getAttribute("user");
             Integer userId = (user != null) ? user.getId() : null;
 
-            double average = RatingDAO.getAverageRatingByNoteId(noteId);
-            int count = RatingDAO.getRatingCountByNoteId(noteId);
+            double average = new GetAverageRatingByNoteIdDAO(getConnection(), noteId)
+                    .access().getOutputParam();
+            int count = new GetRatingCountByNoteIdDAO(getConnection(), noteId)
+                    .access().getOutputParam();
 
             Integer userValue = null;
 
             if (userId != null) {
-                var r = RatingDAO.getRatingByUserAndNote(userId, noteId);
+                var r = new GetRatingByUserAndNoteDAO(getConnection(), userId, noteId)
+                        .access().getOutputParam();
                 if (r != null) {
                     userValue = r.getValue();
                 }

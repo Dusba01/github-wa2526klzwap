@@ -1,8 +1,9 @@
 package controller.Note;
 
-import dao.NoteDAO;
+import controller.AbstractDatabaseServlet;
+import dao.note.GetNoteByIdAndAuthorIdDAO;
+import dao.note.UpdateNoteByIdAndAuthorIdDAO;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -15,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 
 @WebServlet("/update-note")
-public class UpdateNoteServlet extends HttpServlet {
+public class UpdateNoteServlet extends AbstractDatabaseServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -35,7 +36,8 @@ public class UpdateNoteServlet extends HttpServlet {
         }
 
         try {
-            Note existingNote = NoteDAO.getNoteByIdAndAuthorId(noteId, user.getId());
+            Note existingNote = new GetNoteByIdAndAuthorIdDAO(getConnection(), noteId, user.getId())
+                    .access().getOutputParam();
             if (existingNote == null) {
                 resp.sendRedirect(req.getContextPath() + "/profile?error="
                         + URLEncoder.encode("Upload not found.", StandardCharsets.UTF_8));
@@ -46,7 +48,8 @@ public class UpdateNoteServlet extends HttpServlet {
             existingNote.setTitle(title);
             existingNote.setDescription(description);
 
-            boolean updated = NoteDAO.updateNoteByIdAndAuthorId(existingNote);
+            boolean updated = new UpdateNoteByIdAndAuthorIdDAO(getConnection(), existingNote)
+                    .access().getOutputParam();
             if (!updated) {
                 resp.sendRedirect(req.getContextPath() + "/profile?error="
                         + URLEncoder.encode("Unable to update the upload.", StandardCharsets.UTF_8));

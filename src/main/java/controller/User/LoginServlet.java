@@ -1,17 +1,17 @@
 package controller.User;
 
+import controller.AbstractDatabaseServlet;
 import jakarta.servlet.ServletException;
 import model.User;
-import dao.UserDAO;
+import dao.user.CheckLoginDAO;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+public class LoginServlet extends AbstractDatabaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -29,7 +29,7 @@ public class LoginServlet extends HttpServlet {
 
         try {
             // print to check if the connection and query work correctly
-            User user = UserDAO.checkLogin(credential, password);
+            User user = new CheckLoginDAO(getConnection(), credential, password).access().getOutputParam();
             System.out.println("checkLogin result: " + user);
 
             if (user != null) {

@@ -1,8 +1,9 @@
 package controller.Favorite;
 
-import dao.FavoriteDAO;
+import controller.AbstractDatabaseServlet;
+import dao.favorite.CreateFavoriteDAO;
+import dao.favorite.DeleteFavoriteDAO;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -13,7 +14,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet("/rest/favorites/*")
-public class FavoriteServlet extends HttpServlet {
+public class FavoriteServlet extends AbstractDatabaseServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
@@ -33,7 +34,7 @@ public class FavoriteServlet extends HttpServlet {
         }
 
         try {
-            FavoriteDAO.saveFavorite(new Favorite(user.getId(), noteId));
+            new CreateFavoriteDAO(getConnection(), new Favorite(user.getId(), noteId)).access();
             res.setStatus(HttpServletResponse.SC_OK);
             res.getWriter().write("{\"favorite\":true}");
         } catch (SQLException e) {
@@ -61,7 +62,7 @@ public class FavoriteServlet extends HttpServlet {
         }
 
         try {
-            FavoriteDAO.deleteFavorite(user.getId(), noteId);
+            new DeleteFavoriteDAO(getConnection(), user.getId(), noteId).access();
             res.setStatus(HttpServletResponse.SC_OK);
             res.getWriter().write("{\"favorite\":false}");
         } catch (SQLException e) {

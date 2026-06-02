@@ -1,9 +1,9 @@
 package controller.Note;
 
-import dao.FavoriteDAO;
-import dao.NoteDAO;
+import controller.AbstractDatabaseServlet;
+import dao.favorite.IsFavoriteDAO;
+import dao.note.SearchNotesDAO;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -16,7 +16,7 @@ import java.util.List;
 import com.fasterxml.jackson.core.*;
 
 @WebServlet("/rest/notes/search")
-public class SearchNoteServlet extends HttpServlet {
+public class SearchNoteServlet extends AbstractDatabaseServlet {
 
     private static final JsonFactory JSON_FACTORY = new JsonFactory();
 
@@ -36,7 +36,7 @@ public class SearchNoteServlet extends HttpServlet {
         }
 
         try {
-            List<Note> notes = NoteDAO.searchNotes(query);
+            List<Note> notes = new SearchNotesDAO(getConnection(), query).access().getOutputListParam();
             HttpSession session = req.getSession(false);
             User user = (User) session.getAttribute("user");
 
@@ -60,8 +60,11 @@ public class SearchNoteServlet extends HttpServlet {
                 // campi "extra"
                 jg.writeStringField("courseName", n.getCourseName());
                 jg.writeStringField("authorUsername", n.getAuthorUsername());
-                jg.writeBooleanField("isFavorite",
-                        user != null && FavoriteDAO.isFavorite(user.getId(), n.getId()));
+
+                boolean isFavorite = user != null
+                        && new IsFavoriteDAO(getConnection(), user.getId(), n.getId())
+                                .access().getOutputParam();
+                jg.writeBooleanField("isFavorite", isFavorite);
 
                 jg.writeEndObject(); // }
             }

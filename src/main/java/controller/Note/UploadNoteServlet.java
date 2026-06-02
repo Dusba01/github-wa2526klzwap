@@ -1,11 +1,11 @@
 package controller.Note;
 
-import dao.CourseDAO;
-import dao.NoteDAO;
+import controller.AbstractDatabaseServlet;
+import dao.course.ListCoursesDAO;
+import dao.note.CreateNoteDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -28,7 +28,7 @@ import java.util.UUID;
         maxFileSize = 50L * 1024 * 1024,       // max size of a single uploaded file (50 MB)
         maxRequestSize = 55L * 1024 * 1024     // max size of the whole multipart request (55 MB)
 )
-public class UploadNoteServlet extends HttpServlet {
+public class UploadNoteServlet extends AbstractDatabaseServlet {
 
     /** Human-readable cap, kept in sync with maxFileSize above for error messages. */
     private static final long MAX_FILE_SIZE_MB = 50L;
@@ -37,7 +37,7 @@ public class UploadNoteServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
-            req.setAttribute("courses", CourseDAO.getAllCourses());
+            req.setAttribute("courses", new ListCoursesDAO(getConnection()).access().getOutputListParam());
             req.getRequestDispatcher("/jsp/upload.jsp").forward(req, resp);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -97,7 +97,7 @@ public class UploadNoteServlet extends HttpServlet {
             note.setDescription(description);
             note.setFilePath(storedFilePath);
 
-            NoteDAO.saveNote(note);
+            new CreateNoteDAO(getConnection(), note).access();
 
             resp.sendRedirect(req.getContextPath() + "/upload-note?success=PDF uploaded successfully.");
         } catch (SQLException e) {

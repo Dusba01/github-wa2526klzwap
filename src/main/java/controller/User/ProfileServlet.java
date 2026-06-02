@@ -1,10 +1,10 @@
 package controller.User;
 
-import dao.CourseDAO;
-import dao.NoteDAO;
+import controller.AbstractDatabaseServlet;
+import dao.course.ListCoursesDAO;
+import dao.note.ListNotesByAuthorIdDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet("/profile")
-public class ProfileServlet extends HttpServlet {
+public class ProfileServlet extends AbstractDatabaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -32,8 +32,11 @@ public class ProfileServlet extends HttpServlet {
                 badgeLetter = String.valueOf(user.getUsername().charAt(0)).toUpperCase();
             }
             req.setAttribute("badgeLetter", badgeLetter);
-            req.setAttribute("courses", CourseDAO.getAllCourses());
-            req.setAttribute("uploadedNotes", NoteDAO.getNotesByAuthorId(user.getId()));
+            req.setAttribute("courses",
+                    new ListCoursesDAO(getConnection()).access().getOutputListParam());
+            req.setAttribute("uploadedNotes",
+                    new ListNotesByAuthorIdDAO(getConnection(), user.getId())
+                            .access().getOutputListParam());
             req.getRequestDispatcher("/jsp/profile.jsp").forward(req, resp);
         } catch (SQLException e) {
             e.printStackTrace();

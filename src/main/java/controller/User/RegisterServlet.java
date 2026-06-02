@@ -1,9 +1,11 @@
 package controller.User;
 
+import controller.AbstractDatabaseServlet;
 import jakarta.servlet.ServletException;
-import dao.UserDAO;
+import dao.user.InsertUserDAO;
+import dao.user.UserExistsByEmailDAO;
+import dao.user.UserExistsByUsernameDAO;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.User;
@@ -13,7 +15,7 @@ import java.sql.SQLException;
 import java.util.regex.Pattern;
 
 @WebServlet("/register")
-public class RegisterServlet extends HttpServlet {
+public class RegisterServlet extends AbstractDatabaseServlet {
 
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{7,15}$");
@@ -41,18 +43,18 @@ public class RegisterServlet extends HttpServlet {
         }
 
         try {
-            if (UserDAO.usernameExists(username)) {
+            if (new UserExistsByUsernameDAO(getConnection(), username).access().getOutputParam()) {
                 forwardWithError(req, resp, "This username is already taken.");
                 return;
             }
 
-            if (UserDAO.emailExists(email)) {
+            if (new UserExistsByEmailDAO(getConnection(), email).access().getOutputParam()) {
                 forwardWithError(req, resp, "This email address is already registered.");
                 return;
             }
 
             User user = new User(name, username, email, password);
-            UserDAO.insertUser(user);
+            new InsertUserDAO(getConnection(), user).access();
             resp.sendRedirect(req.getContextPath() + "/jsp/login.jsp?registered=1");
         } catch (SQLException e) {
             e.printStackTrace();

@@ -1,10 +1,11 @@
 package controller.Course;
 
-import dao.CourseDAO;
+import controller.AbstractDatabaseServlet;
+import dao.course.ListCourseSummariesDAO;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.CourseSummary;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -14,7 +15,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
 @WebServlet("/rest/courses/summary")
-public class CourseSummaryServlet extends HttpServlet {
+public class CourseSummaryServlet extends AbstractDatabaseServlet {
 
     private static final JsonFactory JSON_FACTORY = new JsonFactory();
 
@@ -24,12 +25,13 @@ public class CourseSummaryServlet extends HttpServlet {
         res.setCharacterEncoding("UTF-8");
 
         try {
-            List<CourseDAO.CourseSummary> courses = CourseDAO.getCourseSummaries();
+            List<CourseSummary> courses =
+                    new ListCourseSummariesDAO(getConnection()).access().getOutputListParam();
 
             JsonGenerator jg = JSON_FACTORY.createGenerator(res.getOutputStream());
             jg.writeStartArray();
 
-            for (CourseDAO.CourseSummary course : courses) {
+            for (CourseSummary course : courses) {
                 jg.writeStartObject();
                 jg.writeNumberField("id", course.getId());
                 jg.writeStringField("name", course.getName());
