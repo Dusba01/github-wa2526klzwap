@@ -1,50 +1,51 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html lang="it">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrati – StudyShare</title>
+    <title>Register</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/base.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/forms.css">
-    <style>
-        body { background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%); }
-    </style>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/auth.css">
 </head>
-<body class="form-page-body">
-<div class="form-card">
-    <h1>📚 Crea Account</h1>
-    <p class="subtitle">Unisciti a StudyShare</p>
 
-    <% String error = (String) request.getAttribute("error"); %>
-    <% if (error != null) { %>
-    <div class="feedback error"><%= error %></div>
-    <% } %>
+<body>
+
+<div class="auth-card">
+    <h2>Register</h2>
+
+    <%
+        String errorMessage = (String) request.getAttribute("error");
+        String nameValue = (String) request.getAttribute("nameValue");
+        String usernameValue = (String) request.getAttribute("usernameValue");
+        String emailValue = (String) request.getAttribute("emailValue");
+        if (errorMessage != null) {
+    %>
+    <div class="error-box"><%= errorMessage %></div>
+    <%
+        }
+    %>
 
     <form action="${pageContext.request.contextPath}/register" method="post">
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" placeholder="Scegli un username" required>
-        </div>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="La tua email" required>
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Crea una password" required>
-            <div class="helper-text">Minimo 8 caratteri</div>
-        </div>
-        <div class="form-group">
-            <label for="confirmPassword">Conferma Password</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Ripeti la password" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Registrati</button>
+
+        <input type="text" name="name" placeholder="Name" value="<%= nameValue != null ? nameValue : "" %>" required>
+
+        <input type="text" name="username" placeholder="Username" value="<%= usernameValue != null ? usernameValue : "" %>" required>
+
+        <input type="email" name="email" placeholder="Email" value="<%= emailValue != null ? emailValue : "" %>"
+               pattern="^[A-Za-z0-9._%+-]+@studenti\.unipd\.it$" required>
+        <div class="helper-text">Use your university email ending with `@studenti.unipd.it`.</div>
+
+        <input type="password" name="password" placeholder="Password"
+               pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{7,15}$" minlength="7" maxlength="15" required>
+        <div class="helper-text">Password must be 7 to 15 characters long and include at least one uppercase letter, one lowercase letter, and one number.</div>
+
+        <button type="submit" class="auth-btn">Register</button>
+
     </form>
 
-    <div class="form-footer">
-        Hai già un account? <a href="${pageContext.request.contextPath}/login">Accedi</a>
-    </div>
+    <a href="${pageContext.request.contextPath}/login" class="auth-link">Already have an account? Log in</a>
 </div>
+
 </body>
 </html>

@@ -1,45 +1,32 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html lang="it">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login – StudyShare</title>
+    <title>Login</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/base.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/forms.css">
-    <style>
-        body { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
-    </style>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/auth.css">
 </head>
-<body class="form-page-body">
-<div class="form-card">
-    <h1>👋 Bentornato</h1>
-    <p class="subtitle">Accedi al tuo account StudyShare</p>
 
-    <% String error = (String) request.getAttribute("error"); %>
-    <% String success = (String) request.getAttribute("success"); %>
-    <% if (error != null) { %>
-    <div class="feedback error"><%= error %></div>
-    <% } %>
-    <% if (success != null) { %>
-    <div class="feedback success"><%= success %></div>
-    <% } %>
+<body>
+
+<div class="auth-card">
+
+    <h2>Login</h2>
 
     <form action="${pageContext.request.contextPath}/login" method="post">
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" placeholder="Il tuo username" required>
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="La tua password" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Accedi</button>
+
+        <input type="text" name="credential" placeholder="Email or username" required>
+
+        <input type="password" name="password" placeholder="Password" required>
+
+        <button type="submit" class="auth-btn">Login</button>
+
     </form>
 
-    <div class="form-footer">
-        Non hai un account? <a href="${pageContext.request.contextPath}/register">Registrati</a>
-    </div>
+    <a href="${pageContext.request.contextPath}/register" class="auth-link">Register</a>
 </div>
+
 </body>
 </html>

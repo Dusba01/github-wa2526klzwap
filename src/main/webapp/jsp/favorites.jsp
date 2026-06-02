@@ -1,53 +1,61 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.List" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" import="java.util.List,model.Note" %>
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Favorites</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Preferiti – StudyShare</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/base.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/home.css">
-    <style>
-        body { background: linear-gradient(135deg, #dbeafe 0%, #fef3c7 100%); min-height: 100vh; }
-    </style>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/components.css">
 </head>
 <body>
+<%
+    List<Note> favoriteNotes = (List<Note>) request.getAttribute("favoriteNotes");
+%>
 <div class="page">
     <div class="topbar">
-        <h1>⭐ I Miei Preferiti</h1>
-        <div style="display:flex; gap:10px; flex-wrap:wrap;">
-            <a href="${pageContext.request.contextPath}/home" class="nav-link">🏠 Home</a>
-            <a href="${pageContext.request.contextPath}/upload" class="nav-link">📤 Carica</a>
-            <a href="${pageContext.request.contextPath}/profile" class="nav-link">👤 Profilo</a>
+        <div class="title-block">
+            <h1>Your Favorites</h1>
+            <div class="muted">Saved notes you want to keep close.</div>
         </div>
+        <a class="nav-link" href="${pageContext.request.contextPath}/jsp/home.jsp">← Back to home</a>
     </div>
 
-    <%
-        List<?> favorites = (List<?>) request.getAttribute("favorites");
-        if (favorites == null || favorites.isEmpty()) {
-    %>
-    <div class="empty-state">
-        <p>Non hai ancora aggiunto materiali ai preferiti.</p>
-        <a href="${pageContext.request.contextPath}/home" class="nav-link">🔍 Esplora materiali</a>
-    </div>
-    <%
-    } else {
-    %>
-    <div class="results-grid">
+    <div class="grid-list" id="favoritesGrid">
         <%
-            for (Object item : favorites) {
+            if (favoriteNotes != null && !favoriteNotes.isEmpty()) {
+                for (Note note : favoriteNotes) {
         %>
-        <div class="card">
-            <p><%= item.toString() %></p>
+        <article class="card" id="favorite-card-<%= note.getId() %>">
+            <h3><%= note.getTitle() %></h3>
+            <p><%= note.getDescription() != null && !note.getDescription().isBlank() ? note.getDescription() : "No description available." %></p>
+            <div class="card-meta">
+                <span>📚 <%= note.getCourseName() %></span>
+                <span>👤 <%= note.getAuthorUsername() %></span>
+                <span>🕒 <%= note.getUploadDate() != null ? note.getUploadDate().toLocalDate() : "Unknown date" %></span>
+            </div>
+            <div class="card-actions">
+                <a class="download-btn" href="${pageContext.request.contextPath}/download-note?id=<%= note.getId() %>">⬇ Download</a>
+                <form action="${pageContext.request.contextPath}/remove-favorite" method="post" style="margin:0;">
+                    <input type="hidden" name="noteId" value="<%= note.getId() %>">
+                    <button type="submit" class="btn btn-remove">♥ Remove favorite</button>
+                </form>
+            </div>
+        </article>
+        <%
+                }
+            } else {
+        %>
+        <div class="empty-state" id="favoritesEmpty">
+            <h3>No favorites yet</h3>
+            <p>Save notes with the star button from the home page and they will appear here.</p>
         </div>
         <%
             }
         %>
     </div>
-    <%
-        }
-    %>
 </div>
+
 </body>
 </html>

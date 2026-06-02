@@ -1,57 +1,100 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" import="java.util.List,model.Course" %>
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Upload Notes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carica Materiale – StudyShare</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/base.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/forms.css">
-    <style>
-        body { background: linear-gradient(135deg, #e0f2fe 0%, #dcfce7 100%); }
-    </style>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/components.css">
 </head>
-<body class="form-page-body">
-<div class="form-card wide">
-    <h1>📤 Carica Materiale</h1>
-    <p class="subtitle">Condividi i tuoi appunti con la community</p>
+<body class="upload-body">
+<div class="form-card">
+    <h1>Upload a PDF</h1>
+    <p class="subtitle">Share class notes with other students by uploading a PDF and adding a few details.</p>
 
-    <% String error = (String) request.getAttribute("error"); %>
-    <% String success = (String) request.getAttribute("success"); %>
-    <% if (error != null) { %>
-    <div class="feedback error"><%= error %></div>
-    <% } %>
-    <% if (success != null) { %>
-    <div class="feedback success"><%= success %></div>
-    <% } %>
+    <%
+        String successMessage = request.getParameter("success");
+        String errorMessage = request.getParameter("error");
+        if (successMessage != null) {
+    %>
+    <div class="feedback success"><%= successMessage %></div>
+    <%
+        }
+        if (errorMessage != null) {
+    %>
+    <div class="feedback error"><%= errorMessage %></div>
+    <%
+        }
+    %>
 
-    <form action="${pageContext.request.contextPath}/upload" method="post" enctype="multipart/form-data">
+    <%
+        List<Course> courses = (List<Course>) request.getAttribute("courses");
+    %>
+
+    <form action="${pageContext.request.contextPath}/upload-note" method="post" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="title">Titolo *</label>
-            <input type="text" id="title" name="title" placeholder="Es. Appunti Analisi I – Capitolo 3" required>
+            <label for="title">Notebook title</label>
+            <input type="text" id="title" name="title" placeholder="e.g. Algorithms Week 3 Notes" required>
         </div>
+
         <div class="form-group">
-            <label for="description">Descrizione</label>
-            <textarea id="description" name="description" placeholder="Breve descrizione del materiale..."></textarea>
+            <label for="courseId">Course</label>
+            <select id="courseId" name="courseId" required>
+                <option value="">Select a course</option>
+                <%
+                    if (courses != null) {
+                        for (Course course : courses) {
+                %>
+                <option value="<%= course.getId() %>"><%= course.getName() %></option>
+                <%
+                        }
+                    }
+                %>
+            </select>
+            <div class="helper-text">Choose one of the courses already stored in the database.</div>
         </div>
+
         <div class="form-group">
-            <label for="course">Corso *</label>
-            <input type="text" id="course" name="course" placeholder="Es. Analisi Matematica I" required>
+            <label for="description">Description</label>
+            <textarea id="description" name="description" placeholder="Add a short description of the material"></textarea>
         </div>
+
         <div class="form-group">
-            <label for="subject">Materia</label>
-            <input type="text" id="subject" name="subject" placeholder="Es. Matematica">
+            <label for="pdfFile">PDF file</label>
+            <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf,.pdf" required>
+            <div class="helper-text">Only `.pdf` files are allowed.</div>
         </div>
-        <div class="form-group">
-            <label for="file">File *</label>
-            <input type="file" id="file" name="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.txt" required>
-            <div class="helper-text">Formati supportati: PDF, Word, PowerPoint, TXT (max 10MB)</div>
-        </div>
-        <div class="form-actions">
-            <a href="${pageContext.request.contextPath}/home" class="btn btn-secondary">Annulla</a>
-            <button type="submit" class="btn btn-primary" style="width:auto;">Carica</button>
+
+        <div class="actions">
+            <button type="submit" class="btn btn-primary">Upload PDF</button>
+            <a href="${pageContext.request.contextPath}/jsp/home.jsp" class="btn btn-secondary">Back to home</a>
         </div>
     </form>
 </div>
+<script>
+    const uploadForm = document.querySelector('form[action$="/upload-note"]');
+    const pdfInput = document.getElementById("pdfFile");
+
+    uploadForm.addEventListener("submit", function (event) {
+        const file = pdfInput.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        const fileName = file.name.toLowerCase();
+        const fileType = file.type;
+        const isPdf = fileName.endsWith(".pdf")
+            && (!fileType || fileType === "application/pdf" || fileType === "application/octet-stream");
+
+        if (!isPdf) {
+            event.preventDefault();
+            alert("Only PDF files can be uploaded.");
+            pdfInput.value = "";
+        }
+    });
+</script>
 </body>
 </html>

@@ -1,202 +1,155 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.List" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" import="java.util.List,model.Note,model.User,model.Course" %>
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Profile</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profilo – StudyShare</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/base.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/forms.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/home.css">
-    <style>
-        body { background: linear-gradient(135deg, #dbeafe 0%, #dcfce7 100%); min-height: 100vh; }
-
-        /* Card profilo */
-        .profile-card {
-            background: rgba(255,255,255,0.75);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 32px;
-            margin-bottom: 28px;
-            border: 1px solid rgba(255,255,255,0.8);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-        }
-
-        .profile-avatar {
-            width: 72px;
-            height: 72px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin-bottom: 16px;
-        }
-
-        .profile-name {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #1e293b;
-        }
-
-        .profile-email {
-            color: #64748b;
-            font-size: 0.93rem;
-            margin-top: 4px;
-        }
-
-        .stats-row {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-
-        .stat-box {
-            background: rgba(99,102,241,0.08);
-            border-radius: 12px;
-            padding: 14px 20px;
-            text-align: center;
-            flex: 1;
-            min-width: 100px;
-        }
-
-        .stat-box .stat-number {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #4f46e5;
-        }
-
-        .stat-box .stat-label {
-            font-size: 0.82rem;
-            color: #64748b;
-            margin-top: 2px;
-        }
-
-        /* Sezione materiali caricati */
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 16px;
-        }
-
-        /* Download nel profilo */
-        .download-btn-profile {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
-            background: #f1f5f9;
-            color: #374151;
-            border-radius: 999px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            text-decoration: none;
-            border: 1px solid #e2e8f0;
-            transition: background 0.18s;
-        }
-
-        .download-btn-profile:hover {
-            background: #e2e8f0;
-        }
-    </style>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/components.css">
 </head>
 <body>
 <%
-    String username = (String) session.getAttribute("username");
-    String email    = (String) session.getAttribute("email");
-    List<?> uploads = (List<?>) request.getAttribute("uploads");
+    User userProfile = (User) request.getAttribute("userProfile");
+    List<Note> uploadedNotes = (List<Note>) request.getAttribute("uploadedNotes");
+    List<Course> courses = (List<Course>) request.getAttribute("courses");
+    String successMessage = request.getParameter("success");
+    String errorMessage = request.getParameter("error");
+    int uploadCount = uploadedNotes != null ? uploadedNotes.size() : 0;
+    String badgeLetter = "?";
+    if (userProfile != null) {
+        if (userProfile.getName() != null && !userProfile.getName().isBlank()) {
+            badgeLetter = userProfile.getName().substring(0, 1).toUpperCase();
+        } else if (userProfile.getUsername() != null && !userProfile.getUsername().isBlank()) {
+            badgeLetter = userProfile.getUsername().substring(0, 1).toUpperCase();
+        }
+    }
 %>
-
 <div class="page">
-    <div class="topbar">
-        <h1>👤 Profilo</h1>
-        <div style="display:flex; gap:10px; flex-wrap:wrap;">
-            <a href="${pageContext.request.contextPath}/home" class="nav-link">🏠 Home</a>
-            <a href="${pageContext.request.contextPath}/upload" class="nav-link">📤 Carica</a>
-            <a href="${pageContext.request.contextPath}/favorites" class="nav-link">⭐ Preferiti</a>
-        </div>
-    </div>
-
-    <!-- Feedback -->
-    <% String error = (String) request.getAttribute("error"); %>
-    <% String success = (String) request.getAttribute("success"); %>
-    <% if (error != null) { %>
-    <div class="feedback error"><%= error %></div>
-    <% } %>
-    <% if (success != null) { %>
-    <div class="feedback success"><%= success %></div>
-    <% } %>
-
-    <!-- Profilo card -->
-    <div class="profile-card">
-        <div class="profile-avatar">👤</div>
-        <div class="profile-name"><%= username != null ? username : "Utente" %></div>
-        <div class="profile-email"><%= email != null ? email : "" %></div>
-        <div class="stats-row">
-            <div class="stat-box">
-                <div class="stat-number"><%= uploads != null ? uploads.size() : 0 %></div>
-                <div class="stat-label">Caricamenti</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Materiali caricati -->
-    <div class="section-title">📁 I Miei Materiali</div>
     <%
-        if (uploads == null || uploads.isEmpty()) {
+        if (successMessage != null) {
     %>
-    <div class="empty-state">
-        <p>Non hai ancora caricato materiali.</p>
-        <a href="${pageContext.request.contextPath}/upload" class="nav-link">📤 Carica ora</a>
-    </div>
+    <div class="feedback success"><%= successMessage %></div>
     <%
-    } else {
+        }
+        if (errorMessage != null) {
     %>
-    <div class="results-grid">
-        <%
-            for (Object item : uploads) {
-        %>
-        <div class="card">
-            <p><%= item.toString() %></p>
-            <div class="card-actions">
-                <a href="#" class="download-btn-profile">⬇ Scarica</a>
-            </div>
-        </div>
-        <%
-            }
-        %>
-    </div>
+    <div class="feedback error"><%= errorMessage %></div>
     <%
         }
     %>
-
-    <!-- Modifica password -->
-    <div class="profile-card" style="margin-top:28px;">
-        <div class="section-title">🔒 Cambia Password</div>
-        <form action="${pageContext.request.contextPath}/profile" method="post">
-            <div class="form-group">
-                <label for="currentPassword">Password attuale</label>
-                <input type="password" id="currentPassword" name="currentPassword" required>
-            </div>
-            <div class="form-group">
-                <label for="newPassword">Nuova password</label>
-                <input type="password" id="newPassword" name="newPassword" required>
-                <div class="helper-text">Minimo 8 caratteri</div>
-            </div>
-            <div class="form-group">
-                <label for="confirmNewPassword">Conferma nuova password</label>
-                <input type="password" id="confirmNewPassword" name="confirmNewPassword" required>
-            </div>
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary" style="width:auto;">Aggiorna Password</button>
-            </div>
-        </form>
+    <div class="topbar">
+        <div class="brand">Student Profile</div>
+        <a class="nav-link" href="${pageContext.request.contextPath}/jsp/home.jsp">← Back to home</a>
     </div>
 
+    <div class="grid-profile">
+        <section class="panel">
+            <div class="user-badge"><%= badgeLetter %></div>
+            <p class="muted">Your account information and upload activity.</p>
+
+            <div class="info-list">
+                <div class="info-item">
+                    <div class="info-label">Username</div>
+                    <div><%= userProfile != null ? userProfile.getUsername() : "-" %></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Full Name</div>
+                    <div><%= userProfile != null ? userProfile.getName() : 0 %></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Email</div>
+                    <div><%= userProfile != null ? userProfile.getEmail() : "-" %></div>
+                </div>
+            </div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number"><%= uploadCount %></div>
+                    <div class="muted">Uploads</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="section-title">
+                <div>
+                    <h2>Your Uploads</h2>
+                    <p class="muted">All notes uploaded from this account.</p>
+                </div>
+                <a class="nav-link" href="${pageContext.request.contextPath}/upload-note">+ New upload</a>
+            </div>
+
+            <div class="upload-list">
+                <%
+                    if (uploadedNotes != null && !uploadedNotes.isEmpty()) {
+                        for (Note note : uploadedNotes) {
+                %>
+                <article class="upload-card">
+                    <h3><%= note.getTitle() %></h3>
+                    <p class="muted"><%= note.getDescription() != null && !note.getDescription().isBlank() ? note.getDescription() : "No description available." %></p>
+                    <div class="upload-meta">
+                        <span>📚 <%= note.getCourseName() != null ? note.getCourseName() : "Unknown course" %></span>
+                        <span>🕒 <%= note.getUploadDate() != null ? note.getUploadDate().toLocalDate() : "Unknown date" %></span>
+                    </div>
+                    <div class="upload-actions">
+                        <a class="download-btn" href="${pageContext.request.contextPath}/download-note?id=<%= note.getId() %>">⬇ Download</a>
+                        <details class="edit-panel">
+                            <summary class="edit-btn edit-toggle">✏ Edit</summary>
+                            <form class="edit-form" action="${pageContext.request.contextPath}/update-note" method="post">
+                                <input type="hidden" name="noteId" value="<%= note.getId() %>">
+                                <div class="field-grid">
+                                    <label>
+                                        Title
+                                        <input type="text" name="title" value="<%= note.getTitle() %>" required>
+                                    </label>
+                                    <label>
+                                        Course
+                                        <select name="courseId" required>
+                                            <%
+                                                if (courses != null) {
+                                                    for (Course course : courses) {
+                                                        boolean selected = course.getId() == note.getCourseId();
+                                            %>
+                                            <option value="<%= course.getId() %>" <%= selected ? "selected" : "" %>><%= course.getName() %></option>
+                                            <%
+                                                    }
+                                                }
+                                            %>
+                                        </select>
+                                    </label>
+                                </div>
+                                <label>
+                                    Description
+                                    <textarea name="description"><%= note.getDescription() != null ? note.getDescription() : "" %></textarea>
+                                </label>
+                                <div class="edit-actions">
+                                    <button type="submit" class="edit-btn">Save changes</button>
+                                </div>
+                            </form>
+                        </details>
+                        <form class="delete-form" action="${pageContext.request.contextPath}/delete-note" method="post"
+                              onsubmit="return confirm('Delete this upload permanently?');">
+                            <input type="hidden" name="noteId" value="<%= note.getId() %>">
+                            <button type="submit" class="delete-btn">🗑 Delete</button>
+                        </form>
+                    </div>
+                </article>
+                <%
+                        }
+                    } else {
+                %>
+                <div class="empty-state">
+                    <h3>No uploads yet</h3>
+                    <p>Your shared notes will appear here after you upload your first PDF.</p>
+                </div>
+                <%
+                    }
+                %>
+            </div>
+        </section>
+    </div>
 </div>
 </body>
 </html>

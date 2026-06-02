@@ -1,0 +1,97 @@
+/* ============================================================
+   AUTH
+   Stili esclusivi di login.jsp e register.jsp.
+   Caricato con: base.css + auth.css
+   ============================================================ */
+
+/* ---- Layout body centrato ---- */
+body {
+    background: linear-gradient(135deg, #74ebd5, #9face6);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ---- Card contenitore ---- */
+.auth-card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    text-align: center;
+}
+
+.auth-card h2 {
+    margin: 0 0 20px;
+}
+
+/* ---- Campi input ---- */
+.auth-card input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    font: inherit;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.auth-card input:focus {
+    border-color: #6c63ff;
+    box-shadow: 0 0 5px rgba(108, 99, 255, 0.5);
+}
+
+/* ---- Pulsante submit ---- */
+.auth-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background: #6c63ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font: inherit;
+    font-size: 15px;
+    transition: background 0.3s;
+}
+
+.auth-btn:hover {
+    background: #574bdb;
+}
+
+/* ---- Link di navigazione tra login e register ---- */
+.auth-link {
+    display: block;
+    margin-top: 15px;
+    text-decoration: none;
+    color: #6c63ff;
+}
+
+.auth-link:hover {
+    text-decoration: underline;
+}
+
+/* ---- Messaggio di errore (register.jsp) ---- */
+.error-box {
+    margin-bottom: 14px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #fee2e2;
+    color: #991b1b;
+    font-size: 14px;
+    text-align: left;
+}
+
+/* ---- Testo di aiuto sotto i campi (register.jsp) ---- */
+.helper-text {
+    margin: 4px 0 10px;
+    color: #64748b;
+    font-size: 12px;
+    text-align: left;
+    line-height: 1.45;
+}
