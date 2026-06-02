@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,25 +15,20 @@
 <div class="auth-card">
     <h2>Register</h2>
 
-    <%
-        String errorMessage = (String) request.getAttribute("error");
-        String nameValue = (String) request.getAttribute("nameValue");
-        String usernameValue = (String) request.getAttribute("usernameValue");
-        String emailValue = (String) request.getAttribute("emailValue");
-        if (errorMessage != null) {
-    %>
-    <div class="error-box"><%= errorMessage %></div>
-    <%
-        }
-    %>
+    <c:if test="${not empty requestScope.error}">
+        <div class="error-box"><c:out value="${requestScope.error}"/></div>
+    </c:if>
 
     <form action="${pageContext.request.contextPath}/register" method="post">
 
-        <input type="text" name="name" placeholder="Name" value="<%= nameValue != null ? nameValue : "" %>" required>
+        <input type="text" name="name" placeholder="Name"
+               value="<c:out value="${requestScope.nameValue}"/>" required>
 
-        <input type="text" name="username" placeholder="Username" value="<%= usernameValue != null ? usernameValue : "" %>" required>
+        <input type="text" name="username" placeholder="Username"
+               value="<c:out value="${requestScope.usernameValue}"/>" required>
 
-        <input type="email" name="email" placeholder="Email" value="<%= emailValue != null ? emailValue : "" %>"
+        <input type="email" name="email" placeholder="Email"
+               value="<c:out value="${requestScope.emailValue}"/>"
                pattern="^[A-Za-z0-9._%+-]+@studenti\.unipd\.it$" required>
         <div class="helper-text">Use your university email ending with `@studenti.unipd.it`.</div>
 
