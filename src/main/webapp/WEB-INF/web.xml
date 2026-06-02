@@ -12,6 +12,37 @@
         <welcome-file>jsp/login.jsp</welcome-file>
     </welcome-file-list>
 
+    <!-- ============================ Filters ============================ -->
+    <!-- Filter order is the declaration order of the <filter-mapping>
+         elements below: the character-encoding filter runs first (so request
+         parameters are decoded as UTF-8 before anyone reads them), then the
+         authentication filter guards every protected resource. -->
+
+    <!-- Forces UTF-8 on requests and responses application-wide. -->
+    <filter>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <filter-class>filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Requires an authenticated user in the HttpSession for every resource
+         that is not explicitly public (see AuthenticationFilter). -->
+    <filter>
+        <filter-name>AuthenticationFilter</filter-name>
+        <filter-class>filter.AuthenticationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <!-- Reference to the container-managed PostgreSQL connection pool
          declared in META-INF/context.xml -->
     <resource-ref>

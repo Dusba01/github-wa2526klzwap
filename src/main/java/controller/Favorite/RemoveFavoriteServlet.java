@@ -18,13 +18,9 @@ public class RemoveFavoriteServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        // AuthenticationFilter guarantees an authenticated user in the session.
         HttpSession session = req.getSession(false);
-        User user = session != null ? (User) session.getAttribute("user") : null;
-
-        if (user == null) {
-            resp.sendRedirect(req.getContextPath() + "/jsp/login.jsp?error=login_required");
-            return;
-        }
+        User user = (User) session.getAttribute("user");
 
         Integer noteId = parseNoteId(req.getParameter("noteId"));
         if (noteId == null) {

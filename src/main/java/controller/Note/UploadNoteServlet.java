@@ -48,13 +48,9 @@ public class UploadNoteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
+        // AuthenticationFilter guarantees an authenticated user in the session.
         HttpSession session = req.getSession(false);
-        User user = session != null ? (User) session.getAttribute("user") : null;
-
-        if (user == null) {
-            resp.sendRedirect(req.getContextPath() + "/jsp/login.jsp?error=login_required");
-            return;
-        }
+        User user = (User) session.getAttribute("user");
 
         // Reading parameters/parts forces Tomcat to parse the multipart body.
         // If the upload exceeds the configured limits, that parsing throws an

@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Note;
 import model.User;
 
@@ -36,7 +37,8 @@ public class SearchNoteServlet extends HttpServlet {
 
         try {
             List<Note> notes = NoteDAO.searchNotes(query);
-            User user = (User) req.getSession().getAttribute("user");
+            HttpSession session = req.getSession(false);
+            User user = (User) session.getAttribute("user");
 
             res.setStatus(HttpServletResponse.SC_OK);
 

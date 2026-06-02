@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Favorite;
 import model.User;
 
@@ -16,16 +17,13 @@ public class FavoriteServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        User user = (User) req.getSession().getAttribute("user");
+        // AuthenticationFilter already rejected unauthenticated /rest/* calls
+        // with 401, so the user is guaranteed to be present here.
+        HttpSession session = req.getSession(false);
+        User user = (User) session.getAttribute("user");
 
         res.setContentType("application/json");
         res.setCharacterEncoding("UTF-8");
-
-        if (user == null) {
-            res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            res.getWriter().write("{\"error\":\"User not authenticated\"}");
-            return;
-        }
 
         Integer noteId = parseNoteId(req.getPathInfo());
         if (noteId == null) {
@@ -47,16 +45,13 @@ public class FavoriteServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        User user = (User) req.getSession().getAttribute("user");
+        // AuthenticationFilter already rejected unauthenticated /rest/* calls
+        // with 401, so the user is guaranteed to be present here.
+        HttpSession session = req.getSession(false);
+        User user = (User) session.getAttribute("user");
 
         res.setContentType("application/json");
         res.setCharacterEncoding("UTF-8");
-
-        if (user == null) {
-            res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            res.getWriter().write("{\"error\":\"User not authenticated\"}");
-            return;
-        }
 
         Integer noteId = parseNoteId(req.getPathInfo());
         if (noteId == null) {

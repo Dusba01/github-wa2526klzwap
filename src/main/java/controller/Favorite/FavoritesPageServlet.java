@@ -18,13 +18,9 @@ public class FavoritesPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        // AuthenticationFilter guarantees an authenticated user in the session.
         HttpSession session = req.getSession(false);
-        User user = session != null ? (User) session.getAttribute("user") : null;
-
-        if (user == null) {
-            resp.sendRedirect(req.getContextPath() + "/jsp/login.jsp?error=login_required");
-            return;
-        }
+        User user = (User) session.getAttribute("user");
 
         try {
             req.setAttribute("favoriteNotes", NoteDAO.getFavoriteNotesByUserId(user.getId()));

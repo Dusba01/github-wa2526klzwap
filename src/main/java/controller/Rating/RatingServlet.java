@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Rating;
 import model.User;
 
@@ -29,13 +30,10 @@ public class RatingServlet extends HttpServlet {
         res.setCharacterEncoding("UTF-8");
 
         try {
-            User user = (User) req.getSession().getAttribute("user");
-
-            if (user == null) {
-                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                res.getWriter().write("{\"error\": \"User not authenticated\"}");
-                return;
-            }
+            // AuthenticationFilter already rejected unauthenticated /rest/*
+            // calls with 401, so the user is guaranteed to be present here.
+            HttpSession session = req.getSession(false);
+            User user = (User) session.getAttribute("user");
 
             String path = req.getPathInfo(); // /5
             if (path == null || path.equals("/")) {
@@ -82,13 +80,10 @@ public class RatingServlet extends HttpServlet {
         res.setCharacterEncoding("UTF-8");
 
         try {
-            User user = (User) req.getSession().getAttribute("user");
-
-            if (user == null) {
-                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                res.getWriter().write("{\"error\": \"User not authenticated\"}");
-                return;
-            }
+            // AuthenticationFilter already rejected unauthenticated /rest/*
+            // calls with 401, so the user is guaranteed to be present here.
+            HttpSession session = req.getSession(false);
+            User user = (User) session.getAttribute("user");
 
             String path = req.getPathInfo(); // /5
             if (path == null || path.equals("/")) {
@@ -135,7 +130,8 @@ public class RatingServlet extends HttpServlet {
 
             int noteId = Integer.parseInt(path.substring(1));
 
-            User user = (User) req.getSession().getAttribute("user");
+            HttpSession session = req.getSession(false);
+            User user = (User) session.getAttribute("user");
             Integer userId = (user != null) ? user.getId() : null;
 
             double average = RatingDAO.getAverageRatingByNoteId(noteId);

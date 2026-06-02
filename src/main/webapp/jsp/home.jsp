@@ -3,13 +3,9 @@
 <!DOCTYPE html>
 
 <%
+    // Authentication is enforced centrally by AuthenticationFilter, so the
+    // user is guaranteed to be present in the session at this point.
     User user = (User) session.getAttribute("user");
-
-    if (user == null) {
-        response.sendRedirect(request.getContextPath() + "/login");
-        return;
-    }
-
     String welcomeName = user.getName();
 %>
 <html lang="en">
