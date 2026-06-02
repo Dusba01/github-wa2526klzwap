@@ -1,4 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="model.User" %>
+
+<%
+    User user = (User) session.getAttribute("user");
+
+    if (user == null) {
+        response.sendRedirect(request.getContextPath() + "/login");
+        return;
+    }
+
+    String welcomeName = user.getName();
+%>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -151,7 +163,7 @@
 
         .logout-btn {
             width: 70%;
-            border: none;
+            /*border: none;*/
             border-radius: 10px;
             padding: 12px 16px;
             background: linear-gradient(135deg, #4f46e5, #4338ca);
@@ -318,6 +330,10 @@
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
 <div class="container">
+
+    <h1>Welcome, <%= welcomeName %>!</h1>
+
+
     <h1>Search notes</h1>
 
     <div class="search-box">

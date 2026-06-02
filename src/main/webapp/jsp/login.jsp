@@ -27,6 +27,26 @@
             margin-bottom: 20px;
         }
 
+        .error-box {
+            margin-bottom: 14px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            background-color: #fee2e2;
+            color: #991b1b;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .success-box {
+            margin-bottom: 14px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            background-color: #dcfce7;
+            color: #166534;
+            font-size: 14px;
+            text-align: center;
+        }
+
         input {
             width: 100%;
             padding: 10px;
@@ -35,6 +55,7 @@
             border-radius: 8px;
             outline: none;
             transition: 0.3s;
+            box-sizing: border-box;
         }
 
         input:focus {
@@ -77,6 +98,28 @@
 
     <h2>Login</h2>
 
+    <%
+        String error = request.getParameter("error");
+        if ("1".equals(error)) {
+    %>
+    <div class="error-box">
+        Invalid credentials. Check your username/email and password.
+    </div>
+    <%
+        }
+    %>
+
+    <%
+        String registered = request.getParameter("registered");
+        if ("1".equals(registered)) {
+    %>
+    <div class="success-box">
+        Registration completed successfully. Please, log in to access.
+    </div>
+    <%
+        }
+    %>
+
     <form action="${pageContext.request.contextPath}/login" method="post">
 
         <input type="text" name="credential" placeholder="Email or username" required>
@@ -88,6 +131,7 @@
     </form>
 
     <a href="${pageContext.request.contextPath}/register">Register</a>
+
 </div>
 
 </body>
