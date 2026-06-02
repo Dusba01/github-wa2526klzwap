@@ -1,0 +1,156 @@
+/* Pagina di sfondo per form centrate */
+.form-page-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+}
+
+/* Card form generica */
+.form-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    padding: 40px 36px;
+    width: 100%;
+    max-width: 420px;
+}
+
+.form-card.wide {
+    max-width: 560px;
+}
+
+.form-card h1 {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.form-card .subtitle {
+    color: #64748b;
+    font-size: 0.93rem;
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+/* Gruppi campo */
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.97rem;
+    font-family: inherit;
+    color: #1e293b;
+    background: #f8fafc;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+    background: white;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+.helper-text {
+    font-size: 0.82rem;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+/* Bottoni */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 22px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    transition: background 0.18s, box-shadow 0.18s, transform 0.1s;
+    text-decoration: none;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.7);
+    color: #374151;
+    border: 1.5px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.btn-secondary:hover {
+    background: white;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+}
+
+/* Azioni form */
+.form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 8px;
+    flex-wrap: wrap;
+}
+
+/* Link sotto form */
+.form-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.form-footer a {
+    color: #6366f1;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}

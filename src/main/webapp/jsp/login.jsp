@@ -1,138 +1,45 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
-    <title>Login</title>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login – StudyShare</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/base.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/forms.css">
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .login-container {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-            width: 300px;
-            text-align: center;
-        }
-
-        h2 {
-            margin-bottom: 20px;
-        }
-
-        .error-box {
-            margin-bottom: 14px;
-            padding: 10px 12px;
-            border-radius: 8px;
-            background-color: #fee2e2;
-            color: #991b1b;
-            font-size: 14px;
-            text-align: center;
-        }
-
-        .success-box {
-            margin-bottom: 14px;
-            padding: 10px 12px;
-            border-radius: 8px;
-            background-color: #dcfce7;
-            color: #166534;
-            font-size: 14px;
-            text-align: center;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            outline: none;
-            transition: 0.3s;
-            box-sizing: border-box;
-        }
-
-        input:focus {
-            border-color: #4facfe;
-            box-shadow: 0 0 5px rgba(79,172,254,0.5);
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #4facfe;
-            border: none;
-            color: white;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            background: #3a8dde;
-        }
-
-        a {
-            display: block;
-            margin-top: 15px;
-            text-decoration: none;
-            color: #4facfe;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
+        body { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
     </style>
 </head>
+<body class="form-page-body">
+<div class="form-card">
+    <h1>👋 Bentornato</h1>
+    <p class="subtitle">Accedi al tuo account StudyShare</p>
 
-<body>
-
-<div class="login-container">
-
-    <h2>Login</h2>
-
-    <%
-        String error = request.getParameter("error");
-        if ("1".equals(error)) {
-    %>
-    <div class="error-box">
-        Invalid credentials. Check your username/email and password.
-    </div>
-    <%
-        }
-    %>
-
-    <%
-        String registered = request.getParameter("registered");
-        if ("1".equals(registered)) {
-    %>
-    <div class="success-box">
-        Registration completed successfully. Please, log in to access.
-    </div>
-    <%
-        }
-    %>
+    <% String error = (String) request.getAttribute("error"); %>
+    <% String success = (String) request.getAttribute("success"); %>
+    <% if (error != null) { %>
+    <div class="feedback error"><%= error %></div>
+    <% } %>
+    <% if (success != null) { %>
+    <div class="feedback success"><%= success %></div>
+    <% } %>
 
     <form action="${pageContext.request.contextPath}/login" method="post">
-
-        <input type="text" name="credential" placeholder="Email or username" required>
-
-        <input type="password" name="password" placeholder="Password" required>
-
-        <button type="submit">Login</button>
-
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Il tuo username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="La tua password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Accedi</button>
     </form>
 
-    <a href="${pageContext.request.contextPath}/register">Register</a>
-
+    <div class="form-footer">
+        Non hai un account? <a href="${pageContext.request.contextPath}/register">Registrati</a>
+    </div>
 </div>
-
 </body>
 </html>
