@@ -55,17 +55,8 @@
     <div id="results"></div>
 </div>
 
-<script>
-    function toggleSidebar() {
-        document.getElementById("sidebar").classList.toggle("active");
-        document.getElementById("overlay").classList.toggle("active");
-        document.getElementById("menuBtn").classList.toggle("active");
-    }
-</script>
-
-<script>
-    const BASE_URL = "${pageContext.request.contextPath}";
-</script>
+<script>const BASE_URL = "${pageContext.request.contextPath}";</script>
+<script src="${pageContext.request.contextPath}/js/sidebar.js"></script>
 <script src="${pageContext.request.contextPath}/js/notes.js"></script>
 
 </body>
