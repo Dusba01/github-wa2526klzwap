@@ -66,7 +66,7 @@
 <script>
     const BASE_URL = "${pageContext.request.contextPath}";
 </script>
-<script src="${pageContext.request.contextPath}/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/js/notes.js"></script>
 
 </body>
 </html>

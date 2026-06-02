@@ -57,7 +57,7 @@ lecture-notes-app/
 ├── src/main/webapp/
 │   ├── jsp/
 │   ├── js/
-│   │   └── main.js       ← AJAX
+│   │   └── notes.js       ← AJAX
 │   │
 │   └── WEB-INF/
 │       └── web.xml
