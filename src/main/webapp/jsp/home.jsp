@@ -1,17 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="model.User" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:if test="${empty sessionScope.user}">
+    <c:redirect url="/login"/>
+</c:if>
+
 <!DOCTYPE html>
-
-<%
-    User user = (User) session.getAttribute("user");
-
-    if (user == null) {
-        response.sendRedirect(request.getContextPath() + "/login");
-        return;
-    }
-
-    String welcomeName = user.getName();
-%>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -41,7 +35,7 @@
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
 <div class="container">
-    <h1>Welcome, <%= welcomeName %>!</h1>
+    <h1>Welcome, <c:out value="${sessionScope.user.name}"/>!</h1>
 
     <h1>Search notes</h1>
 
