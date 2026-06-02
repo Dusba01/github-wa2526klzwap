@@ -1,4 +1,8 @@
-<%@ page contentType="text/html;charset=UTF-8" import="java.util.List,model.Note,model.User,model.Course" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="java.util.List" %>
+<%@ page import="model.Note" %>
+<%@ page import="model.User" %>
+<%@ page import="model.Course" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>

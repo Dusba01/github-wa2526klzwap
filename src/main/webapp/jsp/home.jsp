@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<!DOCTYPE html>
 <%@ page import="model.User" %>
+<!DOCTYPE html>
 
 <%
     User user = (User) session.getAttribute("user");
