@@ -1,11 +1,14 @@
+// On page load, populate the course summary strip
 document.addEventListener("DOMContentLoaded", () => {
     loadCourseSummaries();
 });
 
+// Fetches notes matching the search query and renders them as cards
 function searchNotes() {
     const query = document.getElementById("query").value;
     const courseStrip = document.getElementById("courseStrip");
 
+    // Hide the course strip while showing search results
     if (courseStrip) {
         courseStrip.style.display = "none";
     }
@@ -31,6 +34,7 @@ function searchNotes() {
         });
 }
 
+// Builds and returns the HTML string for a single note card
 function buildNoteCardHTML(note) {
     return `
         <h3>${note.title}</h3>
@@ -58,6 +62,7 @@ function buildNoteCardHTML(note) {
     `;
 }
 
+// Fetches course summaries and renders them as clickable boxes in the course strip
 function loadCourseSummaries() {
     fetch(BASE_URL + "/rest/courses/summary")
         .then(res => res.json())
@@ -75,6 +80,8 @@ function loadCourseSummaries() {
                     <div class="course-box-title">${course.name}</div>
                     <div class="course-box-count">${course.documentCount} document${course.documentCount === 1 ? "" : "s"}</div>
                 `;
+
+                // Clicking a course box pre-fills the search query and runs a search
                 box.addEventListener("click", () => {
                     document.getElementById("query").value = course.name;
                     searchNotes();
@@ -87,6 +94,7 @@ function loadCourseSummaries() {
         });
 }
 
+// Attaches click handlers to all favorite buttons currently in the DOM
 function bindFavoriteButtons() {
     document.querySelectorAll(".favorite-btn").forEach(button => {
         button.addEventListener("click", async () => {
@@ -114,6 +122,7 @@ function bindFavoriteButtons() {
     });
 }
 
+// Fetches the rating data for a note and renders the average score and star selector
 function loadRating(noteId) {
     fetch(BASE_URL + "/rest/ratings/" + noteId)
         .then(res => res.json())
@@ -130,6 +139,7 @@ function loadRating(noteId) {
         });
 }
 
+// Builds the 5-star HTML for a note, highlighting the stars up to the user's current rating
 function renderStars(noteId, userValue) {
     let html = "";
 
@@ -141,16 +151,17 @@ function renderStars(noteId, userValue) {
     return html;
 }
 
+// Sends a rating request for a note; clicking the same value removes the rating
 function rateNote(noteId, value, currentValue) {
 
-    // CASO 1: clicco stesso voto → rimuovo rating
+    // Case 1: same star clicked again -> remove the existing rating
     if (currentValue === value) {
         fetch(BASE_URL + "/rest/ratings/" + noteId, { method: "DELETE" })
             .then(() => loadRating(noteId));
         return;
     }
 
-    // CASO 2: nuovo voto o cambio voto
+    // Case 2: new rating or update to a different value
     fetch(BASE_URL + "/rest/ratings/" + noteId, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -158,6 +169,8 @@ function rateNote(noteId, value, currentValue) {
     }).then(() => loadRating(noteId));
 }
 
+// Global click listener for star ratings
+// reads note id, star value, and current rating from data attributes
 document.addEventListener("click", (e) => {
     if (e.target.classList.contains("star")) {
         const noteId = parseInt(e.target.dataset.noteId);

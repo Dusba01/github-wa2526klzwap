@@ -1,3 +1,4 @@
+// Validates the selected file before the upload form is submitted
 document.addEventListener("DOMContentLoaded", () => {
     const uploadForm = document.querySelector('form[action$="/upload-note"]');
     const pdfInput = document.getElementById("pdfFile");
@@ -8,6 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const file = pdfInput.files[0];
         if (!file) return;
 
+        // Check both the file extension and the MIME type
+        // (octet-stream is included because some browsers report it for PDF files)
         const fileName = file.name.toLowerCase();
         const fileType = file.type;
         const isPdf = fileName.endsWith(".pdf")
