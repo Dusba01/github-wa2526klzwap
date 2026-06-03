@@ -95,7 +95,7 @@ function bindFavoriteButtons() {
             const method = isFavorite ? "DELETE" : "POST";
 
             try {
-                const response = await fetch(`${BASE_URL}/rest/favorites/${noteId}`, { method });
+                const response = await fetch(BASE_URL + "/rest/favorites/" + noteId, { method });
 
                 if (!response.ok) {
                     throw new Error("Favorite toggle failed");
