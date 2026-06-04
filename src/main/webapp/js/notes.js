@@ -2,8 +2,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     loadCourseSummaries();
 
-    // Wire up the search box behaviour here (kept out of the markup so the
-    // structure/content stays separate from the interaction logic).
+
     const queryInput = document.getElementById("query");
     if (queryInput) {
         // Run the search by pressing Enter in the query field.
@@ -17,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const searchBtn = document.getElementById("searchBtn");
     if (searchBtn) {
-        // Run the search by clicking the magnifier button.
+        // Run the search by clicking the button.
         searchBtn.addEventListener("click", searchNotes);
     }
 

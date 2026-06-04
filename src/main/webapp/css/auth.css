@@ -1,10 +1,5 @@
-/* ============================================================
-   AUTH
-   Styles exclusive to login.jsp and register.jsp.
-   Loaded with: base.css + auth.css
-   ============================================================ */
+/* Styles exclusive to login.jsp and register.jsp. */
 
-/* ---- Centered body layout ---- */
 body {
     background-color: #a8d4ed;
     min-height: 100vh;
@@ -13,12 +8,11 @@ body {
     align-items: center;
 }
 
-/* ---- Card container ---- */
+/* Card container  */
 .auth-card {
     background-color: #ffffff;
     padding: 30px;
     border-radius: 10px;
-    /* box-shadow — slide: "box-shadow: the box-shadow property allows you to add a drop shadow" */
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
     width: 340px;
     max-width: 90%;
@@ -29,7 +23,7 @@ body {
     margin: 0 0 20px;
 }
 
-/* ---- Input fields ---- */
+/* Input fields  */
 .auth-card input {
     width: 100%;
     padding: 10px;
@@ -40,13 +34,12 @@ body {
     font: inherit;
 }
 
-/* :focus — slide: "input:focus { background-color: yellow; }" */
 .auth-card input:focus {
     border-color: #6c63ff;
     box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
 }
 
-/* ---- Submit button ---- */
+/* Submit button */
 .auth-btn {
     display: block;
     width: 100%;
@@ -61,12 +54,11 @@ body {
     font-size: 15px;
 }
 
-/* :hover — slide: "a:hover { color: maroon; }" */
 .auth-btn:hover {
     background-color: #574bdb;
 }
 
-/* ---- Navigation link between login and register ---- */
+/* Navigation link between login and register */
 .auth-link {
     display: block;
     margin-top: 15px;
@@ -78,7 +70,7 @@ body {
     text-decoration: underline;
 }
 
-/* ---- Feedback messages ---- */
+/* Feedback messages */
 .error-box {
     margin-bottom: 14px;
     padding: 10px 12px;
@@ -99,8 +91,8 @@ body {
     text-align: center;
 }
 
-/* ---- Helper text under fields (register.jsp) ----
-   Kept here because register.jsp does not load components.css. */
+/* Helper text under fields (register.jsp)
+   For example: "Password must be 7 to 15 characters ... " */
 .helper-text {
     margin: 4px 0 10px;
     color: #64748b;
