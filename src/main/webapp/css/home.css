@@ -86,18 +86,14 @@ body {
     background-color: transparent;
     color: #5f6368;
     cursor: pointer;
-    transition: color 0.15s ease;
-}
-
-.search-box .icon-btn svg {
-    width: 22px;
-    height: 22px;
-    fill: currentColor;
+    font-size: 18px;
+    line-height: 1;
+    transition: opacity 0.15s ease;
 }
 
 /* :hover — slide: "a:hover { color: maroon; }" */
 .search-box .icon-btn:hover {
-    color: #202124;
+    opacity: 0.6;
 }
 
 /* ---- Sottile separatore verticale tra reset e ricerca (stile Google) ---- */
