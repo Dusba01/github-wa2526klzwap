@@ -1,14 +1,5 @@
-/* ============================================================
-   PROFILE
-   Styles exclusive to profile.jsp.
-   Loaded with: base.css + layout.css + components.css + profile.css
-   ============================================================ */
+/* Styles exclusive to profile.jsp */
 
-/* ============================
-   PAGE GRID
-   Mobile-first: single column, then two columns on desktop.
-   Slide: display grid, grid-template-columns, fr, media queries.
-   ============================ */
 .grid-profile {
     display: grid;
     grid-template-columns: 1fr;
@@ -22,9 +13,6 @@
     }
 }
 
-/* ============================
-   PANEL (white card section)
-   ============================ */
 .panel {
     background-color: #ffffff;
     border: 1px solid #e2e8f0;
@@ -39,7 +27,6 @@
     }
 }
 
-/* ---- Section heading with optional action on the right ---- */
 .section-title {
     display: flex;
     justify-content: space-between;
@@ -49,17 +36,11 @@
     flex-wrap: wrap;
 }
 
-/* ============================
-   UPLOAD LIST (grid of uploaded notes)
-   ============================ */
 .upload-list {
     display: grid;
     gap: 16px;
 }
 
-/* ============================
-   USER INFO
-   ============================ */
 .user-badge {
     width: 56px;
     height: 56px;
@@ -87,8 +68,6 @@
     border: 1px solid #e2e8f0;
 }
 
-/* text-transform and letter-spacing are not in the slides
-   but improve readability of small uppercase labels */
 .info-label {
     font-size: 0.78rem;
     text-transform: uppercase;
@@ -119,9 +98,6 @@
     margin-bottom: 4px;
 }
 
-/* ============================
-   UPLOAD CARD (single uploaded note)
-   ============================ */
 .upload-card {
     border: 1px solid #e2e8f0;
     border-radius: 10px;
@@ -142,8 +118,7 @@
     font-size: 0.9rem;
 }
 
-/* Mobile-first: column layout, then row on wider screens.
-   Slide: flex-direction, mobile-first approach. */
+/* Mobile-first: column layout, then row on wider screens */
 .upload-actions {
     display: flex;
     flex-direction: column;
@@ -151,8 +126,6 @@
     align-items: stretch;
 }
 
-/* Descendant selectors: all direct children fill full width on mobile.
-   Slide: descendant selector */
 .upload-actions .download-btn,
 .upload-actions .edit-panel,
 .upload-actions .delete-form,
@@ -161,7 +134,6 @@
     min-width: 0;
 }
 
-/* The edit-panel summary (the Edit button) must also fill full width */
 .upload-actions .edit-panel summary {
     width: 100%;
     justify-content: center;
@@ -187,9 +159,6 @@
     }
 }
 
-/* ============================
-   EDIT AND DELETE BUTTONS
-   ============================ */
 .edit-btn {
     border: none;
     display: inline-flex;
@@ -230,16 +199,10 @@
     background-color: #b91c1c;
 }
 
-/* Removes default browser margin on the delete form */
 .delete-form {
     margin: 0;
 }
 
-/* ============================
-   EDIT PANEL (<details> element)
-   The [open] attribute selector is not in the slides but is
-   required to style the open/closed state of <details>.
-   ============================ */
 .edit-panel {
     margin: 0;
     padding: 0;
@@ -249,19 +212,16 @@
 }
 
 .edit-panel summary {
-    /* list-style: none removes the default disclosure triangle */
     list-style: none;
     display: inline-flex;
     align-items: center;
     cursor: pointer;
 }
 
-/* Webkit fallback to hide the default triangle marker */
 .edit-panel summary::-webkit-details-marker {
     display: none;
 }
 
-/* When the panel is open: becomes a full-width block below the buttons */
 .edit-panel[open] {
     display: block;
     width: 100%;
@@ -270,14 +230,10 @@
     border-top: 1px solid #e2e8f0;
 }
 
-/* The Edit button changes shade when the panel is open */
 .edit-panel[open] .edit-toggle {
     background-color: #1d4ed8;
 }
 
-/* ============================
-   EDIT FORM
-   ============================ */
 .edit-form {
     display: grid;
     gap: 12px;
@@ -307,7 +263,6 @@
     outline: none;
 }
 
-/* :focus — slide: "input:focus { background-color: yellow; }" */
 .edit-form input:focus,
 .edit-form textarea:focus,
 .edit-form select:focus {
@@ -327,8 +282,7 @@
     flex-wrap: wrap;
 }
 
-/* Field grid: mobile-first (single column, then two columns on desktop).
-   Slide: grid-template-columns with fr units. */
+/* Field grid: mobile-first (single column, then two columns on desktop) */
 .field-grid {
     display: grid;
     grid-template-columns: 1fr;

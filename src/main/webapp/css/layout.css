@@ -1,25 +1,20 @@
-/* ============================================================
-   LAYOUT
-   Shared page structures for profile, favorites, upload.
-   Loaded with: base.css + layout.css + components.css
-   ============================================================ */
+/* Shared page structures for profile, favorites, upload */
 
-/* ---- Reset top margins on headings and paragraphs ---- */
+/*  Reset top margins on headings and paragraphs  */
 h1, h2, h3, p {
     margin-top: 0;
 }
 
-/* ---- Body: app pages (profile, favorites)
-        Uses a class instead of a bare body selector
-        to avoid conflicts with home.css and upload-body. ---- */
+/*  Body: app pages (profile, favorites)
+    Uses a class instead of a bare body selector
+    to avoid conflicts with home.css and upload-body  */
 .app-body {
     min-height: 100vh;
     background-color: #edf2fb;
     padding: 20px 14px 40px;
 }
 
-/* ---- Body: upload page (centered flex layout) ---- */
-/* body.class-name — slide: "p.note {} Targets only <p> elements..." */
+/* Body: upload page (centered flex layout)  */
 body.upload-body {
     background-color: #edf2fb;
     display: flex;
@@ -29,16 +24,12 @@ body.upload-body {
     min-height: 100vh;
 }
 
-/* ---- Page wrapper ---- */
 .page {
     width: 100%;
     max-width: 1080px;
     margin: 0 auto;
 }
 
-/* ---- Top bar (mobile-first)
-        Slide: "Design for small screen first"
-        Base (mobile): column; from 561px: row ---- */
 .topbar {
     display: flex;
     flex-direction: column;
@@ -47,7 +38,6 @@ body.upload-body {
     margin-bottom: 22px;
 }
 
-/* min-width: covered by the professor in theory */
 @media screen and (min-width: 561px) {
     .topbar {
         flex-direction: row;
@@ -63,19 +53,17 @@ body.upload-body {
     }
 }
 
-/* ---- Brand heading ---- */
 .brand {
     font-size: 1.6rem;
     font-weight: 700;
 }
 
-/* ---- Title block (favorites) ---- */
 .title-block h1 {
     margin: 0 0 4px;
     font-size: 1.8rem;
 }
 
-/* ---- Navigation link (back, new upload, etc.) ---- */
+/* Navigation link (back, new upload, etc.)  */
 .nav-link {
     display: inline-block;
     text-decoration: none;
@@ -87,12 +75,10 @@ body.upload-body {
     white-space: nowrap;
 }
 
-/* :hover — slide: "a:hover { color: maroon; }" */
 .nav-link:hover {
     background-color: #f1f5f9;
 }
 
-/* ---- Generic grid list (favorites) ---- */
 .grid-list {
     display: grid;
     gap: 16px;

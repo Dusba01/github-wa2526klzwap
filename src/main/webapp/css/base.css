@@ -1,8 +1,4 @@
-/* ============================================================
-   BASE
-   Reset universale, font e colore di default.
-   Caricato da TUTTE le pagine.
-   ============================================================ */
+/* base.css is loaded in every page */
 
 * {
     box-sizing: border-box;

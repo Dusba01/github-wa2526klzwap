@@ -1,19 +1,10 @@
-/* ============================================================
-   COMPONENTS
-   All reusable UI components.
-   Loaded by: home, profile, favorites, upload.
-   ============================================================ */
+/* All reusable UI components, Loaded by: home, profile, favorites, upload */
 
-/* ============================
-   UTILITY
-   ============================ */
+
 .muted {
     color: #64748b;
 }
 
-/* ============================
-   FEEDBACK BANNER
-   ============================ */
 .feedback {
     padding: 12px 14px;
     margin-bottom: 18px;
@@ -21,7 +12,6 @@
     font-size: 0.95rem;
 }
 
-/* Combined selector — slide: ".note {} ... p.note {}" */
 .feedback.success {
     background-color: #dcfce7;
     color: #166534;
@@ -32,9 +22,7 @@
     color: #991b1b;
 }
 
-/* ============================
-   EMPTY STATE
-   ============================ */
+/* empty-state (example: "No uploads yet", "No favorites yet" ..) */
 .empty-state {
     padding: 32px;
     border-radius: 10px;
@@ -42,13 +30,10 @@
     border: 1px solid #e2e8f0;
     text-align: center;
     color: #475569;
-    /* box-shadow — slide: "box-shadow: the box-shadow property allows you to add a drop shadow" */
     box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05);
 }
 
-/* ============================
-   CARD (search results in home, favorites list)
-   ============================ */
+/* Card (search results in home, favorites list) */
 .card {
     background-color: #ffffff;
     border: 1px solid #e2e8f0;
@@ -78,8 +63,7 @@
     color: #475569;
 }
 
-/* Card actions: mobile-first (column), then row on wider screens.
-   Slide: "Design for small screen first" */
+/* Card actions: mobile-first (column), then row on wider screens */
 .card-actions {
     display: flex;
     flex-direction: column;
@@ -87,7 +71,6 @@
     gap: 10px;
 }
 
-/* Descendant selectors — slide: "p a {} Targets any <a> inside a <p>" */
 .card-actions .download-btn,
 .card-actions .btn,
 .card-actions form {
@@ -119,9 +102,6 @@
     }
 }
 
-/* ============================
-   DOWNLOAD BUTTON
-   ============================ */
 .download-btn {
     display: inline-flex;
     align-items: center;
@@ -137,14 +117,10 @@
     font-weight: 600;
 }
 
-/* :hover — slide */
 .download-btn:hover {
     background-color: #0d6560;
 }
 
-/* ============================
-   FAVORITE BUTTON
-   ============================ */
 .favorite-btn {
     width: 42px;
     height: 42px;
@@ -161,16 +137,12 @@
     background-color: #ffe4e6;
 }
 
-/* Combined selector — slide: ".note {} ... p.note {}" */
 .favorite-btn.active {
     color: #e11d48;
     background-color: #ffe4e6;
     border-color: #fda4af;
 }
 
-/* ============================
-   GENERIC BUTTON SYSTEM
-   ============================ */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -214,10 +186,7 @@
     background-color: #fecdd3;
 }
 
-/* ============================
-   UPLOAD FORM (upload.jsp)
-   Mobile-first: smaller padding on mobile, larger on desktop.
-   ============================ */
+/* upload form (upload.jsp), Mobile-first: smaller padding on mobile, larger on desktop */
 .form-card {
     width: 100%;
     max-width: 600px;
@@ -271,7 +240,6 @@
     outline: none;
 }
 
-/* :focus — slide: "input:focus { background-color: yellow; }" */
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
@@ -289,7 +257,6 @@
     background-color: #f8fafc;
 }
 
-/* Descendant selector — slide: "p a {} Targets any <a> inside a <p>" */
 .form-card .actions {
     margin-top: 22px;
 }
@@ -301,11 +268,9 @@
     align-items: center;
 }
 
-/* ============================
-   HELPER TEXT (upload.jsp)
-   Also defined in auth.css for register.jsp, which does not
-   load components.css — this is intentional, not a duplicate.
-   ============================ */
+/* helper text (upload.jsp)
+   Also defined in auth.css for register.jsp, which does not load components.css:
+ */
 .helper-text {
     margin-top: 6px;
     font-size: 0.88rem;
