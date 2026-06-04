@@ -1,0 +1,346 @@
+/* ============================================================
+   PROFILE
+   Stili esclusivi di profile.jsp.
+   Caricato con: base.css + layout.css + components.css + profile.css
+   ============================================================ */
+
+/* ============================
+   GRIGLIA DI PAGINA
+   Mobile-first: colonna singola, poi bicolonna su desktop.
+   Slide: display grid, grid-template-columns, fr, media queries.
+   ============================ */
+.grid-profile {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+@media screen and (min-width: 861px) {
+    .grid-profile {
+        grid-template-columns: 300px 1fr;
+        gap: 24px;
+    }
+}
+
+/* ============================
+   PANEL (sezione con sfondo bianco)
+   ============================ */
+.panel {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
+}
+
+@media screen and (min-width: 769px) {
+    .panel {
+        padding: 24px;
+    }
+}
+
+/* ---- Intestazione sezione con azione a destra ---- */
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+/* ============================
+   LISTA UPLOAD (griglia note)
+   ============================ */
+.upload-list {
+    display: grid;
+    gap: 16px;
+}
+
+/* ============================
+   INFO UTENTE
+   ============================ */
+.user-badge {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #0f766e;
+    color: #ffffff;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.info-list {
+    display: grid;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.info-item {
+    padding: 12px 14px;
+    border-radius: 8px;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+/* text-transform e letter-spacing non sono nelle slide,
+   ma contribuiscono alla leggibilità dell'etichetta */
+.info-label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #64748b;
+    margin-bottom: 4px;
+}
+
+.stats {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.stat-card {
+    flex: 1;
+    min-width: 90px;
+    padding: 14px;
+    border-radius: 10px;
+    background-color: #f0fafa;
+    border: 1px solid #ccece8;
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+/* ============================
+   CARD UPLOAD (singola nota)
+   ============================ */
+.upload-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 16px;
+    background-color: #ffffff;
+}
+
+.upload-card h3 {
+    margin: 0 0 6px;
+}
+
+.upload-meta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 10px 0 14px;
+    color: #475569;
+    font-size: 0.9rem;
+}
+
+/* Upload-actions: mobile-first (colonna, poi riga su desktop)
+   Slide: flex-direction, mobile-first */
+.upload-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+}
+
+/* Selettori discendenti: tutti i figli diretti di upload-actions
+   occupano la larghezza piena su mobile — slide: selettore discendente */
+.upload-actions .download-btn,
+.upload-actions .edit-panel,
+.upload-actions .delete-form,
+.upload-actions .delete-btn {
+    width: 100%;
+    min-width: 0;
+}
+
+/* edit-panel è un <details>: quando chiuso,
+   il suo summary (edit-btn) deve riempire la larghezza */
+.upload-actions .edit-panel summary {
+    width: 100%;
+    justify-content: center;
+}
+
+@media screen and (min-width: 681px) {
+    .upload-actions {
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .upload-actions .download-btn,
+    .upload-actions .edit-panel,
+    .upload-actions .delete-form,
+    .upload-actions .delete-btn {
+        width: auto;
+    }
+
+    .upload-actions .edit-panel summary {
+        width: auto;
+        justify-content: flex-start;
+    }
+}
+
+/* ============================
+   PULSANTI EDIT / DELETE
+   ============================ */
+.edit-btn {
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 9px 14px;
+    border-radius: 6px;
+    background-color: #2563eb;
+    color: #ffffff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    min-height: 40px;
+}
+
+.edit-btn:hover {
+    background-color: #1d4ed8;
+}
+
+.delete-btn {
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 9px 14px;
+    border-radius: 6px;
+    background-color: #dc2626;
+    color: #ffffff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    min-height: 40px;
+}
+
+.delete-btn:hover {
+    background-color: #b91c1c;
+}
+
+/* margin: 0 sul form evita spazio extra del browser */
+.delete-form {
+    margin: 0;
+}
+
+/* ============================
+   EDIT PANEL (<details>)
+   Usa l'attributo [open] che il browser gestisce automaticamente.
+   [open] è un selettore di attributo — non nelle slide, ma necessario
+   per lo stile dell'elemento <details>.
+   ============================ */
+.edit-panel {
+    margin: 0;
+    padding: 0;
+    border: none;
+    display: flex;
+    align-items: center;
+}
+
+.edit-panel summary {
+    /* list-style: none rimuove il marker di default sui <summary> */
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Fallback webkit per nascondere il triangolo di default */
+.edit-panel summary::-webkit-details-marker {
+    display: none;
+}
+
+/* Quando il pannello è aperto diventa block a larghezza piena,
+   separato dai pulsanti da un bordo superiore */
+.edit-panel[open] {
+    display: block;
+    width: 100%;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* Il bottone Edit cambia colore quando il pannello è aperto */
+.edit-panel[open] .edit-toggle {
+    background-color: #1d4ed8;
+}
+
+/* ============================
+   EDIT FORM
+   ============================ */
+.edit-form {
+    display: grid;
+    gap: 12px;
+    margin-top: 12px;
+    padding: 16px;
+    border-radius: 10px;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.edit-form label {
+    display: grid;
+    gap: 5px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.edit-form input,
+.edit-form textarea,
+.edit-form select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font: inherit;
+    background-color: #ffffff;
+    outline: none;
+}
+
+/* :focus — slide: "input:focus { background-color: yellow; }" */
+.edit-form input:focus,
+.edit-form textarea:focus,
+.edit-form select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.edit-form textarea {
+    min-height: 88px;
+    resize: vertical;
+}
+
+.edit-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* Field-grid: mobile-first (colonna singola, poi 2 colonne su desktop)
+   Slide: grid-template-columns con fr */
+.field-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+@media screen and (min-width: 681px) {
+    .field-grid {
+        grid-template-columns: 1.3fr 0.9fr;
+        gap: 12px;
+    }
+}

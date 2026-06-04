@@ -13,79 +13,90 @@
 
 /* ============================
    FEEDBACK BANNER
-   (profile.jsp, upload.jsp — CSS identico, ora definito una volta)
    ============================ */
 .feedback {
     padding: 12px 14px;
     margin-bottom: 18px;
-    border-radius: 12px;
+    border-radius: 8px;
     font-size: 0.95rem;
 }
 
+/* Selettore combinato: slide: ".note {} ... p.note {}" */
 .feedback.success {
-    background: #dcfce7;
+    background-color: #dcfce7;
     color: #166534;
 }
 
 .feedback.error {
-    background: #fee2e2;
+    background-color: #fee2e2;
     color: #991b1b;
 }
 
 /* ============================
    EMPTY STATE
-   (profile.jsp, favorites.jsp — normalizzato)
    ============================ */
 .empty-state {
     padding: 32px;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.88);
+    border-radius: 10px;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
     text-align: center;
     color: #475569;
-    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.06);
+    /* box-shadow — slide: "box-shadow: the box-shadow property allows you to add a drop shadow" */
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05);
 }
 
 /* ============================
-   CARD RISULTATI / PREFERITI
-   (home.jsp via JS, favorites.jsp via JSP — unificati)
+   CARD (risultati ricerca in home, preferiti)
    ============================ */
 .card {
-    background: rgba(255, 255, 255, 0.94);
-    border: 1px solid rgba(148, 163, 184, 0.18);
-    border-radius: 20px;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
     padding: 20px;
-    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
-    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
 }
 
 .card h3 {
-    margin: 0 0 10px;
+    margin: 0 0 8px;
     color: #1f2937;
-    font-size: 1.45rem;
+    font-size: 1.3rem;
 }
 
 .card p {
-    margin: 0 0 14px;
+    margin: 0 0 12px;
     color: #475569;
     line-height: 1.55;
 }
 
-/* Metadati (corso, autore, data) — ex .meta in favorites, .card-meta in home */
+/* Metadati (corso, autore, data) */
 .card-meta {
     display: flex;
-    gap: 14px;
+    gap: 12px;
     flex-wrap: wrap;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     color: #475569;
 }
 
-/* Riga azioni in fondo alla card */
+/* Riga azioni: mobile-first (colonna), poi riga su schermi larghi
+   Slide: "Design for small screen first" */
 .card-actions {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+}
+
+/* Selettori discendenti — slide: "p a {} Targets any <a> inside a <p>" */
+.card-actions .download-btn,
+.card-actions .btn,
+.card-actions form {
+    width: 100%;
+}
+
+/* margin: 0 sul form evita spazio extra del browser */
+.card-actions form {
+    margin: 0;
 }
 
 .card-actions-left {
@@ -94,359 +105,156 @@
     gap: 10px;
 }
 
+@media screen and (min-width: 641px) {
+    .card-actions {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .card-actions .download-btn,
+    .card-actions .btn,
+    .card-actions form {
+        width: auto;
+    }
+}
+
 /* ============================
    DOWNLOAD BUTTON
-   (home via JS, profile.jsp, favorites.jsp — ex .btn-download)
-   Stesso gradiente teal, ora definito una volta sola.
    ============================ */
 .download-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 11px 16px;
-    min-height: 44px;
-    min-width: 168px;
-    border-radius: 999px;
-    background: linear-gradient(135deg, #0f766e, #14b8a6);
-    color: #fff;
+    padding: 10px 16px;
+    min-height: 42px;
+    min-width: 140px;
+    border-radius: 6px;
+    background-color: #0f766e;
+    color: #ffffff;
     text-decoration: none;
     font-weight: 600;
-    box-shadow: 0 12px 24px rgba(20, 184, 166, 0.22);
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
+/* :hover — slide: "a:hover { color: maroon; }" */
 .download-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 16px 30px rgba(20, 184, 166, 0.3);
+    background-color: #0d6560;
 }
 
 /* ============================
    FAVORITE BUTTON
-   (home.jsp via JS — class generata da notes.js, non modificabile)
    ============================ */
 .favorite-btn {
-    width: 48px;
-    height: 48px;
-    border: none;
-    border-radius: 999px;
-    background: linear-gradient(135deg, #fff1f2, #ffe4e6);
+    width: 42px;
+    height: 42px;
+    border: 1px solid #fecdd3;
+    border-radius: 50%;
+    background-color: #fff1f2;
     color: #94a3b8;
-    font-size: 24px;
+    font-size: 20px;
     line-height: 1;
     cursor: pointer;
-    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
-    transition: transform 0.18s ease, box-shadow 0.18s ease,
-                color 0.18s ease, background 0.18s ease;
 }
 
 .favorite-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12);
+    background-color: #ffe4e6;
 }
 
+/* Selettore combinato — slide: ".note {} ... p.note {}" */
 .favorite-btn.active {
     color: #e11d48;
-    background: linear-gradient(135deg, #ffe4e6, #fecdd3);
+    background-color: #ffe4e6;
+    border-color: #fda4af;
 }
 
 /* ============================
-   SISTEMA BTN GENERICO
-   (upload.jsp e favorites.jsp — ex .btn separati con stili diversi,
-    ora unificati in stile pill)
+   BTN GENERICO
    ============================ */
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    min-height: 44px;
-    padding: 11px 18px;
+    min-height: 42px;
+    padding: 10px 16px;
     border: none;
-    border-radius: 999px;
+    border-radius: 6px;
     font: inherit;
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-.btn:hover {
-    transform: translateY(-1px);
-}
-
-/* Azione principale (upload.jsp: submit) */
 .btn-primary {
-    background: linear-gradient(135deg, #0f766e, #14b8a6);
-    color: #fff;
-    box-shadow: 0 12px 24px rgba(15, 118, 110, 0.22);
+    background-color: #0f766e;
+    color: #ffffff;
 }
 
-/* Azione secondaria (upload.jsp: back) */
+.btn-primary:hover {
+    background-color: #0d6560;
+}
+
 .btn-secondary {
-    background: #e2e8f0;
+    background-color: #e2e8f0;
     color: #1e293b;
 }
 
-/* Rimozione preferito (favorites.jsp) */
+.btn-secondary:hover {
+    background-color: #cbd5e1;
+}
+
 .btn-remove {
     color: #e11d48;
-    background: linear-gradient(135deg, #ffe4e6, #fecdd3);
-    box-shadow: 0 12px 24px rgba(225, 29, 72, 0.16);
+    background-color: #ffe4e6;
+}
+
+.btn-remove:hover {
+    background-color: #fecdd3;
 }
 
 /* ============================
-   CARD UPLOAD (profile.jsp)
-   Ogni nota caricata dall'utente.
-   NOTA: class distinta da .form-card (upload.jsp) — collisione risolta.
-   ============================ */
-.upload-card {
-    border: 1px solid rgba(15, 118, 110, 0.12);
-    border-radius: 18px;
-    padding: 18px;
-    background: linear-gradient(180deg,
-        rgba(255, 255, 255, 0.98),
-        rgba(248, 250, 252, 0.92));
-    overflow: hidden;
-}
-
-.upload-card h3 {
-    margin: 0 0 8px;
-}
-
-.upload-meta {
-    display: flex;
-    gap: 14px;
-    flex-wrap: wrap;
-    margin: 12px 0 16px;
-    color: #475569;
-    font-size: 0.95rem;
-}
-
-.upload-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-.delete-form {
-    margin: 0;
-}
-
-/* ============================
-   PULSANTI PROFILO: EDIT / DELETE
-   ============================ */
-.edit-btn {
-    border: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 11px 16px;
-    border-radius: 999px;
-    background: linear-gradient(135deg, #2563eb, #38bdf8);
-    color: #fff;
-    font: inherit;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 12px 24px rgba(37, 99, 235, 0.18);
-    min-height: 44px;
-    min-width: 124px;
-}
-
-.delete-btn {
-    border: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 11px 16px;
-    border-radius: 999px;
-    background: linear-gradient(135deg, #dc2626, #f97316);
-    color: #fff;
-    font: inherit;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 12px 24px rgba(220, 38, 38, 0.18);
-    min-height: 44px;
-    min-width: 132px;
-}
-
-/* ============================
-   EDIT PANEL (<details>) — profile.jsp
-   ============================ */
-.edit-panel {
-    margin: 0;
-    padding: 0;
-    border: none;
-    display: flex;
-    align-items: center;
-}
-
-.edit-panel summary {
-    list-style: none;
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
-}
-
-.edit-panel summary::-webkit-details-marker {
-    display: none;
-}
-
-.edit-toggle {
-    user-select: none;
-}
-
-.edit-panel[open] .edit-toggle {
-    background: linear-gradient(135deg, #1d4ed8, #0ea5e9);
-}
-
-.edit-panel[open] {
-    display: block;
-    width: 100%;
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid rgba(148, 163, 184, 0.18);
-}
-
-.edit-form {
-    display: grid;
-    gap: 14px;
-    margin-top: 14px;
-    padding: 18px;
-    border-radius: 18px;
-    background: linear-gradient(135deg, #eff6ff, #f8fafc 55%, #ecfeff);
-    border: 1px solid rgba(59, 130, 246, 0.12);
-}
-
-.edit-form label {
-    display: grid;
-    gap: 6px;
-    font-weight: 600;
-    color: #334155;
-}
-
-.edit-form input,
-.edit-form textarea,
-.edit-form select {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid #cbd5e1;
-    border-radius: 12px;
-    font: inherit;
-    background: #fff;
-}
-
-.edit-form textarea {
-    min-height: 96px;
-    resize: vertical;
-}
-
-.edit-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.field-grid {
-    display: grid;
-    grid-template-columns: 1.3fr 0.9fr;
-    gap: 12px;
-}
-
-/* ============================
-   INFO UTENTE — profile.jsp
-   ============================ */
-.user-badge {
-    width: 72px;
-    height: 72px;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #0f766e, #38bdf8);
-    color: white;
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 18px;
-}
-
-.info-list {
-    display: grid;
-    gap: 16px;
-    margin-top: 22px;
-}
-
-.info-item {
-    padding: 14px 16px;
-    border-radius: 16px;
-    background: #f8fafc;
-}
-
-.info-label {
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #64748b;
-    margin-bottom: 6px;
-}
-
-.stats {
-    display: flex;
-    gap: 14px;
-    flex-wrap: wrap;
-    margin-top: 22px;
-}
-
-.stat-card {
-    flex: 1;
-    min-width: 120px;
-    padding: 16px;
-    border-radius: 18px;
-    background: linear-gradient(135deg, #ecfeff, #eff6ff);
-}
-
-.stat-number {
-    font-size: 1.6rem;
-    font-weight: 700;
-    margin-bottom: 6px;
-}
-
-/* ============================
-   FORM UPLOAD — upload.jsp
-   Ex .upload-card rinominata .form-card per risolvere la collisione
-   con .upload-card di profile.jsp.
+   FORM UPLOAD (upload.jsp)
+   Mobile-first: padding ridotto, poi allargato su desktop
    ============================ */
 .form-card {
     width: 100%;
-    max-width: 640px;
-    background: rgba(255, 255, 255, 0.94);
-    border: 1px solid rgba(148, 163, 184, 0.22);
-    border-radius: 20px;
-    padding: 32px;
-    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
+    max-width: 600px;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 22px 18px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
 }
 
 .form-card h1 {
-    margin: 0 0 10px;
-    font-size: 2rem;
+    margin: 0 0 8px;
+    font-size: 1.7rem;
+}
+
+@media screen and (min-width: 641px) {
+    .form-card {
+        padding: 32px 28px;
+    }
+
+    .form-card h1 {
+        font-size: 2rem;
+    }
 }
 
 .subtitle {
-    margin: 0 0 28px;
+    margin: 0 0 24px;
     color: #475569;
     line-height: 1.5;
 }
 
 .form-group {
-    margin-bottom: 18px;
+    margin-bottom: 16px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     font-weight: 600;
 }
 
@@ -454,93 +262,51 @@
 .form-group textarea,
 .form-group select {
     width: 100%;
-    padding: 13px 14px;
+    padding: 11px 12px;
     border: 1px solid #cbd5e1;
-    border-radius: 12px;
+    border-radius: 8px;
     font: inherit;
-    background: #fff;
+    background-color: #ffffff;
+    outline: none;
+}
+
+/* :focus — slide: "input:focus { background-color: yellow; }" */
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
 }
 
 .form-group textarea {
-    min-height: 110px;
+    min-height: 100px;
     resize: vertical;
 }
 
 .form-group input[type="file"] {
-    padding: 10px;
-    background: #f8fafc;
+    padding: 8px;
+    background-color: #f8fafc;
 }
 
-.helper-text {
-    margin-top: 7px;
-    font-size: 0.9rem;
-    color: #64748b;
+/* Selettore discendente — slide: "p a {} Targets any <a> inside a <p>" */
+.form-card .actions {
+    margin-top: 22px;
 }
 
-/* Riga pulsanti del form */
 .actions {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     flex-wrap: wrap;
     align-items: center;
 }
 
-.form-card .actions {
-    margin-top: 26px;
-}
-
 /* ============================
-   RESPONSIVE
+   HELPER TEXT (upload.jsp)
+   Nota: .helper-text è definita anche in auth.css perché register.jsp
+   non carica components.css — non è una vera duplicazione.
    ============================ */
-
-/* Profile: field-grid a colonna singola */
-@media (max-width: 680px) {
-    .field-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .upload-actions {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .download-btn,
-    .edit-panel,
-    .edit-btn,
-    .delete-btn {
-        width: 100%;
-        min-width: 0;
-    }
-
-    .edit-panel summary {
-        width: 100%;
-    }
-}
-
-/* Upload form: card ridotta */
-@media (max-width: 640px) {
-    .form-card {
-        padding: 24px;
-    }
-
-    .form-card h1 {
-        font-size: 1.7rem;
-    }
-}
-
-/* Favorites: azioni card a colonna */
-@media (max-width: 640px) {
-    .card-actions {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .card-actions .download-btn,
-    .card-actions form {
-        width: 100%;
-    }
-
-    .card-actions .btn {
-        width: 100%;
-    }
+.helper-text {
+    margin-top: 6px;
+    font-size: 0.88rem;
+    color: #64748b;
 }

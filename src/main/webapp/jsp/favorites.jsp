@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/components.css">
 </head>
-<body>
+<body class="app-body">
 
 <div class="page">
     <div class="topbar">
@@ -43,7 +43,7 @@
                         </div>
                         <div class="card-actions">
                             <a class="download-btn" href="${pageContext.request.contextPath}/download-note?id=${note.id}">⬇ Download</a>
-                            <form action="${pageContext.request.contextPath}/remove-favorite" method="post" style="margin:0;">
+                            <form action="${pageContext.request.contextPath}/remove-favorite" method="post">
                                 <input type="hidden" name="noteId" value="${note.id}">
                                 <button type="submit" class="btn btn-remove">♥ Remove favorite</button>
                             </form>

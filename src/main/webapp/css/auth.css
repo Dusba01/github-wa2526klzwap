@@ -6,39 +6,19 @@
 
 /* ---- Layout body centrato ---- */
 body {
-    background: linear-gradient(135deg, #74ebd5, #9face6);
-    height: 100vh;
+    background-color: #c8e8e4;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.error-box {
-    margin-bottom: 14px;
-    padding: 10px 12px;
-    border-radius: 8px;
-    background-color: #fee2e2;
-    color: #991b1b;
-    font-size: 14px;
-    text-align: center;
-}
-
-.success-box {
-    margin-bottom: 14px;
-    padding: 10px 12px;
-    border-radius: 8px;
-    background-color: #dcfce7;
-    color: #166534;
-    font-size: 14px;
-    text-align: center;
-}
-
 /* ---- Card contenitore ---- */
 .auth-card {
-    background: white;
+    background-color: #ffffff;
     padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
     width: 300px;
     text-align: center;
 }
@@ -52,16 +32,16 @@ body {
     width: 100%;
     padding: 10px;
     margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
     outline: none;
     font: inherit;
-    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
+/* :focus — slide: "input:focus { background-color: yellow; }" */
 .auth-card input:focus {
     border-color: #6c63ff;
-    box-shadow: 0 0 5px rgba(108, 99, 255, 0.5);
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
 }
 
 /* ---- Pulsante submit ---- */
@@ -70,18 +50,18 @@ body {
     width: 100%;
     padding: 10px;
     margin-top: 15px;
-    background: #6c63ff;
+    background-color: #6c63ff;
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
     font: inherit;
     font-size: 15px;
-    transition: background 0.3s;
 }
 
+/* :hover — slide: "a:hover { color: maroon; }" */
 .auth-btn:hover {
-    background: #574bdb;
+    background-color: #574bdb;
 }
 
 /* ---- Link di navigazione tra login e register ---- */
@@ -96,18 +76,29 @@ body {
     text-decoration: underline;
 }
 
-/* ---- Messaggio di errore (register.jsp) ---- */
+/* ---- Messaggi feedback ---- */
 .error-box {
     margin-bottom: 14px;
     padding: 10px 12px;
-    border-radius: 8px;
-    background: #fee2e2;
+    border-radius: 6px;
+    background-color: #fee2e2;
     color: #991b1b;
     font-size: 14px;
     text-align: left;
 }
 
+.success-box {
+    margin-bottom: 14px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    background-color: #dcfce7;
+    color: #166534;
+    font-size: 14px;
+    text-align: center;
+}
+
 /* ---- Testo di aiuto sotto i campi (register.jsp) ---- */
+/* Mantenuto qui perché auth.css è l'unico foglio caricato da register.jsp */
 .helper-text {
     margin: 4px 0 10px;
     color: #64748b;

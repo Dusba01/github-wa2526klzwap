@@ -18,12 +18,13 @@
 </head>
 <body>
 
-<div class="menu-btn" id="menuBtn" onclick="toggleSidebar()">☰</div>
+<%-- Hamburger: visibile solo su mobile (nascosto su desktop via CSS) --%>
+<button class="menu-btn" id="menuBtn" onclick="toggleSidebar()" aria-label="Open menu">☰</button>
 
 <div class="sidebar" id="sidebar">
     <h2>Menu</h2>
     <ul>
-        <li><a href="${pageContext.request.contextPath}/profile">👤 My uploads/Profile</a></li>
+        <li><a href="${pageContext.request.contextPath}/profile">👤 My Profile</a></li>
         <li><a href="${pageContext.request.contextPath}/favorites">⭐ Favorites</a></li>
         <li><a href="${pageContext.request.contextPath}/upload-note">📤 Upload notes</a></li>
     </ul>
@@ -35,9 +36,21 @@
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
 <div class="container">
-    <h1>Welcome, <c:out value="${sessionScope.user.name}"/>!</h1>
 
-    <h1>Search notes</h1>
+    <%-- Navigazione orizzontale: visibile solo su desktop (nascosta su mobile via CSS) --%>
+    <nav class="topnav">
+        <a href="${pageContext.request.contextPath}/profile">👤 My Profile</a>
+        <a href="${pageContext.request.contextPath}/favorites">⭐ Favorites</a>
+        <a href="${pageContext.request.contextPath}/upload-note">📤 Upload notes</a>
+        <form action="${pageContext.request.contextPath}/logout" method="post">
+            <button type="submit">🚪 Logout</button>
+        </form>
+    </nav>
+
+    <%-- Welcome text: retrocesso da h1 a p per correggere la doppia intestazione --%>
+    <p class="welcome-text">Welcome, <c:out value="${sessionScope.user.name}"/>!</p>
+
+    <h1>Search Notes</h1>
 
     <div class="search-box">
         <input type="text" id="query" placeholder="Search by author, course or content..." required>

@@ -1,17 +1,32 @@
 /* ============================================================
    HOME
-   Stili esclusivi di home.jsp.
+   Stili esclusivi di home.jsp: body, container, ricerca,
+   course strip, risultati, stelle, sidebar, navigazione desktop.
    Caricato con: base.css + layout.css + components.css + home.css
    ============================================================ */
 
-/* ---- Body: viewport pieno con centratura ---- */
+/* ---- Body (mobile-first)
+        min-height al posto di height per permettere lo scroll
+        align-items: flex-start evita il clipping quando i risultati crescono
+        padding-top: 60px lascia spazio al pulsante hamburger fisso ---- */
 body {
-    background: linear-gradient(135deg, #74ebd5, #9face6);
+    background-color: #c8e8e4;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    padding: 28px;
+    align-items: flex-start;
+    padding: 60px 14px 28px;
+}
+
+@media screen and (min-width: 769px) {
+    body {
+        padding: 28px;
+    }
+}
+
+/* ---- Navigazione desktop (nascosta su mobile) ---- */
+.topnav {
+    display: none;
 }
 
 /* ---- Contenitore principale ---- */
@@ -19,107 +34,302 @@ body {
     text-align: center;
     width: 100%;
     max-width: 980px;
-    padding: 18px 22px 26px;
+    padding: 0 0 24px;
+}
+
+/* ---- Testo di benvenuto (ex primo h1, retrocesso a p) ---- */
+.welcome-text {
+    color: #475569;
+    margin-bottom: 4px;
+    font-size: 1rem;
 }
 
 .container h1 {
-    margin-bottom: 30px;
-    color: #333;
+    margin-bottom: 20px;
+    color: #1f2937;
+    font-size: 1.6rem;
+}
+
+@media screen and (min-width: 769px) {
+    .container h1 {
+        font-size: 2rem;
+        margin-bottom: 28px;
+    }
 }
 
 /* ---- Search box ---- */
 .search-box {
     display: flex;
-    border-radius: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    background: white;
-    margin-bottom: 20px;
+    background-color: #ffffff;
+    margin-bottom: 18px;
 }
 
 .search-box input {
     flex: 1;
-    padding: 15px;
+    padding: 12px;
     border: none;
     outline: none;
-    font-size: 16px;
+    font-size: 15px;
     font-family: inherit;
 }
 
 .search-box button {
-    padding: 0 20px;
+    padding: 0 16px;
     border: none;
     background-color: #4f46e5;
     color: white;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 15px;
 }
 
+/* :hover — slide: "a:hover { color: maroon; }" */
 .search-box button:hover {
     background-color: #4338ca;
 }
 
-/* ---- Course strip ---- */
+/* ---- Course strip (mobile-first: 2 colonne, poi 4 su desktop)
+        Slide: grid-template-columns con fr, media queries ---- */
 .course-strip {
-    margin: 0 auto 30px;
+    margin: 0 auto 20px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-    gap: 14px;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+@media screen and (min-width: 769px) {
+    .course-strip {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 14px;
+        margin-bottom: 28px;
+    }
 }
 
 .course-box {
-    border: 1px solid rgba(255, 255, 255, 0.28);
-    border-radius: 18px;
-    padding: 18px 16px;
-    background: rgba(255, 255, 255, 0.22);
-    backdrop-filter: blur(14px);
-    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.1);
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 14px 12px;
+    background-color: #f8fafb;
     color: #0f172a;
     text-align: left;
     cursor: pointer;
-    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
 }
 
 .course-box:hover {
-    transform: translateY(-2px);
-    background: rgba(255, 255, 255, 0.34);
-    box-shadow: 0 18px 36px rgba(15, 23, 42, 0.14);
+    background-color: #e8f0fb;
 }
 
 .course-box-title {
-    margin: 0 0 10px;
-    font-size: 1rem;
+    margin: 0 0 6px;
+    font-size: 0.95rem;
     font-weight: 700;
 }
 
 .course-box-count {
     color: #475569;
-    font-size: 0.95rem;
+    font-size: 0.88rem;
 }
 
 /* ---- Contenitore risultati ---- */
 #results {
-    margin-top: 20px;
-    max-height: 70vh;
-    overflow-y: auto;
-    padding-right: 10px;
+    margin-top: 14px;
 }
 
-/* Spaziatura tra card nella lista risultati */
+/* Selettore discendente — slide: "p a {} Targets any <a> inside a <p>" */
 #results .card {
-    margin-bottom: 14px;
+    margin-bottom: 12px;
+    text-align: left;
 }
 
-/* Rating stars */
+/* Su desktop: scroll interno ai risultati per non far crescere la pagina indefinitamente */
+@media screen and (min-width: 769px) {
+    #results {
+        max-height: 62vh;
+        overflow-y: auto;
+        padding-right: 6px;
+    }
+}
+
+/* ---- Rating stars ---- */
 .star {
     cursor: pointer;
-    font-size: 1.4rem;
-    color: #ccc;
-    transition: color 0.15s ease;
+    font-size: 1.3rem;
+    color: #cbd5e1;
     user-select: none;
 }
 
+/* :hover — slide; .active — selettore di classe, slide */
 .star:hover,
 .star.active {
-    color: #f5a623;
+    color: #f59e0b;
+}
+
+/* ================================================
+   SIDEBAR
+   Spostata da layout.css — usata esclusivamente in home.jsp.
+   La transizione "left" è mantenuta perché è la sola animazione
+   necessaria a rendere l'apertura della sidebar comprensibile.
+   ================================================ */
+
+/* ---- Pulsante hamburger (visibile solo su mobile) ---- */
+.menu-btn {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    font-size: 22px;
+    cursor: pointer;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 6px 10px;
+    transition: left 0.3s ease;
+    z-index: 1100;
+}
+
+/* Selettore combinato — slide: ".note {} ... p.note {}" */
+.menu-btn.active {
+    left: 276px;
+}
+
+/* ---- Sidebar (position: fixed — slide) ---- */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -260px;
+    width: 260px;
+    height: 100%;
+    background-color: #ffffff;
+    border-right: 1px solid #e2e8f0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: left 0.3s ease;
+    z-index: 1000;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar h2 {
+    margin-top: 0;
+}
+
+/* list-style: none — rimuove i bullet della lista */
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 14px 0;
+    color: #334155;
+}
+
+/* Selettore discendente — slide */
+.sidebar ul li a {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+}
+
+/* :hover su li — slide */
+.sidebar ul li:hover {
+    color: #4f46e5;
+}
+
+/* Pulsante logout in fondo alla sidebar */
+.logout-form {
+    margin-top: auto;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
+}
+
+.logout-btn {
+    width: 70%;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 16px;
+    background-color: #4f46e5;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background-color: #4338ca;
+}
+
+/* ---- Overlay (display: none/block — slide) ---- */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: none;
+    z-index: 900;
+}
+
+.overlay.active {
+    display: block;
+}
+
+/* ================================================
+   DESKTOP (min-width: 769px)
+   Su schermi larghi:
+   - Hamburger e sidebar nascosti (display: none — slide)
+   - Navigazione orizzontale visibile
+   ================================================ */
+@media screen and (min-width: 769px) {
+
+    /* display: none — slide: "removes the content from the normal flow entirely" */
+    .menu-btn {
+        display: none;
+    }
+
+    .sidebar,
+    .overlay {
+        display: none;
+    }
+
+    /* Topnav: visibile solo su desktop */
+    .topnav {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 0;
+        margin-bottom: 14px;
+    }
+
+    .topnav a,
+    .topnav button {
+        color: #0f172a;
+        text-decoration: none;
+        padding: 7px 13px;
+        border-radius: 6px;
+        background-color: transparent;
+        border: 1px solid transparent;
+        font: inherit;
+        font-size: 0.9rem;
+        cursor: pointer;
+    }
+
+    /* :hover — slide */
+    .topnav a:hover,
+    .topnav button:hover {
+        background-color: rgba(15, 23, 42, 0.07);
+        border-color: #cbd5e1;
+    }
+
+    .topnav form {
+        margin: 0;
+    }
 }
