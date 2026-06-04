@@ -1,7 +1,7 @@
 /* ============================================================
    COMPONENTS
-   Tutti i componenti UI riusabili.
-   Caricato da: home, profile, favorites, upload.
+   All reusable UI components.
+   Loaded by: home, profile, favorites, upload.
    ============================================================ */
 
 /* ============================
@@ -21,7 +21,7 @@
     font-size: 0.95rem;
 }
 
-/* Selettore combinato: slide: ".note {} ... p.note {}" */
+/* Combined selector — slide: ".note {} ... p.note {}" */
 .feedback.success {
     background-color: #dcfce7;
     color: #166534;
@@ -47,7 +47,7 @@
 }
 
 /* ============================
-   CARD (risultati ricerca in home, preferiti)
+   CARD (search results in home, favorites list)
    ============================ */
 .card {
     background-color: #ffffff;
@@ -69,7 +69,7 @@
     line-height: 1.55;
 }
 
-/* Metadati (corso, autore, data) */
+/* Card metadata row (course, author, date) */
 .card-meta {
     display: flex;
     gap: 12px;
@@ -78,7 +78,7 @@
     color: #475569;
 }
 
-/* Riga azioni: mobile-first (colonna), poi riga su schermi larghi
+/* Card actions: mobile-first (column), then row on wider screens.
    Slide: "Design for small screen first" */
 .card-actions {
     display: flex;
@@ -87,14 +87,14 @@
     gap: 10px;
 }
 
-/* Selettori discendenti — slide: "p a {} Targets any <a> inside a <p>" */
+/* Descendant selectors — slide: "p a {} Targets any <a> inside a <p>" */
 .card-actions .download-btn,
 .card-actions .btn,
 .card-actions form {
     width: 100%;
 }
 
-/* margin: 0 sul form evita spazio extra del browser */
+/* Removes default browser margin on forms inside card-actions */
 .card-actions form {
     margin: 0;
 }
@@ -137,7 +137,7 @@
     font-weight: 600;
 }
 
-/* :hover — slide: "a:hover { color: maroon; }" */
+/* :hover — slide */
 .download-btn:hover {
     background-color: #0d6560;
 }
@@ -161,7 +161,7 @@
     background-color: #ffe4e6;
 }
 
-/* Selettore combinato — slide: ".note {} ... p.note {}" */
+/* Combined selector — slide: ".note {} ... p.note {}" */
 .favorite-btn.active {
     color: #e11d48;
     background-color: #ffe4e6;
@@ -169,7 +169,7 @@
 }
 
 /* ============================
-   BTN GENERICO
+   GENERIC BUTTON SYSTEM
    ============================ */
 .btn {
     display: inline-flex;
@@ -204,6 +204,7 @@
     background-color: #cbd5e1;
 }
 
+/* Used by the remove-favorite button in favorites.jsp */
 .btn-remove {
     color: #e11d48;
     background-color: #ffe4e6;
@@ -214,8 +215,8 @@
 }
 
 /* ============================
-   FORM UPLOAD (upload.jsp)
-   Mobile-first: padding ridotto, poi allargato su desktop
+   UPLOAD FORM (upload.jsp)
+   Mobile-first: smaller padding on mobile, larger on desktop.
    ============================ */
 .form-card {
     width: 100%;
@@ -288,7 +289,7 @@
     background-color: #f8fafc;
 }
 
-/* Selettore discendente — slide: "p a {} Targets any <a> inside a <p>" */
+/* Descendant selector — slide: "p a {} Targets any <a> inside a <p>" */
 .form-card .actions {
     margin-top: 22px;
 }
@@ -302,8 +303,8 @@
 
 /* ============================
    HELPER TEXT (upload.jsp)
-   Nota: .helper-text è definita anche in auth.css perché register.jsp
-   non carica components.css — non è una vera duplicazione.
+   Also defined in auth.css for register.jsp, which does not
+   load components.css — this is intentional, not a duplicate.
    ============================ */
 .helper-text {
     margin-top: 6px;

@@ -1,24 +1,24 @@
 /* ============================================================
    LAYOUT
-   Strutture di pagina condivise da profile, favorites, upload.
-   Caricato con: base.css + layout.css + components.css
+   Shared page structures for profile, favorites, upload.
+   Loaded with: base.css + layout.css + components.css
    ============================================================ */
 
-/* ---- Reset margini heading/paragrafo ---- */
+/* ---- Reset top margins on headings and paragraphs ---- */
 h1, h2, h3, p {
     margin-top: 0;
 }
 
-/* ---- Body: pagine app (profile, favorites)
-        Usa una classe invece di un selettore body generico
-        per evitare conflitti con home.css e upload-body ---- */
+/* ---- Body: app pages (profile, favorites)
+        Uses a class instead of a bare body selector
+        to avoid conflicts with home.css and upload-body. ---- */
 .app-body {
     min-height: 100vh;
     background-color: #edf2fb;
     padding: 20px 14px 40px;
 }
 
-/* ---- Body: upload (flex centrato) ---- */
+/* ---- Body: upload page (centered flex layout) ---- */
 /* body.class-name — slide: "p.note {} Targets only <p> elements..." */
 body.upload-body {
     background-color: #edf2fb;
@@ -29,16 +29,16 @@ body.upload-body {
     min-height: 100vh;
 }
 
-/* ---- Wrapper di pagina ---- */
+/* ---- Page wrapper ---- */
 .page {
     width: 100%;
     max-width: 1080px;
     margin: 0 auto;
 }
 
-/* ---- Barra superiore (mobile-first)
+/* ---- Top bar (mobile-first)
         Slide: "Design for small screen first"
-        Base mobile: colonna; da 561px: riga ---- */
+        Base (mobile): column; from 561px: row ---- */
 .topbar {
     display: flex;
     flex-direction: column;
@@ -47,7 +47,7 @@ body.upload-body {
     margin-bottom: 22px;
 }
 
-/* min-width: il prof ha spiegato in teoria */
+/* min-width: covered by the professor in theory */
 @media screen and (min-width: 561px) {
     .topbar {
         flex-direction: row;
@@ -56,26 +56,26 @@ body.upload-body {
     }
 }
 
-/* Padding maggiore su schermi larghi */
+/* Larger padding on wide screens */
 @media screen and (min-width: 769px) {
     .app-body {
         padding: 32px 20px 48px;
     }
 }
 
-/* ---- Brand ---- */
+/* ---- Brand heading ---- */
 .brand {
     font-size: 1.6rem;
     font-weight: 700;
 }
 
-/* ---- Blocco titolo (favorites) ---- */
+/* ---- Title block (favorites) ---- */
 .title-block h1 {
     margin: 0 0 4px;
     font-size: 1.8rem;
 }
 
-/* ---- Link di navigazione (back, new upload…) ---- */
+/* ---- Navigation link (back, new upload, etc.) ---- */
 .nav-link {
     display: inline-block;
     text-decoration: none;
@@ -92,7 +92,7 @@ body.upload-body {
     background-color: #f1f5f9;
 }
 
-/* ---- Lista generica (favorites) ---- */
+/* ---- Generic grid list (favorites) ---- */
 .grid-list {
     display: grid;
     gap: 16px;

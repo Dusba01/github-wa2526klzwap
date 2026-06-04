@@ -1,12 +1,12 @@
 /* ============================================================
    PROFILE
-   Stili esclusivi di profile.jsp.
-   Caricato con: base.css + layout.css + components.css + profile.css
+   Styles exclusive to profile.jsp.
+   Loaded with: base.css + layout.css + components.css + profile.css
    ============================================================ */
 
 /* ============================
-   GRIGLIA DI PAGINA
-   Mobile-first: colonna singola, poi bicolonna su desktop.
+   PAGE GRID
+   Mobile-first: single column, then two columns on desktop.
    Slide: display grid, grid-template-columns, fr, media queries.
    ============================ */
 .grid-profile {
@@ -23,7 +23,7 @@
 }
 
 /* ============================
-   PANEL (sezione con sfondo bianco)
+   PANEL (white card section)
    ============================ */
 .panel {
     background-color: #ffffff;
@@ -39,7 +39,7 @@
     }
 }
 
-/* ---- Intestazione sezione con azione a destra ---- */
+/* ---- Section heading with optional action on the right ---- */
 .section-title {
     display: flex;
     justify-content: space-between;
@@ -50,7 +50,7 @@
 }
 
 /* ============================
-   LISTA UPLOAD (griglia note)
+   UPLOAD LIST (grid of uploaded notes)
    ============================ */
 .upload-list {
     display: grid;
@@ -58,7 +58,7 @@
 }
 
 /* ============================
-   INFO UTENTE
+   USER INFO
    ============================ */
 .user-badge {
     width: 56px;
@@ -87,8 +87,8 @@
     border: 1px solid #e2e8f0;
 }
 
-/* text-transform e letter-spacing non sono nelle slide,
-   ma contribuiscono alla leggibilità dell'etichetta */
+/* text-transform and letter-spacing are not in the slides
+   but improve readability of small uppercase labels */
 .info-label {
     font-size: 0.78rem;
     text-transform: uppercase;
@@ -120,7 +120,7 @@
 }
 
 /* ============================
-   CARD UPLOAD (singola nota)
+   UPLOAD CARD (single uploaded note)
    ============================ */
 .upload-card {
     border: 1px solid #e2e8f0;
@@ -142,8 +142,8 @@
     font-size: 0.9rem;
 }
 
-/* Upload-actions: mobile-first (colonna, poi riga su desktop)
-   Slide: flex-direction, mobile-first */
+/* Mobile-first: column layout, then row on wider screens.
+   Slide: flex-direction, mobile-first approach. */
 .upload-actions {
     display: flex;
     flex-direction: column;
@@ -151,8 +151,8 @@
     align-items: stretch;
 }
 
-/* Selettori discendenti: tutti i figli diretti di upload-actions
-   occupano la larghezza piena su mobile — slide: selettore discendente */
+/* Descendant selectors: all direct children fill full width on mobile.
+   Slide: descendant selector */
 .upload-actions .download-btn,
 .upload-actions .edit-panel,
 .upload-actions .delete-form,
@@ -161,8 +161,7 @@
     min-width: 0;
 }
 
-/* edit-panel è un <details>: quando chiuso,
-   il suo summary (edit-btn) deve riempire la larghezza */
+/* The edit-panel summary (the Edit button) must also fill full width */
 .upload-actions .edit-panel summary {
     width: 100%;
     justify-content: center;
@@ -189,7 +188,7 @@
 }
 
 /* ============================
-   PULSANTI EDIT / DELETE
+   EDIT AND DELETE BUTTONS
    ============================ */
 .edit-btn {
     border: none;
@@ -231,16 +230,15 @@
     background-color: #b91c1c;
 }
 
-/* margin: 0 sul form evita spazio extra del browser */
+/* Removes default browser margin on the delete form */
 .delete-form {
     margin: 0;
 }
 
 /* ============================
-   EDIT PANEL (<details>)
-   Usa l'attributo [open] che il browser gestisce automaticamente.
-   [open] è un selettore di attributo — non nelle slide, ma necessario
-   per lo stile dell'elemento <details>.
+   EDIT PANEL (<details> element)
+   The [open] attribute selector is not in the slides but is
+   required to style the open/closed state of <details>.
    ============================ */
 .edit-panel {
     margin: 0;
@@ -251,20 +249,19 @@
 }
 
 .edit-panel summary {
-    /* list-style: none rimuove il marker di default sui <summary> */
+    /* list-style: none removes the default disclosure triangle */
     list-style: none;
     display: inline-flex;
     align-items: center;
     cursor: pointer;
 }
 
-/* Fallback webkit per nascondere il triangolo di default */
+/* Webkit fallback to hide the default triangle marker */
 .edit-panel summary::-webkit-details-marker {
     display: none;
 }
 
-/* Quando il pannello è aperto diventa block a larghezza piena,
-   separato dai pulsanti da un bordo superiore */
+/* When the panel is open: becomes a full-width block below the buttons */
 .edit-panel[open] {
     display: block;
     width: 100%;
@@ -273,7 +270,7 @@
     border-top: 1px solid #e2e8f0;
 }
 
-/* Il bottone Edit cambia colore quando il pannello è aperto */
+/* The Edit button changes shade when the panel is open */
 .edit-panel[open] .edit-toggle {
     background-color: #1d4ed8;
 }
@@ -330,8 +327,8 @@
     flex-wrap: wrap;
 }
 
-/* Field-grid: mobile-first (colonna singola, poi 2 colonne su desktop)
-   Slide: grid-template-columns con fr */
+/* Field grid: mobile-first (single column, then two columns on desktop).
+   Slide: grid-template-columns with fr units. */
 .field-grid {
     display: grid;
     grid-template-columns: 1fr;
