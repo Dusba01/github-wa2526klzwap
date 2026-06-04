@@ -40,7 +40,7 @@
         <li><a href="${pageContext.request.contextPath}/upload-note">📤 Upload notes</a></li>
     </ul>
     <form action="${pageContext.request.contextPath}/logout" method="post" class="logout-form">
-        <button type="submit" class="logout-btn">🚪 Logout</button>
+        <button type="submit" class="logout-btn">⇦ Logout</button>
     </form>
 </div>
 
