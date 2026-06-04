@@ -1,9 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <c:if test="${empty sessionScope.user}">
     <c:redirect url="/login"/>
 </c:if>
+
+<%-- Compute display name and badge letter once; reused in sidebar and topnav --%>
+<c:set var="displayName"
+       value="${not empty sessionScope.user.name ? sessionScope.user.name : sessionScope.user.username}"/>
+<c:set var="badgeLetter"
+       value="${fn:toUpperCase(fn:substring(displayName, 0, 1))}"/>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,11 +25,15 @@
 </head>
 <body>
 
-<%-- Hamburger: visibile solo su mobile (nascosto su desktop via CSS) --%>
+<%-- Hamburger button: visible on mobile only (hidden on desktop via CSS) --%>
 <button class="menu-btn" id="menuBtn" onclick="toggleSidebar()" aria-label="Open menu">☰</button>
 
 <div class="sidebar" id="sidebar">
-    <h2>Menu</h2>
+    <%-- User badge and name at the top of the sidebar --%>
+    <div class="sidebar-header">
+        <div class="user-badge-sm"><c:out value="${badgeLetter}"/></div>
+        <span class="sidebar-name"><c:out value="${displayName}"/></span>
+    </div>
     <ul>
         <li><a href="${pageContext.request.contextPath}/profile">👤 My Profile</a></li>
         <li><a href="${pageContext.request.contextPath}/favorites">⭐ Favorites</a></li>
@@ -37,18 +48,23 @@
 
 <div class="container">
 
-    <%-- Navigazione orizzontale: visibile solo su desktop (nascosta su mobile via CSS) --%>
+    <%-- Desktop horizontal navigation: hidden on mobile via CSS --%>
     <nav class="topnav">
-        <a href="${pageContext.request.contextPath}/profile">👤 My Profile</a>
-        <a href="${pageContext.request.contextPath}/favorites">⭐ Favorites</a>
-        <a href="${pageContext.request.contextPath}/upload-note">📤 Upload notes</a>
-        <form action="${pageContext.request.contextPath}/logout" method="post">
-            <button type="submit">🚪 Logout</button>
-        </form>
+        <div class="topnav-user">
+            <div class="topnav-badge"><c:out value="${badgeLetter}"/></div>
+            <span class="topnav-name"><c:out value="${displayName}"/></span>
+        </div>
+        <div class="topnav-links">
+            <a href="${pageContext.request.contextPath}/profile">👤 My Profile</a>
+            <a href="${pageContext.request.contextPath}/favorites">⭐ Favorites</a>
+            <a href="${pageContext.request.contextPath}/upload-note">📤 Upload notes</a>
+            <form action="${pageContext.request.contextPath}/logout" method="post">
+                <button type="submit">🚪 Logout</button>
+            </form>
+        </div>
     </nav>
 
-    <%-- Welcome text: retrocesso da h1 a p per correggere la doppia intestazione --%>
-    <p class="welcome-text">Welcome, <c:out value="${sessionScope.user.name}"/>!</p>
+    <p class="welcome-text">Welcome, <c:out value="${displayName}"/>!</p>
 
     <h1>Search Notes</h1>
 
