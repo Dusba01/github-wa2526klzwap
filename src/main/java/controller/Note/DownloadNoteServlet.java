@@ -24,16 +24,14 @@ public class DownloadNoteServlet extends AbstractDatabaseServlet {
         Integer noteId = parseNoteId(noteIdValue);
 
         if (noteId == null) {
-            resp.sendRedirect(req.getContextPath() + "/jsp/home.jsp?error="
-                    + URLEncoder.encode("Invalid note id.", StandardCharsets.UTF_8));
+            redirectWithError(req, resp, "Invalid note id.");
             return;
         }
 
         try {
             Note note = new GetNoteByIdDAO(getConnection(), noteId).access().getOutputParam();
             if (note == null || note.getFilePath() == null || note.getFilePath().isBlank()) {
-                resp.sendRedirect(req.getContextPath() + "/jsp/home.jsp?error="
-                        + URLEncoder.encode("File not found.", StandardCharsets.UTF_8));
+                redirectWithError(req, resp, "This file is no longer available for download.");
                 return;
             }
 
@@ -45,11 +43,36 @@ public class DownloadNoteServlet extends AbstractDatabaseServlet {
             resp.getOutputStream().write(storedFile.getBytes());
         } catch (SQLException e) {
             e.printStackTrace();
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database error.");
+            redirectWithError(req, resp, "A database error prevented the download. Please try again later.");
         } catch (RuntimeException e) {
+            // Storage failures (missing object, unreachable endpoint, bad credentials,
+            // etc.) surface as unchecked exceptions. Show a friendly banner on the page
+            // the user came from instead of a raw HTTP 500 error page.
             e.printStackTrace();
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Download error.");
+            redirectWithError(req, resp, "This file could not be downloaded right now. Please try again later.");
         }
+    }
+
+    /**
+     * Redirects back to the page the user came from (falling back to the home
+     * page) with a URL-encoded {@code error} parameter, so the existing
+     * ".feedback error" banner displays the message - mirroring the upload flow.
+     */
+    private void redirectWithError(HttpServletRequest req, HttpServletResponse resp, String message)
+            throws IOException {
+        String referer = req.getHeader("Referer");
+        String target;
+        if (referer != null && !referer.isBlank()) {
+            // Drop any existing query string so old error/success params don't pile up.
+            int queryStart = referer.indexOf('?');
+            target = queryStart >= 0 ? referer.substring(0, queryStart) : referer;
+        } else {
+            target = req.getContextPath() + "/jsp/home.jsp";
+        }
+
+        String separator = target.contains("?") ? "&" : "?";
+        resp.sendRedirect(target + separator + "error="
+                + URLEncoder.encode(message, StandardCharsets.UTF_8));
     }
 
     private Integer parseNoteId(String noteIdValue) {

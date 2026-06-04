@@ -14,6 +14,14 @@
 <body class="app-body">
 
 <div class="page">
+
+    <c:if test="${not empty param.success}">
+        <div class="feedback success"><c:out value="${param.success}"/></div>
+    </c:if>
+    <c:if test="${not empty param.error}">
+        <div class="feedback error"><c:out value="${param.error}"/></div>
+    </c:if>
+
     <div class="topbar">
         <div class="title-block">
             <h1>Your Favorites</h1>

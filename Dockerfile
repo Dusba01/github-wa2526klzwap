@@ -43,7 +43,14 @@ RUN set -eux; \
     echo "$(awk '{print $1}' /tmp/tomcat.tar.gz.sha512)  /tmp/tomcat.tar.gz" | sha512sum -c -; \
     tar -xf /tmp/tomcat.tar.gz -C "$CATALINA_HOME" --strip-components=1; \
     rm -f /tmp/tomcat.tar.gz /tmp/tomcat.tar.gz.sha512; \
-    rm -rf "$CATALINA_HOME"/webapps/*
+    rm -rf "$CATALINA_HOME"/webapps/*; \
+    # Let the HTTP connector swallow (drain) the remainder of an aborted upload
+    # body instead of resetting the TCP connection. Without this, an over-limit
+    # upload makes the browser show ERR_CONNECTION_RESET; with it, Tomcat reads
+    # the leftover bytes so the servlet's "file too large" redirect is delivered
+    # and the user sees the friendly error banner.
+    sed -i 's#protocol="HTTP/1.1"#protocol="HTTP/1.1" maxSwallowSize="-1"#' \
+        "$CATALINA_HOME/conf/server.xml"
 
 # --- Run as a non-root user --------------------------------------------------
 RUN groupadd -r tomcat && useradd -r -g tomcat -d "$CATALINA_HOME" tomcat; \

@@ -64,6 +64,13 @@
         </div>
     </nav>
 
+    <c:if test="${not empty param.success}">
+        <div class="feedback success"><c:out value="${param.success}"/></div>
+    </c:if>
+    <c:if test="${not empty param.error}">
+        <div class="feedback error"><c:out value="${param.error}"/></div>
+    </c:if>
+
     <p class="welcome-text">Welcome, <c:out value="${displayName}"/>!</p>
 
     <h1>Search Notes</h1>
