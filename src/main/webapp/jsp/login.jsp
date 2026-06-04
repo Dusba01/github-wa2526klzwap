@@ -17,13 +17,13 @@
 
     <h2>Login</h2>
 
-    <c:if test="${param.error == '1'}">
+    <c:if test="${not empty param.error}">
         <div class="error-box">
             Invalid credentials. Check your username/email and password.
         </div>
     </c:if>
 
-    <c:if test="${param.registered == '1'}">
+    <c:if test="${not empty param.registered}">
         <div class="success-box">
             Registration completed successfully. Please, log in to access.
         </div>
