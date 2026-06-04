@@ -1,6 +1,25 @@
-// On page load, populate the course summary strip
+// On page load, populate the course summary strip and wire up the search box
 document.addEventListener("DOMContentLoaded", () => {
     loadCourseSummaries();
+
+    // Wire up the search box behaviour here (kept out of the markup so the
+    // structure/content stays separate from the interaction logic).
+    const queryInput = document.getElementById("query");
+    if (queryInput) {
+        // Run the search by pressing Enter in the query field.
+        queryInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                searchNotes();
+            }
+        });
+    }
+
+    const searchBtn = document.getElementById("searchBtn");
+    if (searchBtn) {
+        // Run the search by clicking the magnifier button.
+        searchBtn.addEventListener("click", searchNotes);
+    }
 });
 
 // Fetches notes matching the search query and renders them as cards

@@ -54,7 +54,7 @@
 
     <div class="search-box">
         <input type="text" id="query" placeholder="Search by author, course or content..." required>
-        <button type="button" onclick="searchNotes()">🔍</button>
+        <button type="button" id="searchBtn" aria-label="Search">🔍</button>
     </div>
 
     <div id="courseStrip" class="course-strip"></div>
@@ -64,7 +64,7 @@
 
 <script>const BASE_URL = "${pageContext.request.contextPath}";</script>
 <script src="${pageContext.request.contextPath}/js/sidebar.js"></script>
-<script src="${pageContext.request.contextPath}/js/notes.js"></script>
+<script src="${pageContext.request.contextPath}/js/notes.js?v=2"></script>
 
 </body>
 </html>
