@@ -20,7 +20,34 @@ document.addEventListener("DOMContentLoaded", () => {
         // Run the search by clicking the magnifier button.
         searchBtn.addEventListener("click", searchNotes);
     }
+
+    const resetBtn = document.getElementById("resetBtn");
+    if (resetBtn) {
+        // Clear the query, drop the results and bring the course strip back.
+        resetBtn.addEventListener("click", resetSearch);
+    }
 });
+
+// Resets the search: empties the query field and results, and restores the
+// course summary strip to its initial state.
+function resetSearch() {
+    const queryInput = document.getElementById("query");
+    const results = document.getElementById("results");
+    const courseStrip = document.getElementById("courseStrip");
+
+    if (queryInput) {
+        queryInput.value = "";
+        queryInput.focus();
+    }
+    if (results) {
+        results.innerHTML = "";
+    }
+    if (courseStrip) {
+        // Remove the inline "display:none" set by searchNotes so the strip
+        // returns to the layout defined in the stylesheet.
+        courseStrip.style.display = "";
+    }
+}
 
 // Fetches notes matching the search query and renders them as cards
 function searchNotes() {

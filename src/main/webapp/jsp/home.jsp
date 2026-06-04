@@ -11,10 +11,10 @@
     <meta charset="UTF-8">
     <title>Home - Notes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/base.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/components.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/home.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/base.css?v=4">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css?v=4">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/components.css?v=4">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/home.css?v=4">
 </head>
 <body>
 
@@ -54,7 +54,17 @@
 
     <div class="search-box">
         <input type="text" id="query" placeholder="Search by author, course or content..." required>
-        <button type="button" id="searchBtn" aria-label="Search">🔍</button>
+        <button type="button" id="resetBtn" class="icon-btn reset-btn" aria-label="Reset search" title="Clear search">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+        </button>
+        <span class="search-divider" aria-hidden="true"></span>
+        <button type="button" id="searchBtn" class="icon-btn" aria-label="Search" title="Search">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+            </svg>
+        </button>
     </div>
 
     <div id="courseStrip" class="course-strip"></div>
@@ -64,7 +74,7 @@
 
 <script>const BASE_URL = "${pageContext.request.contextPath}";</script>
 <script src="${pageContext.request.contextPath}/js/sidebar.js"></script>
-<script src="${pageContext.request.contextPath}/js/notes.js?v=2"></script>
+<script src="${pageContext.request.contextPath}/js/notes.js?v=3"></script>
 
 </body>
 </html>

@@ -76,18 +76,36 @@ body {
     font-family: inherit;
 }
 
-.search-box button {
-    padding: 0 16px;
+/* ---- Pulsanti icona (reset + ricerca), stile Google: solo icona, grigio ---- */
+.search-box .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 14px;
     border: none;
-    background-color: #4f46e5;
-    color: white;
+    background-color: transparent;
+    color: #5f6368;
     cursor: pointer;
-    font-size: 15px;
+    transition: color 0.15s ease;
+}
+
+.search-box .icon-btn svg {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
 }
 
 /* :hover — slide: "a:hover { color: maroon; }" */
-.search-box button:hover {
-    background-color: #4338ca;
+.search-box .icon-btn:hover {
+    color: #202124;
+}
+
+/* ---- Sottile separatore verticale tra reset e ricerca (stile Google) ---- */
+.search-divider {
+    width: 1px;
+    align-self: stretch;
+    margin: 8px 0;
+    background-color: #dfe1e5;
 }
 
 /* ---- Course strip (mobile-first: 2 colonne, poi 4 su desktop)
