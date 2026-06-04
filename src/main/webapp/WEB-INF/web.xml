@@ -12,7 +12,7 @@
         <welcome-file>jsp/login.jsp</welcome-file>
     </welcome-file-list>
 
-    <!-- ============================ Filters ============================ -->
+    <!-- FILTERS-->
     <!-- Filter order is the declaration order of the <filter-mapping>
          elements below: the character-encoding filter runs first (so request
          parameters are decoded as UTF-8 before anyone reads them), then the

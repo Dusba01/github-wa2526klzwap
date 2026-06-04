@@ -6,12 +6,6 @@
     <c:redirect url="/login"/>
 </c:if>
 
-<%-- Compute display name and badge letter once; reused in sidebar and topnav --%>
-<c:set var="displayName"
-       value="${not empty sessionScope.user.name ? sessionScope.user.name : sessionScope.user.username}"/>
-<c:set var="badgeLetter"
-       value="${fn:toUpperCase(fn:substring(displayName, 0, 1))}"/>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

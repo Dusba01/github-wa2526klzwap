@@ -62,7 +62,7 @@
             <c:otherwise>
                 <div class="empty-state" id="favoritesEmpty">
                     <h3>No favorites yet</h3>
-                    <p>Save notes with the star button from the home page and they will appear here.</p>
+                    <p>Save notes with the heart button from the home page and they will appear here.</p>
                 </div>
             </c:otherwise>
         </c:choose>

@@ -33,7 +33,18 @@ public class LoginServlet extends AbstractDatabaseServlet {
             System.out.println("checkLogin result: " + user);
 
             if (user != null) {
+
+                String displayName;
+                if (user.getName() != null && !user.getName().isBlank()) {
+                    displayName = user.getName();
+                } else {
+                    displayName = user.getUsername();
+                }
+                String badgeLetter = String.valueOf(displayName.charAt(0)).toUpperCase();
+
                 req.getSession().setAttribute("user", user);
+                req.getSession().setAttribute("displayName", displayName);
+                req.getSession().setAttribute("badgeLetter", badgeLetter);
                 System.out.println("Login successful, redirecting to home.jsp");
                 resp.sendRedirect("jsp/home.jsp"); // nuova JSP
             } else {
