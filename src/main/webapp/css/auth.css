@@ -34,36 +34,38 @@ body {
     font: inherit;
 }
 
+/* 1 — focus ring unified to teal (was violet #6c63ff) */
 .auth-card input:focus {
-    border-color: #6c63ff;
-    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
+    border-color: #0f766e;
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.15);
 }
 
-/* Submit button */
+/* Submit button — teal (was violet #6c63ff) */
 .auth-btn {
     display: block;
     width: 100%;
     padding: 10px;
     margin-top: 15px;
-    background-color: #6c63ff;
+    background-color: #0f766e;
     color: white;
     border: none;
     border-radius: 6px;
     cursor: pointer;
     font: inherit;
     font-size: 15px;
+    transition: background-color 0.15s ease;
 }
 
 .auth-btn:hover {
-    background-color: #574bdb;
+    background-color: #0d6560;
 }
 
-/* Navigation link between login and register */
+/* Navigation link between login and register — teal (was violet) */
 .auth-link {
     display: block;
     margin-top: 15px;
     text-decoration: none;
-    color: #6c63ff;
+    color: #0f766e;
 }
 
 .auth-link:hover {
@@ -91,8 +93,7 @@ body {
     text-align: center;
 }
 
-/* Helper text under fields (register.jsp)
-   For example: "Password must be 7 to 15 characters ... " */
+/* Helper text under fields (register.jsp) */
 .helper-text {
     margin: 4px 0 10px;
     color: #64748b;
