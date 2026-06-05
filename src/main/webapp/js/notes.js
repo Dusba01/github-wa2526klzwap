@@ -2,7 +2,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     loadCourseSummaries();
 
-
     const queryInput = document.getElementById("query");
     if (queryInput) {
         // Run the search by pressing Enter in the query field.
@@ -85,11 +84,11 @@ function buildNoteCardHTML(note) {
         <h3>${note.title}</h3>
         <p>${note.description || "No description available."}</p>
         <div class="card-meta">
-            <small>📚 Course: ${note.courseName}</small>
-            <small>👤 Author: ${note.authorUsername}</small>
+            <small><i class="fa-solid fa-book"></i> Course: ${note.courseName}</small>
+            <small><i class="fa-solid fa-user"></i> Author: ${note.authorUsername}</small>
         </div>
         <div class="rating" id="rating-${note.id}">
-            ⏳ loading rating...
+            <i class="fa-solid fa-spinner fa-spin"></i> loading rating...
         </div>
         <div class="card-actions">
             <div class="card-actions-left">
@@ -100,9 +99,11 @@ function buildNoteCardHTML(note) {
                     data-favorite="${note.isFavorite}"
                     aria-label="${note.isFavorite ? "Remove from favorites" : "Add to favorites"}"
                     title="${note.isFavorite ? "Remove from favorites" : "Add to favorites"}"
-                >${note.isFavorite ? "♥" : "♡"}</button>
+                ><i class="fa-${note.isFavorite ? "solid" : "regular"} fa-heart"></i></button>
             </div>
-            <a class="download-btn" href="${BASE_URL}/download-note?id=${note.id}">⬇ Download PDF</a>
+            <a class="download-btn" href="${BASE_URL}/download-note?id=${note.id}">
+                <i class="fa-solid fa-download"></i> Download PDF
+            </a>
         </div>
     `;
 }
@@ -156,7 +157,8 @@ function bindFavoriteButtons() {
 
                 const nextFavorite = !isFavorite;
                 button.dataset.favorite = String(nextFavorite);
-                button.textContent = nextFavorite ? "♥" : "♡";
+                // Switch between fa-solid (filled) and fa-regular (outline)
+                button.innerHTML = `<i class="fa-${nextFavorite ? "solid" : "regular"} fa-heart"></i>`;
                 button.classList.toggle("active", nextFavorite);
                 button.setAttribute("aria-label", nextFavorite ? "Remove from favorites" : "Add to favorites");
                 button.setAttribute("title", nextFavorite ? "Remove from favorites" : "Add to favorites");
@@ -178,7 +180,7 @@ function loadRating(noteId) {
             const userValue = data.userValue;
 
             container.innerHTML = `
-                <div>⭐ ${avg.toFixed(1)} (${count})</div>
+                <div><i class="fa-solid fa-star" style="color:#f59e0b"></i> ${avg.toFixed(1)} (${count})</div>
                 <div>${renderStars(noteId, userValue)}</div>
             `;
         });
@@ -189,8 +191,10 @@ function renderStars(noteId, userValue) {
     let html = "";
 
     for (let i = 1; i <= 5; i++) {
-        const filled = userValue && i <= userValue ? "★" : "☆";
-        html += `<span class="star" data-note-id="${noteId}" data-value="${i}" data-current="${userValue || 0}">${filled}</span>`;
+        const filled = userValue && i <= userValue;
+        html += `<span class="star ${filled ? "active" : ""}" data-note-id="${noteId}" data-value="${i}" data-current="${userValue || 0}">
+            <i class="fa-${filled ? "solid" : "regular"} fa-star"></i>
+        </span>`;
     }
 
     return html;
@@ -217,10 +221,11 @@ function rateNote(noteId, value, currentValue) {
 // Global click listener for star ratings
 // reads note id, star value, and current rating from data attributes
 document.addEventListener("click", (e) => {
-    if (e.target.classList.contains("star")) {
-        const noteId = parseInt(e.target.dataset.noteId);
-        const value = parseInt(e.target.dataset.value);
-        const current = parseInt(e.target.dataset.current);
+    const star = e.target.closest(".star");
+    if (star) {
+        const noteId = parseInt(star.dataset.noteId);
+        const value = parseInt(star.dataset.value);
+        const current = parseInt(star.dataset.current);
         rateNote(noteId, value, current);
     }
 });

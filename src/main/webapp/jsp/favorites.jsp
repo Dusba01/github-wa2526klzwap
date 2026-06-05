@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/base.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body class="app-body">
 
@@ -45,15 +46,19 @@
                             </c:choose>
                         </p>
                         <div class="card-meta">
-                            <span>📚 <c:out value="${note.courseName}"/></span>
-                            <span>👤 <c:out value="${note.authorUsername}"/></span>
-                            <span>🕒 <c:out value="${note.uploadDateFormatted}"/></span>
+                            <span><i class="fa-solid fa-book"></i> <c:out value="${note.courseName}"/></span>
+                            <span><i class="fa-solid fa-user"></i> <c:out value="${note.authorUsername}"/></span>
+                            <span><i class="fa-solid fa-clock"></i> <c:out value="${note.uploadDateFormatted}"/></span>
                         </div>
                         <div class="card-actions">
-                            <a class="download-btn" href="${pageContext.request.contextPath}/download-note?id=${note.id}">⬇ Download</a>
+                            <a class="download-btn" href="${pageContext.request.contextPath}/download-note?id=${note.id}">
+                                <i class="fa-solid fa-download"></i> Download
+                            </a>
                             <form action="${pageContext.request.contextPath}/remove-favorite" method="post">
                                 <input type="hidden" name="noteId" value="${note.id}">
-                                <button type="submit" class="btn btn-remove">♥ Remove favorite</button>
+                                <button type="submit" class="btn btn-remove">
+                                    <i class="fa-solid fa-heart-crack"></i> Remove favorite
+                                </button>
                             </form>
                         </div>
                     </article>

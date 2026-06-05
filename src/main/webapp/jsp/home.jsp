@@ -12,11 +12,14 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/components.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
 <%-- Hamburger button: visible on mobile only (hidden on desktop via CSS) --%>
-<button class="menu-btn" id="menuBtn" onclick="toggleSidebar()" aria-label="Open menu">☰</button>
+<button class="menu-btn" id="menuBtn" onclick="toggleSidebar()" aria-label="Open menu">
+    <i class="fa-solid fa-bars"></i>
+</button>
 
 <div class="sidebar" id="sidebar">
     <%-- User badge and name at the top of the sidebar --%>
@@ -25,12 +28,12 @@
         <span class="sidebar-name"><c:out value="${displayName}"/></span>
     </div>
     <ul>
-        <li><a href="${pageContext.request.contextPath}/profile">👤 My Profile</a></li>
-        <li><a href="${pageContext.request.contextPath}/favorites">⭐ Favorites</a></li>
-        <li><a href="${pageContext.request.contextPath}/upload-note">📤 Upload notes</a></li>
+        <li><a href="${pageContext.request.contextPath}/profile"><i class="fa-solid fa-user"></i> My Profile</a></li>
+        <li><a href="${pageContext.request.contextPath}/favorites"><i class="fa-solid fa-star"></i> Favorites</a></li>
+        <li><a href="${pageContext.request.contextPath}/upload-note"><i class="fa-solid fa-upload"></i> Upload notes</a></li>
     </ul>
     <form action="${pageContext.request.contextPath}/logout" method="post" class="logout-form">
-        <button type="submit" class="logout-btn">⇦ Logout</button>
+        <button type="submit" class="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
     </form>
 </div>
 
@@ -45,11 +48,11 @@
             <span class="topnav-name"><c:out value="${displayName}"/></span>
         </div>
         <div class="topnav-links">
-            <a href="${pageContext.request.contextPath}/profile">👤 My Profile</a>
-            <a href="${pageContext.request.contextPath}/favorites">⭐ Favorites</a>
-            <a href="${pageContext.request.contextPath}/upload-note">📤 Upload notes</a>
+            <a href="${pageContext.request.contextPath}/profile"><i class="fa-solid fa-user"></i> My Profile</a>
+            <a href="${pageContext.request.contextPath}/favorites"><i class="fa-solid fa-star"></i> Favorites</a>
+            <a href="${pageContext.request.contextPath}/upload-note"><i class="fa-solid fa-upload"></i> Upload notes</a>
             <form action="${pageContext.request.contextPath}/logout" method="post">
-                <button type="submit">🚪 Logout</button>
+                <button type="submit"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
             </form>
         </div>
     </nav>
@@ -67,9 +70,13 @@
 
     <div class="search-box">
         <input type="text" id="query" placeholder="Search by author, course or content..." required>
-        <button type="button" id="resetBtn" class="icon-btn reset-btn" aria-label="Reset search" title="Clear search">✖️</button>
+        <button type="button" id="resetBtn" class="icon-btn reset-btn" aria-label="Reset search" title="Clear search">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
         <span class="search-divider" aria-hidden="true"></span>
-        <button type="button" id="searchBtn" class="icon-btn" aria-label="Search" title="Search">🔍</button>
+        <button type="button" id="searchBtn" class="icon-btn" aria-label="Search" title="Search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
     </div>
 
     <div id="courseStrip" class="course-strip"></div>

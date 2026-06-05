@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/components.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body class="app-body">
 
@@ -81,13 +82,17 @@
                                     </c:choose>
                                 </p>
                                 <div class="upload-meta">
-                                    <span>📚 <c:out value="${not empty note.courseName ? note.courseName : 'Unknown course'}"/></span>
-                                    <span>🕒 <c:out value="${note.uploadDateFormatted}"/></span>
+                                    <span><i class="fa-solid fa-book"></i> <c:out value="${not empty note.courseName ? note.courseName : 'Unknown course'}"/></span>
+                                    <span><i class="fa-solid fa-clock"></i> <c:out value="${note.uploadDateFormatted}"/></span>
                                 </div>
                                 <div class="upload-actions">
-                                    <a class="download-btn" href="${pageContext.request.contextPath}/download-note?id=${note.id}">⬇ Download</a>
+                                    <a class="download-btn" href="${pageContext.request.contextPath}/download-note?id=${note.id}">
+                                        <i class="fa-solid fa-download"></i> Download
+                                    </a>
                                     <details class="edit-panel">
-                                        <summary class="edit-btn edit-toggle">✏ Edit</summary>
+                                        <summary class="edit-btn edit-toggle">
+                                            <i class="fa-solid fa-pen"></i> Edit
+                                        </summary>
                                         <form class="edit-form" action="${pageContext.request.contextPath}/update-note" method="post">
                                             <input type="hidden" name="noteId" value="${note.id}">
                                             <div class="field-grid">
@@ -118,7 +123,9 @@
                                     <form class="delete-form" action="${pageContext.request.contextPath}/delete-note" method="post"
                                           onsubmit="return confirm('Delete this upload permanently?');">
                                         <input type="hidden" name="noteId" value="${note.id}">
-                                        <button type="submit" class="delete-btn">🗑 Delete</button>
+                                        <button type="submit" class="delete-btn">
+                                            <i class="fa-solid fa-trash"></i> Delete
+                                        </button>
                                     </form>
                                 </div>
                             </article>
