@@ -129,10 +129,11 @@
     border: none;
     background-color: transparent;
     padding-left: 0;
+    transition: transform 0.2s ease;
 }
 
 .favorite-btn:hover {
-    font-size: 25px;
+    transform: scale(1.2);
 }
 
 .favorite-btn.active {
