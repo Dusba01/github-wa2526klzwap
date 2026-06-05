@@ -49,7 +49,7 @@ public class LoginServlet extends AbstractDatabaseServlet {
                 resp.sendRedirect("jsp/home.jsp"); // nuova JSP
             } else {
                 System.out.println("Invalid credentials, redirecting to login.jsp?error=1");
-                resp.sendRedirect("jsp/login.jsp?error");
+                resp.sendRedirect("jsp/login.jsp?error=1");
             }
         } catch (SQLException e) {
             System.out.println("SQL error during login:");
