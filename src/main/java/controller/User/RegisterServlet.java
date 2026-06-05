@@ -55,7 +55,7 @@ public class RegisterServlet extends AbstractDatabaseServlet {
 
             User user = new User(name, username, email, password);
             new InsertUserDAO(getConnection(), user).access();
-            resp.sendRedirect(req.getContextPath() + "/jsp/login.jsp?registered=1");
+            resp.sendRedirect(req.getContextPath() + "/jsp/login.jsp?registered=2");
         } catch (SQLException e) {
             e.printStackTrace();
             forwardWithError(req, resp, "Registration failed. Please verify your data and try again.");
