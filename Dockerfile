@@ -11,6 +11,12 @@ WORKDIR /app
 COPY pom.xml .
 RUN mvn -B -q dependency:go-offline
 
+# CACHEBUST arg: pass a unique value (e.g. timestamp) at build time to force
+# Docker to invalidate the cache from this point onwards, ensuring the latest
+# source code is always compiled instead of reusing a stale cached layer.
+# Usage: docker compose build --build-arg CACHEBUST=$(date +%s) tomcat
+ARG CACHEBUST=1
+
 # Build the application
 COPY src ./src
 RUN mvn -B -q clean package
