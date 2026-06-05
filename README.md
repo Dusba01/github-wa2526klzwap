@@ -46,6 +46,18 @@ The app will be available at `http://localhost:8080`.
 
 ---
 
+## Note on seed data
+
+To provide a realistic browsing experience on first run, the database is pre-populated
+with sample notes via `src/main/database/insert.sql`. These seed records exist only as
+metadata: they describe a note (title, course, author, and so on) but have no
+corresponding file in object storage. As a result, **the seed notes cannot be
+downloaded** — attempting to do so will fail because there is no underlying object to
+serve. Only notes that are uploaded through the application have a real file backing them
+and are therefore fully downloadable.
+
+---
+
 ## Project structure
 
 ```
