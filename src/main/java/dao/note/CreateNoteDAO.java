@@ -3,11 +3,7 @@ package dao.note;
 import dao.AbstractDAO;
 import model.Note;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * Inserts a new note and fills in its generated id.

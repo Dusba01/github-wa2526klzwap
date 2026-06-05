@@ -1,5 +1,7 @@
 package controller.Note;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
 import controller.AbstractDatabaseServlet;
 import dao.favorite.IsFavoriteDAO;
 import dao.note.SearchNotesDAO;
@@ -13,7 +15,6 @@ import model.User;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import com.fasterxml.jackson.core.*;
 
 @WebServlet("/rest/notes/search")
 public class SearchNoteServlet extends AbstractDatabaseServlet {
