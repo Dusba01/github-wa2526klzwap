@@ -46,7 +46,7 @@ public class LoginServlet extends AbstractDatabaseServlet {
                 req.getSession().setAttribute("displayName", displayName);
                 req.getSession().setAttribute("badgeLetter", badgeLetter);
                 System.out.println("Login successful, redirecting to home.jsp");
-                resp.sendRedirect("jsp/home.jsp"); // nuova JSP
+                resp.sendRedirect("jsp/home.jsp"); // new JSP
             } else {
                 System.out.println("Invalid credentials, redirecting to login.jsp?error=1");
                 resp.sendRedirect("jsp/login.jsp?error=1");
