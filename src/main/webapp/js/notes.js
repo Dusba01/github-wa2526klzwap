@@ -86,6 +86,7 @@ function buildNoteCardHTML(note) {
         <div class="card-meta">
             <small><i class="fa-solid fa-book"></i> Course: ${note.courseName}</small>
             <small><i class="fa-solid fa-user"></i> Author: ${note.authorUsername}</small>
+            <small><i class="fa-solid fa-clock"></i> ${note.uploadDateFormatted}</small>
         </div>
         <div class="rating" id="rating-${note.id}">
             <i class="fa-solid fa-spinner fa-spin"></i> loading rating...
@@ -157,7 +158,6 @@ function bindFavoriteButtons() {
 
                 const nextFavorite = !isFavorite;
                 button.dataset.favorite = String(nextFavorite);
-                // Switch between fa-solid (filled) and fa-regular (outline)
                 button.innerHTML = `<i class="fa-${nextFavorite ? "solid" : "regular"} fa-heart"></i>`;
                 button.classList.toggle("active", nextFavorite);
                 button.setAttribute("aria-label", nextFavorite ? "Remove from favorites" : "Add to favorites");
@@ -180,7 +180,7 @@ function loadRating(noteId) {
             const userValue = data.userValue;
 
             container.innerHTML = `
-                <div><i class="fa-solid fa-star" style="color:#f59e0b"></i> ${avg.toFixed(1)} (${count})</div>
+                <div>Rating: ${avg.toFixed(1)} (${count})</div>
                 <div>${renderStars(noteId, userValue)}</div>
             `;
         });
@@ -228,4 +228,27 @@ document.addEventListener("click", (e) => {
         const current = parseInt(star.dataset.current);
         rateNote(noteId, value, current);
     }
+});
+
+// star hover preview
+document.addEventListener("mouseover", (e) => {
+    const star = e.target.closest(".star");
+    if (!star) return;
+
+    const value = parseInt(star.dataset.value);
+    const container = star.parentElement;
+
+    container.querySelectorAll(".star").forEach(s => {
+        const v = parseInt(s.dataset.value);
+        s.classList.toggle("hover", v <= value);
+    });
+});
+
+document.addEventListener("mouseout", (e) => {
+    const star = e.target.closest(".star");
+    if (!star) return;
+
+    document.querySelectorAll(".star.hover").forEach(s => {
+        s.classList.remove("hover");
+    });
 });

@@ -123,24 +123,20 @@
 
 .favorite-btn {
     width: 42px;
-    height: 42px;
-    border: 1px solid #fecdd3;
-    border-radius: 50%;
-    background-color: #fff1f2;
     color: #94a3b8;
     font-size: 20px;
-    line-height: 1;
     cursor: pointer;
+    border: none;
+    background-color: transparent;
+    padding-left: 0;
 }
 
 .favorite-btn:hover {
-    background-color: #ffe4e6;
+    font-size: 25px;
 }
 
 .favorite-btn.active {
     color: #e11d48;
-    background-color: #ffe4e6;
-    border-color: #fda4af;
 }
 
 .btn {
@@ -275,4 +271,21 @@
     margin-top: 6px;
     font-size: 0.88rem;
     color: #64748b;
+}
+
+/* Font Awesome */
+.fa-star  {
+    color: #f59e0b;
+}
+
+.fa-book {
+    color: #0f766e;
+}
+
+.fa-user {
+    color: #6c63ff;
+}
+
+.fa-upload {
+    color: #2563eb
 }

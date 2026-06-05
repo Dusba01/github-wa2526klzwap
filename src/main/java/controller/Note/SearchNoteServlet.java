@@ -56,6 +56,7 @@ public class SearchNoteServlet extends AbstractDatabaseServlet {
                 jg.writeStringField("description", n.getDescription());
                 jg.writeNumberField("courseId", n.getCourseId());
                 jg.writeNumberField("authorId", n.getAuthorId());
+                jg.writeStringField("uploadDateFormatted", n.getUploadDateFormatted());
 
                 // campi "extra"
                 jg.writeStringField("courseName", n.getCourseName());

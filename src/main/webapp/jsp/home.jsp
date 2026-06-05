@@ -28,9 +28,9 @@
         <span class="sidebar-name"><c:out value="${displayName}"/></span>
     </div>
     <ul>
-        <li><a href="${pageContext.request.contextPath}/profile"><i class="fa-solid fa-user"></i> My Profile</a></li>
-        <li><a href="${pageContext.request.contextPath}/favorites"><i class="fa-solid fa-star"></i> Favorites</a></li>
-        <li><a href="${pageContext.request.contextPath}/upload-note"><i class="fa-solid fa-upload"></i> Upload notes</a></li>
+        <li><a href="${pageContext.request.contextPath}/profile"><i class="fa-solid fa-user fa-fw"></i> My Profile</a></li>
+        <li><a href="${pageContext.request.contextPath}/favorites"><i class="fa-solid fa-star fa-fw"></i> Favorites</a></li>
+        <li><a href="${pageContext.request.contextPath}/upload-note"><i class="fa-solid fa-upload fa-fw"></i> Upload notes</a></li>
     </ul>
     <form action="${pageContext.request.contextPath}/logout" method="post" class="logout-form">
         <button type="submit" class="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
