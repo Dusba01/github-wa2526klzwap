@@ -1,89 +1,79 @@
-# klzwap - Web Applications (WA) Repository
+# Lecture Notes App
 
-## Group members:
-
-| Name    | Surname     | ID      | Email                               |
-|:--------|:------------|:--------|:------------------------------------|
-| Edoardo | Zanella     | 2195316 | edoardo.zanella.2@studenti.unipd.it |
-| Laszlo  | Kosa        | 2183964 | laszlo.kosa@studenti.unipd.it       |
-| Luca    | Dusi        | 2200074 | luca.dusi@studenti.unipd.it         |
-| Milos   | Trifunovic  | 2183388 | milos.trifunovic@studenti.unipd.it  |
+A web application for university students to upload, search, and manage course notes. Users can register, upload PDF documents tied to specific courses, rate and favourite notes shared by others, and manage their own profile.
 
 
-## REQUIREMENTS
+## Group members
 
-- Java JDK 11 (or higher)
-- Apache Tomcat 9 (or higher)
-- Maven 3.x
-- PostgreSQL 
+| Name    | Surname    | ID      | Email                               |
+|:--------|:-----------|:--------|:------------------------------------|
+| Edoardo | Zanella    | 2195316 | edoardo.zanella.2@studenti.unipd.it |
+| Laszlo  | Kosa       | 2183964 | laszlo.kosa@studenti.unipd.it       |
+| Luca    | Dusi       | 2200074 | luca.dusi@studenti.unipd.it         |
+| Milos   | Trifunovic | 2183388 | milos.trifunovic@studenti.unipd.it  |
 
-## ENVIRONMENT CONFIGURATION
+---
 
-The application requires environment variables to connect to:
-- PostgreSQL database
-- Cloud storage service (R2 compatible)
+## Technologies
 
-1. Create a `.env` file in src/main/resources
-2. Copy the content from `.env.example`
-3. Fill in your local or remote credentials
+| Layer | Technology |
+|---|---|
+| Backend | Java 11, Jakarta Servlets, JSTL |
+| Frontend | JSP, CSS3, JavaScript |
+| Database | PostgreSQL 16 |
+| Object Storage | MinIO (S3-compatible) |
+| Application Server | Apache Tomcat 10.1 |
+| Build | Maven 3 |
+| Containerisation | Docker, Docker Compose |
 
-## DATABASE SETUP
-The project uses PostgreSQL.
+---
 
-1. Create the database:
-CREATE DATABASE lecturenotes;
+## Deployed application (remote)
 
-2. Execute the SQL scripts in the following order:
-   - `schema.sql` (creates tables and constraints)
-   - `insert.sql` (loads sample data)
+The app is also deployed and available at `https://peernotes.space/`.
 
-## STORAGE CONFIGURATION
-The project uses an S3-compatible storage service (e.g. Cloudflare R2).
+---
 
-If storage is not configured:
-- file upload/download features will be disabled
+## Running with Docker (local)
 
-## PROJECT STRUCTURE
+The easiest way to run the app is with Docker — no need to install Java, Maven, Tomcat, PostgreSQL, or MinIO locally.
 
+```bash
+docker compose up --build
+```
+
+The app will be available at `http://localhost:8080`.
+
+---
+
+## Project structure
+
+```
 lecture-notes-app/
 │
 ├── src/main/java/
-│   ├── controller/       ← Servlets
-│   ├── dao/              ← Database logic
-│   ├── model/            ← (User, Note...)
-│   ├── database/         ← SQL queries
-│   └── utils/            ← Utility (DB connection, StorageService)
+│   ├── controller/           ← Servlets (User, Note, Course, Favorite, Rating)
+│   │   └── AbstractDatabaseServlet.java  ← shared JNDI DataSource lookup
+│   ├── dao/                  ← One class per query (note/, user/, course/, favorite/, rating/)
+│   │   ├── AbstractDAO.java
+│   │   └── DataAccessObject.java
+│   ├── filter/               ← AuthenticationFilter, CharacterEncodingFilter
+│   ├── model/                ← User, Note, Course, CourseSummary, Favorite, Rating
+│   └── utils/
+│       └── StorageService.java  ← S3 singleton (MinIO / R2)
 │
 ├── src/main/webapp/
-│   ├── jsp/
-│   ├── js/
-│   │   └── notes.js       ← AJAX
-│   │
-│   └── WEB-INF/
-│       └── web.xml
+│   ├── META-INF/context.xml  ← JNDI DataSource (DB connection pool)
+│   ├── WEB-INF/web.xml       ← Servlet mappings, filters, resource-ref
+│   ├── jsp/                  ← login, register, home, upload, profile, favorites
+│   ├── css/                  ← base, layout, components, auth, home, profile
+│   └── js/                   ← notes.js, upload.js, sidebar.js
 │
-└── pom.xml 
-
-
-## OPEN LOGIN PAGE
-
-1. **Import the project** in IntelliJ IDEA (or Eclipse) as a **Maven Project**.
-
-2. **Check the `pom.xml` file**
-   - Make sure the packaging is `war`
-   - Ensure all dependencies are downloaded (Servlet API, JSP, MySQL driver, JSON)
-
-3. **Configure Apache Tomcat**
-   - Download Apache Tomcat 9/10
-   - Configure Tomcat in IntelliJ (Run → Edit Configurations → Tomcat Server → Local)
-   - Add the `war exploded` artifact as deployment
-
-4. **Start Tomcat**
-   - Click **Run**
-   - Wait for the message `Tomcat started on port 8080`
-
-5. **Open the browser**
-   - Go to: `http://localhost:8080/lecture-notes-app/`
-   - The **login page** (`login.jsp`) will open
-
-
+├── src/main/database/
+│   ├── schema.sql
+│   └── insert.sql
+│
+├── Dockerfile
+├── compose.yaml
+└── pom.xml
+```
